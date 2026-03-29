@@ -18,7 +18,6 @@
     <meta name="twitter:description" content="Things worth keeping. Songs worth feeling. A space worth returning to.">
     <meta name="twitter:image" content="https://hideyssy.com/images/top/stay-gold_flowers_1920x1080.png">
     <!-- OGP ここまで-->
-
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -135,6 +134,7 @@
             opacity: 0;
             animation: fadeUp 1.2s ease forwards 0.3s;
             overflow: hidden;
+            margin-bottom: 3rem;
         }
 
         .hero img {
@@ -248,13 +248,25 @@
         }
 
         .description {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Noto Serif JP', serif;
             font-weight: 300;
-            font-size: 1.05rem;
-            line-height: 2.0;
-            letter-spacing: 0.02em;
+            font-size: 0.92rem;
+            line-height: 2.3;
+            letter-spacing: 0.05em;
             color: var(--ink);
-            max-width: 36ch;
+            max-width: 30em;
+        }
+
+        .description .en-sub {
+            display: block;
+            margin-top: 1rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 300;
+            font-size: 0.88rem;
+            line-height: 1.9;
+            color: rgba(140, 136, 128, 0.65);
+            letter-spacing: 0.02em;
         }
 
         /* links */
@@ -298,6 +310,83 @@
         .nav-link:hover .arrow {
             opacity: 1;
             transform: translateX(0);
+        }
+
+        /* ── Section ── */
+        .section {
+            margin-top: 6rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .section-label {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.58rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--warm-gray);
+            margin-bottom: 2.5rem;
+        }
+
+        /* ── Work Card（テンプレートパーツ） ── */
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 3rem 2.5rem;
+        }
+
+        .work-card {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .work-card-img {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            display: block;
+            margin-bottom: 1.2rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .work-card:hover .work-card-img {
+            opacity: 0.82;
+        }
+
+        .work-card-meta {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--warm-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .work-card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: 1.3rem;
+            letter-spacing: 0.02em;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .work-card-desc {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: 0.92rem;
+            line-height: 1.9;
+            color: var(--warm-gray);
+            letter-spacing: 0.02em;
+        }
+
+        @media (max-width: 700px) {
+            .work-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
         }
 
         /* ── Footer ── */
@@ -449,7 +538,7 @@
         </div>
 
         <h1 class="headline">
-            <span class="line"><span class="line-inner"><em>Stay Gold</em></span></span>
+            <span class="line"><span class="line-inner"><em>Stay Gold</em></span>Stay Gold</span>
             <!-- <span class="line"><span class="line-inner"><em>Simple.</em></span></span> -->
             <!-- <span class="line"><span class="line-inner"><em>Plain.</em></span></span> -->
             <!-- <span class="line"><span class="line-inner"><em>Useful.</em></span></span> -->
@@ -459,9 +548,14 @@
             <div class="description-block">
                 <p class="desc-label">About</p>
                 <p class="description">
-                    Things worth keeping.<br>
-                    Songs worth feeling.<br>
-                    A space worth returning to.
+                    ここに日本語のコンセプト文を入れてください。<br>
+                    大切にしたいと思えるものをつくる。<br>
+                    心に響く音楽と、居心地のいい世界を。
+                    <span class="en-sub">
+                        Things worth keeping.<br>
+                        Songs worth feeling.<br>
+                        A space worth returning to.
+                    </span>
                 </p>
             </div>
 
@@ -477,6 +571,63 @@
                 </a>
             </nav>
         </div>
+
+
+        <section class="section">
+            <p class="section-label">Live</p>
+            <div class="work-grid">
+
+                <!-- Live カード -->
+                <a class="work-card" href="#" target="_blank" rel="noopener">
+                    <img class="work-card-img" src="images/works/flyer_musu-room-comet_20260221_1920x1080.png" alt="ライブフライヤー" loading="lazy">
+                    <p class="work-card-meta">Hideyssy Solo Live 2026</p>
+                    <h2 class="work-card-title">【Sold out】Mush Room Comet</h2>
+                    <p class="work-card-desc">神楽坂マッシュレコーズで開催されたソロライブ（￥2,000 ドリンク1杯付）。映像と照明を組み合わせ一度きりの演出とともに全10曲を演奏しました。来場いただいた皆さまへ感謝を。</p>
+                </a>
+
+                <!-- Live カード -->
+                <!-- <a class="work-card" href="#" target="_blank" rel="noopener">
+                    <img class="work-card-img" src="images/works/flyer_02_1920x1080.png" alt="ライブフライヤー" loading="lazy">
+                    <p class="work-card-meta">2023 · Solo Live</p>
+                    <h2 class="work-card-title">イベントタイトル</h2>
+                    <p class="work-card-desc">会場名・日付など補足テキストをここに入れる。</p>
+                </a> -->
+
+            </div>
+        </section>
+
+        <!--
+        <section class="section">
+            <p class="section-label">Music</p>
+            <div class="work-grid">
+
+                <a class="work-card" href="#" target="_blank" rel="noopener">
+                    <img class="work-card-img" src="images/works/artwork_01_1920x1080.png" alt="楽曲アートワーク" loading="lazy">
+                    <p class="work-card-meta">2025 · Single</p>
+                    <h2 class="work-card-title">楽曲タイトル</h2>
+                    <p class="work-card-desc">楽曲の説明・配信リンクなど。</p>
+                </a>
+
+            </div>
+        </section>
+        -->
+
+        <!--
+        <section class="section">
+            <p class="section-label">Embroidery</p>
+            <div class="work-grid">
+
+                <a class="work-card" href="#" target="_blank" rel="noopener">
+                    <img class="work-card-img" src="images/works/embroidery_01_1920x1080.png" alt="刺繍アイテム" loading="lazy">
+                    <p class="work-card-meta">2025 · Item</p>
+                    <h2 class="work-card-title">アイテム名</h2>
+                    <p class="work-card-desc">素材・サイズ・価格など。</p>
+                </a>
+
+            </div>
+        </section>
+        -->
+
     </main>
 
     <footer>
