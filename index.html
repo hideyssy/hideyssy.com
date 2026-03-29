@@ -3,13 +3,494 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>hideyssy</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hidéyssy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cream: #f5f2ec;
+            --ink: #1a1814;
+            --warm-gray: #8c8880;
+            --line: rgba(26, 24, 20, 0.1);
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            background-color: var(--cream);
+            color: var(--ink);
+            font-family: 'Noto Serif JP', 'Cormorant Garamond', Georgia, serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* grain */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.5;
+        }
+
+        /* ── Header ── */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 2.5rem 3rem;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 0.2s;
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: 1.05rem;
+            letter-spacing: 0.22em;
+            color: var(--ink);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .logo:hover {
+            opacity: 0.45;
+        }
+
+        .header-right {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .header-right .ja {
+            font-family: 'Noto Serif JP', serif;
+            font-weight: 200;
+            font-size: 0.62rem;
+            letter-spacing: 0.2em;
+            color: var(--warm-gray);
+            line-height: 1.9;
+        }
+
+        .header-right .en {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(140, 136, 128, 0.55);
+        }
+
+        nav.header-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            padding-top: 0.15rem;
+        }
+
+        .nav-item {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.62rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--warm-gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            position: relative;
+            padding-bottom: 0.2rem;
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--ink);
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .nav-item:hover {
+            color: var(--ink);
+        }
+
+        .nav-item:hover::after {
+            width: 100%;
+        }
+
+        /* ── Main ── */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem 3rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            margin-bottom: 3.5rem;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 0.4s;
+        }
+
+        .eyebrow span {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--warm-gray);
+        }
+
+        .eyebrow .dot {
+            width: 2.5px;
+            height: 2.5px;
+            border-radius: 50%;
+            background: var(--warm-gray);
+            opacity: 0.5;
+        }
+
+        /* headline */
+        .headline {
+            font-family: 'Noto Serif JP', serif;
+            font-weight: 200;
+            font-size: clamp(2.6rem, 6.5vw, 5.8rem);
+            line-height: 1.4;
+            letter-spacing: 0.04em;
+            color: var(--ink);
+        }
+
+        .headline .line {
+            display: block;
+            overflow: hidden;
+        }
+
+        .headline .line-inner {
+            display: block;
+            opacity: 0;
+            transform: translateY(65px);
+            animation: slideUp 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .headline .line:nth-child(1) .line-inner {
+            animation-delay: 0.5s;
+        }
+
+        .headline .line:nth-child(2) .line-inner {
+            animation-delay: 0.65s;
+        }
+
+        .headline .line:nth-child(3) .line-inner {
+            animation-delay: 0.8s;
+        }
+
+        .headline .italic-en {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 300;
+            font-size: 0.85em;
+            letter-spacing: 0.01em;
+            color: var(--warm-gray);
+            margin-left: 0.3em;
+        }
+
+        /* mid section */
+        .mid-section {
+            display: flex;
+            align-items: flex-start;
+            gap: 5rem;
+            margin-top: 4.5rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--line);
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 1.2s;
+        }
+
+        .description-block {
+            flex: 1;
+        }
+
+        .desc-label {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.58rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--warm-gray);
+            margin-bottom: 1.2rem;
+        }
+
+        .description {
+            font-family: 'Noto Serif JP', serif;
+            font-weight: 300;
+            font-size: 0.92rem;
+            line-height: 2.3;
+            letter-spacing: 0.05em;
+            color: var(--ink);
+            max-width: 30em;
+        }
+
+        .description .en-sub {
+            display: block;
+            margin-top: 1.2rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 300;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: rgba(140, 136, 128, 0.7);
+            letter-spacing: 0.02em;
+        }
+
+        /* links */
+        .links-block {
+            display: flex;
+            flex-direction: column;
+            padding-top: 1.8rem;
+            min-width: 130px;
+        }
+
+        .nav-link {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.68rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--warm-gray);
+            text-decoration: none;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:first-child {
+            border-top: 1px solid var(--line);
+        }
+
+        .nav-link:hover {
+            color: var(--ink);
+        }
+
+        .nav-link .arrow {
+            font-size: 0.75rem;
+            opacity: 0;
+            transform: translateX(-5px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .nav-link:hover .arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* ── Footer ── */
+        footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 3rem;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 1.7s;
+        }
+
+        .footer-left {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.58rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--warm-gray);
+        }
+
+        .footer-center {
+            font-family: 'Noto Serif JP', serif;
+            font-weight: 200;
+            font-size: 0.6rem;
+            letter-spacing: 0.25em;
+            color: rgba(26, 24, 20, 0.2);
+        }
+
+        .footer-right {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.58rem;
+            letter-spacing: 0.2em;
+            color: var(--warm-gray);
+        }
+
+        /* vert */
+        .vert-text {
+            position: fixed;
+            right: 2.2rem;
+            top: 50%;
+            transform: translateY(-50%) rotate(90deg);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.52rem;
+            letter-spacing: 0.38em;
+            text-transform: uppercase;
+            color: rgba(26, 24, 20, 0.13);
+            white-space: nowrap;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 2.1s;
+        }
+
+        /* animations */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(65px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 700px) {
+            header {
+                padding: 1.8rem;
+            }
+
+            main {
+                padding: 2.5rem 1.8rem;
+            }
+
+            footer {
+                padding: 1.8rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.6rem;
+            }
+
+            .mid-section {
+                flex-direction: column;
+                gap: 2.5rem;
+            }
+
+            .links-block {
+                flex-direction: row;
+                width: 100%;
+                border-top: 1px solid var(--line);
+                padding-top: 1.5rem;
+            }
+
+            .nav-link {
+                border: none;
+                padding: 0;
+                flex: 1;
+                justify-content: center;
+            }
+
+            .nav-link:first-child {
+                border-top: none;
+            }
+
+            .vert-text {
+                display: none;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <h1>hideyssy</h1>
-    <p>coming soon</p>
+
+    <header>
+        <a href="/" class="logo">Hidéyssy</a>
+        <nav class="header-nav">
+            <a href="/" class="nav-item">Home</a>
+            <a href="/contact" class="nav-item">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="eyebrow">
+            <span>Tokyo</span>
+            <span class="dot"></span>
+            <span>Est. 2025</span>
+            <span class="dot"></span>
+            <span>Ongoing</span>
+        </div>
+
+        <h1 class="headline">
+            <span class="line"><span class="line-inner">大切にしたい、<span class="italic-en">things.</span></span></span>
+            <span class="line"><span class="line-inner">心に響く、<span class="italic-en">songs.</span></span></span>
+            <span class="line"><span class="line-inner">居心地のいい、<span class="italic-en">space.</span></span></span>
+        </h1>
+
+        <div class="mid-section">
+            <div class="description-block">
+                <p class="desc-label">About</p>
+                <p class="description">
+                    人が大切にしたいと思えるものをつくる。<br>
+                    心に静かに、深く響く音楽を届ける。<br>
+                    居心地のいい、温度のある世界をひらく。
+                    <span class="en-sub">
+                        Things worth keeping.<br>
+                        Songs worth feeling.
+                    </span>
+                </p>
+            </div>
+
+            <nav class="links-block">
+                <a href="https://instagram.com/hideyssy" class="nav-link" target="_blank" rel="noopener">
+                    Instagram <span class="arrow">↗</span>
+                </a>
+                <a href="https://youtube.com/@hideyssy" class="nav-link" target="_blank" rel="noopener">
+                    YouTube <span class="arrow">↗</span>
+                </a>
+                <a href="https://x.com/hideyssy" class="nav-link" target="_blank" rel="noopener">
+                    X <span class="arrow">↗</span>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer>
+        <span class="footer-left">© 2025 Hidéyssy</span>
+        <span class="footer-center">ものごとに、温度を。</span>
+        <span class="footer-right">hideyssy.com</span>
+    </footer>
+
+    <span class="vert-text">Hidéyssy — mmxxv</span>
+
 </body>
 
 </html>
