@@ -330,9 +330,9 @@
 
         /* ── Work Card（テンプレートパーツ） ── */
         .work-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 3rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
         }
 
         .work-card {
@@ -346,7 +346,7 @@
             aspect-ratio: 16 / 9;
             object-fit: cover;
             display: block;
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.4rem;
             transition: opacity 0.3s ease;
         }
 
@@ -366,27 +366,21 @@
         .work-card-title {
             font-family: 'Cormorant Garamond', serif;
             font-weight: 300;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             letter-spacing: 0.02em;
             color: var(--ink);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.7rem;
             line-height: 1.3;
         }
 
         .work-card-desc {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Noto Serif JP', serif;
             font-weight: 300;
-            font-size: 0.92rem;
-            line-height: 1.9;
+            font-size: 0.82rem;
+            line-height: 2.1;
             color: var(--warm-gray);
-            letter-spacing: 0.02em;
-        }
-
-        @media (max-width: 700px) {
-            .work-grid {
-                grid-template-columns: 1fr;
-                gap: 2.5rem;
-            }
+            letter-spacing: 0.04em;
+            max-width: 48em;
         }
 
         /* ── Footer ── */
@@ -579,10 +573,12 @@
 
                 <!-- Live カード -->
                 <a class="work-card" href="#" target="_blank" rel="noopener">
-                    <img class="work-card-img" src="images/works/flyer_musu-room-comet_20260221_1920x1080.png" alt="ライブフライヤー" loading="lazy">
+                    <img class="work-card-img" src="images/works/flyer_musu-room-comet_20260221_1920x1080.png"
+                        alt="ライブフライヤー" loading="lazy">
                     <p class="work-card-meta">Hideyssy Solo Live 2026</p>
                     <h2 class="work-card-title">【Event】Mush Room Comet (SOLD OUT)</h2>
-                    <p class="work-card-desc">神楽坂マッシュレコーズで開催されたソロライブ（￥2,000 ドリンク1杯付）。映像と照明を組み合わせ一度きりの演出とともに全10曲を演奏しました。来場いただいた皆さまへ感謝を。</p>
+                    <p class="work-card-desc">神楽坂マッシュレコーズで開催されたソロライブ（￥2,000
+                        ドリンク1杯付）。映像と照明を組み合わせ一度きりの演出とともに全10曲を演奏しました。来場いただいた皆さまへ感謝を。</p>
                 </a>
 
                 <!-- Live カード -->
