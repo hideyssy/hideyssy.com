@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -34,7 +34,7 @@
         body {
             background-color: var(--cream);
             color: var(--ink);
-            font-family: 'Noto Serif JP', 'Cormorant Garamond', Georgia, serif;
+            font-family: 'Cormorant Garamond', 'Noto Serif JP', Georgia, serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -76,30 +76,6 @@
             opacity: 0.45;
         }
 
-        .header-right {
-            text-align: right;
-            display: flex;
-            flex-direction: column;
-            gap: 0.2rem;
-        }
-
-        .header-right .ja {
-            font-family: 'Noto Serif JP', serif;
-            font-weight: 200;
-            font-size: 0.62rem;
-            letter-spacing: 0.2em;
-            color: var(--warm-gray);
-            line-height: 1.9;
-        }
-
-        .header-right .en {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.6rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: rgba(140, 136, 128, 0.55);
-        }
-
         nav.header-nav {
             display: flex;
             gap: 2rem;
@@ -138,6 +114,22 @@
             width: 100%;
         }
 
+        /* ── Hero Image ── */
+        .hero {
+            width: 100%;
+            opacity: 0;
+            animation: fadeUp 1.2s ease forwards 0.3s;
+            overflow: hidden;
+        }
+
+        .hero img {
+            width: 100%;
+            height: 60vh;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
         /* ── Main ── */
         main {
             flex: 1;
@@ -156,7 +148,7 @@
             gap: 1.2rem;
             margin-bottom: 3.5rem;
             opacity: 0;
-            animation: fadeUp 1s ease forwards 0.4s;
+            animation: fadeUp 1s ease forwards 0.6s;
         }
 
         .eyebrow span {
@@ -177,11 +169,11 @@
 
         /* headline */
         .headline {
-            font-family: 'Noto Serif JP', serif;
-            font-weight: 200;
-            font-size: clamp(2.6rem, 6.5vw, 5.8rem);
-            line-height: 1.4;
-            letter-spacing: 0.04em;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: clamp(2.8rem, 6.5vw, 6rem);
+            line-height: 1.1;
+            letter-spacing: 0.01em;
             color: var(--ink);
         }
 
@@ -198,25 +190,20 @@
         }
 
         .headline .line:nth-child(1) .line-inner {
-            animation-delay: 0.5s;
+            animation-delay: 0.7s;
         }
 
         .headline .line:nth-child(2) .line-inner {
-            animation-delay: 0.65s;
+            animation-delay: 0.85s;
         }
 
         .headline .line:nth-child(3) .line-inner {
-            animation-delay: 0.8s;
+            animation-delay: 1.0s;
         }
 
-        .headline .italic-en {
-            font-family: 'Cormorant Garamond', serif;
+        .headline em {
             font-style: italic;
             font-weight: 300;
-            font-size: 0.85em;
-            letter-spacing: 0.01em;
-            color: var(--warm-gray);
-            margin-left: 0.3em;
         }
 
         /* mid section */
@@ -228,7 +215,7 @@
             padding-top: 3rem;
             border-top: 1px solid var(--line);
             opacity: 0;
-            animation: fadeUp 1s ease forwards 1.2s;
+            animation: fadeUp 1s ease forwards 1.4s;
         }
 
         .description-block {
@@ -245,25 +232,13 @@
         }
 
         .description {
-            font-family: 'Noto Serif JP', serif;
-            font-weight: 300;
-            font-size: 0.92rem;
-            line-height: 2.3;
-            letter-spacing: 0.05em;
-            color: var(--ink);
-            max-width: 30em;
-        }
-
-        .description .en-sub {
-            display: block;
-            margin-top: 1.2rem;
             font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
             font-weight: 300;
-            font-size: 0.95rem;
-            line-height: 1.8;
-            color: rgba(140, 136, 128, 0.7);
+            font-size: 1.05rem;
+            line-height: 2.0;
             letter-spacing: 0.02em;
+            color: var(--ink);
+            max-width: 36ch;
         }
 
         /* links */
@@ -316,7 +291,7 @@
             align-items: center;
             padding: 2rem 3rem;
             opacity: 0;
-            animation: fadeUp 1s ease forwards 1.7s;
+            animation: fadeUp 1s ease forwards 1.8s;
         }
 
         .footer-left {
@@ -355,7 +330,7 @@
             color: rgba(26, 24, 20, 0.13);
             white-space: nowrap;
             opacity: 0;
-            animation: fadeUp 1s ease forwards 2.1s;
+            animation: fadeUp 1s ease forwards 2.2s;
         }
 
         /* animations */
@@ -387,6 +362,10 @@
         @media (max-width: 700px) {
             header {
                 padding: 1.8rem;
+            }
+
+            .hero img {
+                height: 40vh;
             }
 
             main {
@@ -440,6 +419,10 @@
         </nav>
     </header>
 
+    <div class="hero">
+        <img src="images/top/stay-gold_flowers_1920×1080.png" alt="Hidéyssy">
+    </div>
+
     <main>
         <div class="eyebrow">
             <span>Tokyo</span>
@@ -450,22 +433,18 @@
         </div>
 
         <h1 class="headline">
-            <span class="line"><span class="line-inner">大切にしたい、<span class="italic-en">things.</span></span></span>
-            <span class="line"><span class="line-inner">心に響く、<span class="italic-en">songs.</span></span></span>
-            <span class="line"><span class="line-inner">居心地のいい、<span class="italic-en">space.</span></span></span>
+            <span class="line"><span class="line-inner"><em>Simple.</em></span></span>
+            <span class="line"><span class="line-inner"><em>Plain.</em></span></span>
+            <span class="line"><span class="line-inner"><em>Useful.</em></span></span>
         </h1>
 
         <div class="mid-section">
             <div class="description-block">
                 <p class="desc-label">About</p>
                 <p class="description">
-                    人が大切にしたいと思えるものをつくる。<br>
-                    心に静かに、深く響く音楽を届ける。<br>
-                    居心地のいい、温度のある世界をひらく。
-                    <span class="en-sub">
-                        Things worth keeping.<br>
-                        Songs worth feeling.
-                    </span>
+                    Things worth keeping.<br>
+                    Songs worth feeling.<br>
+                    A space worth returning to.
                 </p>
             </div>
 
