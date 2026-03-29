@@ -1,15 +1,34 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact — Hidéyssy</title>
+
+  <!-- OGP ここから-->
+  <meta property="og:title" content="Contact — Hidéyssy">
+  <meta property="og:description" content="お気軽にご連絡ください。">
+  <meta property="og:image" content="https://hideyssy.com/images/top/stay-gold_flowers_1920x1080.png">
+  <meta property="og:url" content="https://hideyssy.com/contact">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Hidéyssy">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Contact — Hidéyssy">
+  <meta name="twitter:description" content="お気軽にご連絡ください。">
+  <meta name="twitter:image" content="https://hideyssy.com/images/top/stay-gold_flowers_1920x1080.png">
+  <!-- OGP ここまで-->
+
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&display=swap"
+    rel="stylesheet">
   <style>
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
@@ -22,7 +41,10 @@
       --line: rgba(26, 24, 20, 0.1);
     }
 
-    html, body { height: 100%; }
+    html,
+    body {
+      height: 100%;
+    }
 
     body {
       background-color: var(--cream);
@@ -63,7 +85,10 @@
       text-decoration: none;
       transition: opacity 0.3s ease;
     }
-    .logo:hover { opacity: 0.45; }
+
+    .logo:hover {
+      opacity: 0.45;
+    }
 
     nav.header-nav {
       display: flex;
@@ -83,6 +108,7 @@
       position: relative;
       padding-bottom: 0.2rem;
     }
+
     .nav-item::after {
       content: '';
       position: absolute;
@@ -93,12 +119,22 @@
       background: var(--ink);
       transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .nav-item:hover { color: var(--ink); }
-    .nav-item:hover::after { width: 100%; }
+
+    .nav-item:hover {
+      color: var(--ink);
+    }
+
+    .nav-item:hover::after {
+      width: 100%;
+    }
+
     .nav-item.active {
       color: var(--ink);
     }
-    .nav-item.active::after { width: 100%; }
+
+    .nav-item.active::after {
+      width: 100%;
+    }
 
     /* ── Main ── */
     main {
@@ -120,6 +156,7 @@
       opacity: 0;
       animation: fadeUp 1s ease forwards 0.4s;
     }
+
     .eyebrow span {
       font-family: 'Cormorant Garamond', serif;
       font-size: 0.6rem;
@@ -127,6 +164,7 @@
       text-transform: uppercase;
       color: var(--warm-gray);
     }
+
     .eyebrow .dot {
       width: 2.5px;
       height: 2.5px;
@@ -212,8 +250,13 @@
       transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .contact-value:hover { opacity: 0.6; }
-    .contact-value:hover::after { width: 100%; }
+    .contact-value:hover {
+      opacity: 0.6;
+    }
+
+    .contact-value:hover::after {
+      width: 100%;
+    }
 
     .contact-note {
       font-family: 'Noto Serif JP', serif;
@@ -273,21 +316,51 @@
     }
 
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     @media (max-width: 700px) {
-      header  { padding: 1.8rem; flex-wrap: wrap; gap: 1rem; }
-      main    { padding: 2.5rem 1.8rem; }
-      footer  { padding: 1.8rem; flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+      header {
+        padding: 1.8rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
 
-      .contact-row { flex-direction: column; gap: 0.8rem; }
-      .contact-note { margin-left: 0; }
-      .vert-text { display: none; }
+      main {
+        padding: 2.5rem 1.8rem;
+      }
+
+      footer {
+        padding: 1.8rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6rem;
+      }
+
+      .contact-row {
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+
+      .contact-note {
+        margin-left: 0;
+      }
+
+      .vert-text {
+        display: none;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <header>
@@ -336,4 +409,5 @@
   <span class="vert-text">Hidéyssy — mmxxv</span>
 
 </body>
+
 </html>
