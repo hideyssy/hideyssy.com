@@ -321,36 +321,24 @@
             transform: translateX(0);
         }
 
-        /* ── Section ── */
-        .section {
+        /* ── Timeline（Works全体） ── */
+        .timeline {
             margin-top: 6rem;
             padding-top: 3rem;
             border-top: 1px solid var(--line);
-        }
-
-        .section-label {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.58rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--warm-gray);
-            margin-bottom: 2.5rem;
-        }
-
-        /* ── Work Card（テンプレートパーツ） ── */
-        .work-grid {
             display: flex;
             flex-direction: column;
             gap: 5rem;
         }
 
-        .work-card {
+        /* ── 共通カードスタイル ── */
+        .card {
             display: block;
             text-decoration: none;
             color: inherit;
         }
 
-        .work-card-img {
+        .card-img {
             width: 100%;
             aspect-ratio: 16 / 9;
             object-fit: cover;
@@ -360,21 +348,35 @@
             transform-origin: center;
         }
 
-        .work-card:hover .work-card-img {
+        .card:hover .card-img {
             opacity: 0.88;
             transform: scale(1.015);
         }
 
-        .work-card-meta {
+        .card-meta {
             font-family: 'Cormorant Garamond', serif;
             font-size: 0.62rem;
             letter-spacing: 0.25em;
             text-transform: uppercase;
             color: var(--warm-gray);
             margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
         }
 
-        .work-card-title {
+        .card-category {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.58rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--cream);
+            background: var(--ink);
+            padding: 0.15em 0.6em;
+            display: inline-block;
+        }
+
+        .card-title {
             font-family: 'Cormorant Garamond', serif;
             font-weight: 300;
             font-size: 1.4rem;
@@ -386,7 +388,7 @@
             display: inline-block;
         }
 
-        .work-card-title::after {
+        .card-title::after {
             content: '';
             position: absolute;
             bottom: -2px;
@@ -397,11 +399,11 @@
             transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .work-card:hover .work-card-title::after {
+        .card:hover .card-title::after {
             width: 100%;
         }
 
-        .work-card-desc {
+        .card-desc {
             font-family: 'Noto Serif JP', serif;
             font-weight: 300;
             font-size: 0.82rem;
@@ -412,8 +414,99 @@
             transition: color 0.3s ease;
         }
 
-        .work-card:hover .work-card-desc {
+        .card:hover .card-desc {
             color: var(--ink);
+        }
+
+        /* ── アコーディオン（歌詞用） ── */
+        .lyrics-block {
+            margin-top: 0.5rem;
+            max-width: 36em;
+            border-left: 1px solid var(--line);
+            padding-left: 1.8rem;
+        }
+
+        .lyrics-preview {
+            font-family: 'Noto Serif JP', serif;
+            font-weight: 300;
+            font-size: 0.88rem;
+            line-height: 2.6;
+            letter-spacing: 0.08em;
+            color: var(--ink);
+        }
+
+        .lyrics-full {
+            font-family: 'Noto Serif JP', serif;
+            font-weight: 300;
+            font-size: 0.88rem;
+            line-height: 2.6;
+            letter-spacing: 0.08em;
+            color: var(--ink);
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .lyrics-full.is-open {
+            max-height: 2000px;
+        }
+
+        .lyrics-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1.2rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.62rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--warm-gray);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: color 0.3s ease;
+        }
+
+        .lyrics-toggle:hover {
+            color: var(--ink);
+        }
+
+        .lyrics-toggle-icon {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            position: relative;
+            transition: transform 0.4s ease;
+        }
+
+        .lyrics-toggle-icon::before,
+        .lyrics-toggle-icon::after {
+            content: '';
+            position: absolute;
+            background: currentColor;
+        }
+
+        .lyrics-toggle-icon::before {
+            width: 10px;
+            height: 1px;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        .lyrics-toggle-icon::after {
+            width: 1px;
+            height: 10px;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        .lyrics-toggle.is-open .lyrics-toggle-icon::after {
+            transform: translateX(-50%) rotate(90deg);
+            opacity: 0;
         }
 
         /* ── Footer ── */
@@ -595,62 +688,125 @@
         </div>
 
 
-        <section class="section">
-            <p class="section-label">Live</p>
-            <div class="work-grid">
+        <!-- ---Works タイムライン カテゴリ：Live / Music / Product ※ 新しいものを上に追加していく（上が最新）--- -->
 
-                <!-- Live カード -->
-                <a class="work-card" href="#" target="_blank" rel="noopener">
-                    <img class="work-card-img" src="images/works/flyer_mush-room-comet_20260221_1920x1080.jpg"
-                        alt="ライブフライヤー" loading="lazy">
-                    <p class="work-card-meta">Hideyssy Solo Live 2026</p>
-                    <h2 class="work-card-title">【Event】Mush Room Comet (SOLD OUT)</h2>
-                    <p class="work-card-desc">神楽坂マッシュレコーズで開催されたソロライブ（￥2,000
-                        ドリンク1杯付）。映像と照明を組み合わせ一度きりの演出とともに全10曲を演奏しました。来場いただいた皆さまへ感謝を。</p>
-                </a>
+        <div class="timeline">
 
-                <!-- Live カード -->
-                <!-- <a class="work-card" href="#" target="_blank" rel="noopener">
-                    <img class="work-card-img" src="images/works/flyer_02_1920x1080.png" alt="ライブフライヤー" loading="lazy">
-                    <p class="work-card-meta">2023 · Solo Live</p>
-                    <h2 class="work-card-title">イベントタイトル</h2>
-                    <p class="work-card-desc">会場名・日付など補足テキストをここに入れる。</p>
-                </a> -->
+            <!-- ---Live カードテンプレート--- -->
+            <!-- <a class="card" href="#" target="_blank" rel="noopener">
+                <img class="card-img" src="images/works/flyer_イベント名_1920x1080.jpg" alt="イベント名" loading="lazy">
+                <p class="card-meta">
+                    <span class="card-category">Live</span>
+                    2026.05 · Solo Live
+                </p>
+                <h2 class="card-title">イベントタイトル</h2>
+                <p class="card-desc">会場・日付・内容など。</p>
+            </a> -->
 
+
+            <!-- ---Music カードテンプレート--- -->
+            <!-- <div class="card">
+                <img class="card-img" src="images/works/artwork_曲名_1920x1080.jpg" alt="楽曲タイトル" loading="lazy">
+                <p class="card-meta">
+                    <span class="card-category">Music</span>
+                    2026.04 · Single
+                </p>
+                <h2 class="card-title">楽曲タイトル</h2>
+                <div class="lyrics-block">
+                    <p class="lyrics-preview">
+                        冒頭の歌詞2〜3行をここに書く<br>
+                        2行目<br>
+                        3行目
+                    </p>
+                    <div class="lyrics-full" id="lyrics-曲名">
+                        <br>
+                        続きの歌詞をここに書く<br>
+                        4行目<br>
+                        5行目<br>
+                        <br>
+                        6行目<br>
+                        7行目
+                    </div>
+                    <button class="lyrics-toggle" onclick="toggleLyrics('lyrics-曲名', this)" aria-expanded="false">
+                        <span class="lyrics-toggle-icon"></span>
+                        <span class="lyrics-toggle-label">すべての歌詞を見る</span>
+                    </button>
+                </div>
+            </div> -->
+
+
+            ---Product カードテンプレート---
+            <!-- <a class="card" href="#" target="_blank" rel="noopener">
+                <img class="card-img" src="images/works/product_アイテム名_1920x1080.jpg" alt="アイテム名" loading="lazy">
+                <p class="card-meta">
+                    <span class="card-category">Product</span>
+                    2026.03 · New Item
+                </p>
+                <h2 class="card-title">アイテム名</h2>
+                <p class="card-desc">素材・サイズ・価格など。</p>
+            </a> -->
+
+
+            <!-- ---Music カード Stay Gold--- -->
+            <div class="card">
+                <img class="card-img" src="images/works/artwork_Stay-Gold_1920x1080.jpg" alt="Stay Gold" loading="lazy">
+                <p class="card-meta">
+                    <span class="card-category">Music</span>
+                    2026.04 · Single
+                </p>
+                <h2 class="card-title">Stay Gold</h2>
+                <div class="lyrics-block">
+                    <p class="lyrics-preview">
+                        優しい気持ちが込み上げますように<br>
+                        今言葉をあなたに<br>
+                        空気が揺れるその中に 音が響くその間に<br>
+                        色も形もない香りもしない想いを詰め込んだ<br>
+                        聞こえていますか 届いていますか
+                    </p>
+                    <div class="lyrics-full" id="lyrics-曲名">
+                        <br>
+                        "Stay Gold"<br>
+                        Longing is hotter than fire in some case<br>
+                        "Stay Gold"<br>
+                        and Love is intense. You know what I mean.<br>
+                        <br>
+                        Baby ずっと恋焦がれた<br>
+                        燃えるような熱い想いを灯して 透き通ってく<br>
+                        ずっと憧れは Stay Gold<br>
+                        <br>
+                        素直な表現方法を 素敵な文章構成を<br>
+                        この詩にこの私に与えてください<br>
+                        花に水をあげるように潅ぐメロディ 届くように<br>
+                        さぁ身を委ね 身体揺らせ<br>
+                        力は抜いて聞いてくれ<br>
+                        <br>
+                        Stay Gold ×4<br>
+                        <br>
+                        Baby ずっと恋焦がれた<br>
+                        燃えるような熱い想いを灯して 透き通ってく<br>
+                        ずっと憧れた 溶けるような長いキスをしよう<br>
+                    </div>
+                    <button class="lyrics-toggle" onclick="toggleLyrics('lyrics-曲名', this)" aria-expanded="false">
+                        <span class="lyrics-toggle-icon"></span>
+                        <span class="lyrics-toggle-label">すべての歌詞を見る</span>
+                    </button>
+                </div>
             </div>
-        </section>
 
-        <!--
-        <section class="section">
-            <p class="section-label">Music</p>
-            <div class="work-grid">
 
-                <a class="work-card" href="#" target="_blank" rel="noopener">
-                    <img class="work-card-img" src="images/works/artwork_01_1920x1080.png" alt="楽曲アートワーク" loading="lazy">
-                    <p class="work-card-meta">2025 · Single</p>
-                    <h2 class="work-card-title">楽曲タイトル</h2>
-                    <p class="work-card-desc">楽曲の説明・配信リンクなど。</p>
-                </a>
+            <!-- Liveカード（2026.02） -->
+            <a class="card" href="#" target="_blank" rel="noopener">
+                <img class="card-img" src="images/works/flyer_mush-room-comet_20260221_1920x1080.jpg"
+                    alt="Mush Room Comet" loading="lazy">
+                <p class="card-meta">
+                    <span class="card-category">Live</span>
+                    2026.2.21 · Solo Live
+                </p>
+                <h2 class="card-title">Mush Room Comet (SOLD OUT)</h2>
+                <p class="card-desc">神楽坂マッシュレコーズで開催されたソロライブ。映像と照明を組み合わせた一度きりの演出とともに全10曲を演奏しました。来場いただいた皆さまへ心から感謝を。</p>
+            </a>
 
-            </div>
-        </section>
-        -->
-
-        <!--
-        <section class="section">
-            <p class="section-label">Embroidery</p>
-            <div class="work-grid">
-
-                <a class="work-card" href="#" target="_blank" rel="noopener">
-                    <img class="work-card-img" src="images/works/embroidery_01_1920x1080.png" alt="刺繍アイテム" loading="lazy">
-                    <p class="work-card-meta">2025 · Item</p>
-                    <h2 class="work-card-title">アイテム名</h2>
-                    <p class="work-card-desc">素材・サイズ・価格など。</p>
-                </a>
-
-            </div>
-        </section>
-        -->
+        </div>
 
     </main>
 
@@ -661,6 +817,17 @@
     </footer>
 
     <span class="vert-text">Hidéyssy — mmxxv</span>
+
+    <script>
+        function toggleLyrics(id, btn) {
+            const full = document.getElementById(id);
+            const label = btn.querySelector('.lyrics-toggle-label');
+            const isOpen = full.classList.toggle('is-open');
+            btn.classList.toggle('is-open', isOpen);
+            btn.setAttribute('aria-expanded', isOpen);
+            label.textContent = isOpen ? '閉じる' : 'すべての歌詞を見る';
+        }
+    </script>
 
 </body>
 
