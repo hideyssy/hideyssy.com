@@ -2,708 +2,97 @@
 <html lang="ja">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hidéyssy</title>
-
-    <meta name="description" content="Hidéyssy（ヒデイシィ）― 音楽と、空間と、残したいものをつくるプロダクトレーベル。">
-    <meta name="keywords"
-        content="Hidéyssy, Hideyssy, ヒデイシィ, ヒデイシー, ヒデイシイ, ひでいしぃ, ひでいしー, ひでいしい, プロダクトレーベル, 音楽, Tokyo, ライブ, 刺繍">
-
-    <!-- OGP ここから-->
-    <meta property="og:title" content="Hidéyssy">
-    <meta property="og:description" content="Things worth keeping. Songs worth feeling. A space worth returning to.">
-    <meta property="og:image" content="https://hideyssy.com/images/top/Hideyssy_アーティスト写真_2026_1920×1920.jpg">
-    <meta property="og:url" content="https://hideyssy.com">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Hidéyssy">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Hidéyssy">
-    <meta name="twitter:description" content="Things worth keeping. Songs worth feeling. A space worth returning to.">
-    <meta name="twitter:image" content="https://hideyssy.com/images/top/Hideyssy_アーティスト写真_2026_1920×1920.jpg">
-    <!-- OGP ここまで-->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&display=swap"
-        rel="stylesheet">
-    <style>
-        *,
-        *::before,
-        *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --cream: #f5f2ec;
-            --ink: #1a1814;
-            --warm-gray: #5c5850;
-            --line: rgba(26, 24, 20, 0.12);
-        }
-
-        html,
-        body {
-            height: 100%;
-        }
-
-        body {
-            background-color: var(--cream);
-            color: var(--ink);
-            font-family: 'Cormorant Garamond', 'Noto Serif JP', Georgia, serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-        }
-
-        /* grain */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 100;
-            opacity: 0.5;
-        }
-
-        /* ── Header ── */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.6rem 3rem;
-            opacity: 0;
-            animation: fadeUp 1s ease forwards 0.2s;
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            background-color: rgba(245, 242, 236, 0.88);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--line);
-        }
-
-        .logo {
-            display: inline-block;
-            text-decoration: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .logo:hover {
-            opacity: 0.45;
-        }
-
-        .logo img {
-            height: 3.5rem;
-            width: auto;
-            display: block;
-        }
-
-        nav.header-nav {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-            padding-top: 0.15rem;
-        }
-
-        .nav-item {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.62rem;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--warm-gray);
-            text-decoration: none;
-            transition: color 0.3s ease;
-            position: relative;
-            padding-bottom: 0.2rem;
-        }
-
-        .nav-item::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--ink);
-            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .nav-item:hover {
-            color: var(--ink);
-        }
-
-        .nav-item:hover::after {
-            width: 100%;
-        }
-
-        /* ── Hero Image ── */
-        .hero {
-            width: 100%;
-            opacity: 0;
-            animation: fadeUp 1.2s ease forwards 0.3s;
-            overflow: hidden;
-            margin-bottom: 3rem;
-        }
-
-        .hero img {
-            width: 100%;
-            height: 60vh;
-            object-fit: cover;
-            object-position: center;
-            display: block;
-        }
-
-        /* ── Main ── */
-        main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 5rem 3rem 8rem;
-            max-width: 1100px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .eyebrow {
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-            margin-bottom: 2.0rem;
-            opacity: 0;
-            animation: fadeUp 1s ease forwards 0.6s;
-        }
-
-        .eyebrow span {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.6rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--warm-gray);
-        }
-
-        .eyebrow .dot {
-            width: 2.5px;
-            height: 2.5px;
-            border-radius: 50%;
-            background: var(--warm-gray);
-            opacity: 0.5;
-        }
-
-        /* headline */
-        .headline {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 300;
-            font-size: clamp(2.8rem, 6.5vw, 6rem);
-            line-height: 1.1;
-            letter-spacing: 0.01em;
-            color: var(--ink);
-        }
-
-        .headline .line {
-            display: block;
-            overflow: hidden;
-            padding-bottom: 0.15em;
-        }
-
-        .headline .line-inner {
-            display: block;
-            opacity: 0;
-            transform: translateY(65px);
-            animation: slideUp 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .headline .line:nth-child(1) .line-inner {
-            animation-delay: 0.7s;
-        }
-
-        .headline .line:nth-child(2) .line-inner {
-            animation-delay: 0.85s;
-        }
-
-        .headline .line:nth-child(3) .line-inner {
-            animation-delay: 1.0s;
-        }
-
-        .headline em {
-            font-style: italic;
-            font-weight: 300;
-        }
-
-        /* mid section */
-        .mid-section {
-            display: flex;
-            align-items: flex-start;
-            gap: 5rem;
-            margin-top: 4.5rem;
-            padding-top: 3rem;
-            border-top: 1px solid var(--line);
-            opacity: 0;
-            animation: fadeUp 1s ease forwards 1.4s;
-        }
-
-        .description-block {
-            flex: 1;
-        }
-
-        .desc-label {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.58rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--warm-gray);
-            margin-bottom: 1.2rem;
-        }
-
-        .description {
-            font-family: 'Noto Serif JP', serif;
-            font-weight: 300;
-            font-size: 0.95rem;
-            line-height: 2.3;
-            letter-spacing: 0.05em;
-            color: var(--ink);
-            max-width: 30em;
-        }
-
-        .description .en-sub {
-            display: block;
-            margin-top: 1rem;
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-weight: 300;
-            font-size: 0.88rem;
-            line-height: 1.9;
-            color: rgba(140, 136, 128, 0.65);
-            letter-spacing: 0.02em;
-        }
-
-        /* links */
-        .links-block {
-            display: flex;
-            flex-direction: column;
-            padding-top: 1.8rem;
-            min-width: 130px;
-        }
-
-        .nav-link {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.68rem;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--warm-gray);
-            text-decoration: none;
-            padding: 0.8rem 0;
-            border-bottom: 1px solid var(--line);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: color 0.3s ease;
-        }
-
-        .nav-link:first-child {
-            border-top: 1px solid var(--line);
-        }
-
-        .nav-link:hover {
-            color: var(--ink);
-        }
-
-        .nav-link .arrow {
-            font-size: 0.75rem;
-            opacity: 0;
-            transform: translateX(-5px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .nav-link:hover .arrow {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        /* ── Timeline（Works全体） ── */
-        .timeline {
-            margin-top: 6rem;
-            padding-top: 3rem;
-            border-top: 1px solid var(--line);
-            display: flex;
-            flex-direction: column;
-            gap: 5rem;
-        }
-
-        /* ── 共通カードスタイル ── */
-        .card {
-            display: block;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .card-img {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            object-fit: cover;
-            display: block;
-            margin-bottom: 1.4rem;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            transform-origin: center;
-        }
-
-        .card:hover .card-img {
-            opacity: 0.88;
-            transform: scale(1.015);
-        }
-
-        .card-meta {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.62rem;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--warm-gray);
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .card-category {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.58rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--cream);
-            background: var(--ink);
-            padding: 0.15em 0.6em;
-            display: inline-block;
-        }
-
-        .card-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 300;
-            font-size: 1.4rem;
-            letter-spacing: 0.02em;
-            color: var(--ink);
-            margin-bottom: 0.7rem;
-            line-height: 1.3;
-            position: relative;
-            display: inline-block;
-        }
-
-        .card-title::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--ink);
-            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .card:hover .card-title::after {
-            width: 100%;
-        }
-
-        .card-desc {
-            font-family: 'Noto Serif JP', serif;
-            font-weight: 300;
-            font-size: 0.82rem;
-            line-height: 2.1;
-            color: var(--warm-gray);
-            letter-spacing: 0.04em;
-            max-width: 48em;
-            transition: color 0.3s ease;
-        }
-
-        .card:hover .card-desc {
-            color: var(--ink);
-        }
-
-        /* ── アコーディオン（歌詞用） ── */
-        .lyrics-block {
-            margin-top: 0.5rem;
-            max-width: 36em;
-            border-left: 1px solid var(--line);
-            padding-left: 1.8rem;
-        }
-
-        .lyrics-preview {
-            font-family: 'Noto Serif JP', serif;
-            font-weight: 300;
-            font-size: 0.88rem;
-            line-height: 2.6;
-            letter-spacing: 0.08em;
-            color: var(--ink);
-        }
-
-        .lyrics-full {
-            font-family: 'Noto Serif JP', serif;
-            font-weight: 300;
-            font-size: 0.88rem;
-            line-height: 2.6;
-            letter-spacing: 0.08em;
-            color: var(--ink);
-            overflow: hidden;
-            max-height: 0;
-            transition: max-height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .lyrics-full.is-open {
-            max-height: 2000px;
-        }
-
-        .lyrics-toggle {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 1.2rem;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.62rem;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--warm-gray);
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            transition: color 0.3s ease;
-        }
-
-        .lyrics-toggle:hover {
-            color: var(--ink);
-        }
-
-        .lyrics-toggle-icon {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            position: relative;
-            transition: transform 0.4s ease;
-        }
-
-        .lyrics-toggle-icon::before,
-        .lyrics-toggle-icon::after {
-            content: '';
-            position: absolute;
-            background: currentColor;
-        }
-
-        .lyrics-toggle-icon::before {
-            width: 10px;
-            height: 1px;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
-        }
-
-        .lyrics-toggle-icon::after {
-            width: 1px;
-            height: 10px;
-            left: 50%;
-            top: 0;
-            transform: translateX(-50%);
-            transition: transform 0.4s ease, opacity 0.4s ease;
-        }
-
-        .lyrics-toggle.is-open .lyrics-toggle-icon::after {
-            transform: translateX(-50%) rotate(90deg);
-            opacity: 0;
-        }
-
-        /* ── Footer ── */
-        footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 2rem 3rem;
-            opacity: 0;
-            animation: fadeUp 1s ease forwards 1.8s;
-        }
-
-        .footer-left {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.62rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--ink);
-        }
-
-        .footer-center {
-            font-family: 'Noto Serif JP', serif;
-            font-weight: 200;
-            font-size: 0.62rem;
-            letter-spacing: 0.25em;
-            color: var(--warm-gray);
-        }
-
-        .footer-right {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.62rem;
-            letter-spacing: 0.2em;
-            color: var(--ink);
-        }
-
-        /* vert */
-        .vert-text {
-            position: fixed;
-            right: 2.2rem;
-            top: 50%;
-            transform: translateY(-50%) rotate(90deg);
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.52rem;
-            letter-spacing: 0.38em;
-            text-transform: uppercase;
-            color: rgba(26, 24, 20, 0.13);
-            white-space: nowrap;
-            opacity: 0;
-            animation: fadeUp 1s ease forwards 2.2s;
-        }
-
-        /* animations */
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(14px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(65px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ── Responsive ── */
-        @media (max-width: 700px) {
-            header {
-                padding: 0.6rem 1.4rem;
-            }
-
-            .logo img {
-                height: 2.4rem;
-            }
-
-            .hero img {
-                height: 40vh;
-            }
-
-            main {
-                padding: 3rem 1.8rem 6rem;
-            }
-
-            footer {
-                padding: 1.8rem;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.6rem;
-            }
-
-            .mid-section {
-                flex-direction: column;
-                gap: 2.5rem;
-            }
-
-            .links-block {
-                flex-direction: row;
-                width: 100%;
-                border-top: 1px solid var(--line);
-                padding-top: 1.5rem;
-            }
-
-            .nav-link {
-                border: none;
-                padding: 0;
-                flex: 1;
-                justify-content: center;
-            }
-
-            .nav-link:first-child {
-                border-top: none;
-            }
-
-            .vert-text {
-                display: none;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hidéyssy</title>
+
+  <meta name="description" content="Hidéyssy（ヒデイシィ）― 音楽と、空間と、残したいものをつくるプロダクトレーベル。">
+  <meta name="keywords"
+    content="Hidéyssy, Hideyssy, ヒデイシィ, ヒデイシー, ヒデイシイ, ひでいしぃ, ひでいしー, ひでいしい, プロダクトレーベル, 音楽, Tokyo, ライブ, 刺繍">
+
+  <!-- OGP ここから-->
+  <meta property="og:title" content="Hidéyssy">
+  <meta property="og:description" content="Things worth keeping. Songs worth feeling. A space worth returning to.">
+  <meta property="og:image" content="https://hideyssy.com/images/top/Hideyssy_アーティスト写真_2026_1920×1920.jpg">
+  <meta property="og:url" content="https://hideyssy.com">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Hidéyssy">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Hidéyssy">
+  <meta name="twitter:description" content="Things worth keeping. Songs worth feeling. A space worth returning to.">
+  <meta name="twitter:image" content="https://hideyssy.com/images/top/Hideyssy_アーティスト写真_2026_1920×1920.jpg">
+  <!-- OGP ここまで-->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/hideyssy.css">
 </head>
 
 <body>
 
-    <header>
-        <a href="/" class="logo">
-            <img src="images/common/Hideyssy_normallogo_02_Black.svg" alt="Hidéyssy">
-        </a>
-        <nav class="header-nav">
-            <a href="/" class="nav-item">Home</a>
-            <a href="/contact" class="nav-item">Contact</a>
-        </nav>
-    </header>
+  <header>
+    <a href="/" class="logo">
+      <img src="images/common/Hideyssy_normallogo_02_Black.svg" alt="Hidéyssy">
+    </a>
+    <nav class="header-nav">
+      <a href="/" class="nav-item">Home</a>
+      <a href="/contact" class="nav-item">Contact</a>
+    </nav>
+  </header>
 
-    <main>
-        <div class="eyebrow">
-            <span>Tokyo</span>
-            <span class="dot"></span>
-            <span>Product Label</span>
-            <span class="dot"></span>
-            <span>Est. 2025</span>
-        </div>
+  <main>
+    <div class="eyebrow">
+      <span>Tokyo</span>
+      <span class="dot"></span>
+      <span>Product Label</span>
+      <span class="dot"></span>
+      <span>Est. 2025</span>
+    </div>
 
-        <div class="hero">
-            <img src="images/top/Hideyssy_logo_solo_1920x1080_v2.jpg" alt="Hidéyssy">
-        </div>
+    <div class="hero">
+      <img src="images/top/Hideyssy_logo_solo_1920x1080_v2.jpg" alt="Hidéyssy">
+    </div>
 
-        <h1 class="headline">
-            <!-- <span class="line"><span class="line-inner"><em>Stay Gold</em></span></span>
+    <h1 class="headline">
+      <!-- <span class="line"><span class="line-inner"><em>Stay Gold</em></span></span>
             <span class="line"><span class="line-inner"><em>Simple.</em></span></span>
             <span class="line"><span class="line-inner"><em>Plain.</em></span></span>
             <span class="line"><span class="line-inner"><em>Useful.</em></span></span> -->
-        </h1>
+    </h1>
 
-        <div class="mid-section">
-            <div class="description-block">
-                <p class="desc-label">About</p>
-                <p class="description">
-                    Hidéyssy &#45; ヒデイシィ &#45;<br>
-                    心地のよい空間と胸に響く音楽を、<br>
-                    大事につくるプロダクトレーベル。
-                </p>
-            </div>
+    <div class="mid-section">
+      <div class="description-block">
+        <p class="desc-label">About</p>
+        <p class="description">
+          Hidéyssy &#45; ヒデイシィ &#45;<br>
+          心地のよい空間と胸に響く音楽を、<br>
+          大事につくるプロダクトレーベル。
+        </p>
+      </div>
 
-            <nav class="links-block">
-                <a href="https://instagram.com/hideyssy" class="nav-link" target="_blank" rel="noopener">
-                    Instagram <span class="arrow">↗</span>
-                </a>
-                <a href="https://youtube.com/@hideyssy" class="nav-link" target="_blank" rel="noopener">
-                    YouTube <span class="arrow">↗</span>
-                </a>
-                <a href="https://x.com/hideyssy" class="nav-link" target="_blank" rel="noopener">
-                    X <span class="arrow">↗</span>
-                </a>
-            </nav>
-        </div>
+      <nav class="links-block">
+        <a href="https://instagram.com/hideyssy" class="nav-link" target="_blank" rel="noopener">
+          Instagram <span class="arrow">↗</span>
+        </a>
+        <a href="https://youtube.com/@hideyssy" class="nav-link" target="_blank" rel="noopener">
+          YouTube <span class="arrow">↗</span>
+        </a>
+        <a href="https://x.com/hideyssy" class="nav-link" target="_blank" rel="noopener">
+          X <span class="arrow">↗</span>
+        </a>
+      </nav>
+    </div>
 
 
-        <!-- ---Works タイムライン カテゴリ：Live / Music / Product ※ 新しいものを上に追加していく（上が最新）--- -->
+    <!-- ---Works タイムライン カテゴリ：Live / Music / Product ※ 新しいものを上に追加していく（上が最新）--- -->
 
-        <div class="timeline">
+    <div class="timeline">
 
-            <!-- ---Live カードテンプレート--- -->
-            <!-- <a class="card" href="#" target="_blank" rel="noopener">
+      <!-- ---Live カードテンプレート--- -->
+      <!-- <a class="card" href="#" target="_blank" rel="noopener">
                 <img class="card-img" src="images/works/flyer_イベント名_1920x1080.jpg" alt="イベント名" loading="lazy">
                 <p class="card-meta">
                     <span class="card-category">Live</span>
@@ -714,8 +103,8 @@
             </a> -->
 
 
-            <!-- ---Song カードテンプレート--- -->
-            <!-- <div class="card">
+      <!-- ---Song カードテンプレート--- -->
+      <!-- <div class="card">
                 <img class="card-img" src="images/works/artwork_曲名_1920x1080.jpg" alt="楽曲タイトル" loading="lazy">
                 <p class="card-meta">
                     <span class="card-category">SONG</span>
@@ -745,8 +134,8 @@
             </div> -->
 
 
-            <!-- ---Product カードテンプレート--- -->
-            <!-- <a class="card" href="#" target="_blank" rel="noopener">
+      <!-- ---Product カードテンプレート--- -->
+      <!-- <a class="card" href="#" target="_blank" rel="noopener">
                 <img class="card-img" src="images/works/product_アイテム名_1920x1080.jpg" alt="アイテム名" loading="lazy">
                 <p class="card-meta">
                     <span class="card-category">Product</span>
@@ -757,193 +146,183 @@
             </a> -->
 
 
-            <!-- Liveカード -->
-            <!-- リンクが必要な場合: <div class="card"> を <a class="card" href="URL" target="_blank" rel="noopener"> に変える -->
-            <div class="card">
-                <img class="card-img" src="images/works/flyer_20260424_不忍通りふれあい館_1920x1080.jpg"
-                    alt="不忍通りふれあいホール 春のお楽しみ音楽会 vol.2" loading="lazy">
-                <p class="card-meta">
-                    <span class="card-category">Live</span>
-                    2026.4.26 · hall live
-                </p>
-                <h2 class="card-title">春のお楽しみ音楽会</h2>
-                <p class="card-desc">
-                    2026.4.26 Sun. 不忍通りふれあい館 地下1階ホール不忍通りふれあい館 地下1階ホール 入場料無料<br>
-                    13:05 OPEN / 13:15 START<br>
-                    Hidéyssy は 15:35 からの出演予定です。<br>
-                    場所：東京都文京区根津２丁目20-7（東京メトロ千代田線「根津」駅より徒歩2分）<br>
-                    みずのさん、種間菌さんたちにホールでのイベントにお誘いいただきました。ご予約不要です。ぜひ、遊びに来てください。[ Free ]
-                </p>
-            </div>
+      <!-- Liveカード -->
+      <!-- リンクが必要な場合: <div class="card"> を <a class="card" href="URL" target="_blank" rel="noopener"> に変える -->
+      <div class="card">
+        <img class="card-img" src="images/works/flyer_20260424_不忍通りふれあい館_1920x1080.jpg"
+          alt="不忍通りふれあいホール 春のお楽しみ音楽会 vol.2" loading="lazy">
+        <p class="card-meta">
+          <span class="card-category">Live</span>
+          2026.4.26 · hall live
+        </p>
+        <h2 class="card-title">春のお楽しみ音楽会</h2>
+        <p class="card-desc">
+          2026.4.26 Sun. 不忍通りふれあい館 地下1階ホール不忍通りふれあい館 地下1階ホール 入場料無料<br>
+          13:05 OPEN / 13:15 START<br>
+          Hidéyssy は 15:35 からの出演予定です。<br>
+          場所：東京都文京区根津２丁目20-7（東京メトロ千代田線「根津」駅より徒歩2分）<br>
+          みずのさん、種間菌さんたちにホールでのイベントにお誘いいただきました。ご予約不要です。ぜひ、遊びに来てください。[ Free ]
+        </p>
+      </div>
 
 
-            <!-- ---Song カード Stay Gold--- -->
-            <div class="card">
-                <img class="card-img" src="images/works/artwork_Change-The-World_1920x1080.jpg" alt="Change The World"
-                    loading="lazy">
-                <p class="card-meta">
-                    <span class="card-category">SONG</span>
-                    artwork and Lyrics
-                </p>
-                <h2 class="card-title">Change The World</h2>
-                <div class="lyrics-block">
-                    <p class="lyrics-preview">
-                        夜明けの空を眺めてた<br>
-                        Change The World —
-                    </p>
-                    <div class="lyrics-full" id="lyrics-曲名">
-                        <br>
-                        Eyes that hold a smile,<br>
-                        Even here, inside a dark without a shore,<br>
-                        I can still reach for a wish,<br>
-                        Still, still fold my hands in prayer.<br>
-                        With these arms, with these lips,<br>
-                        Still carrying a quiet ember,<br>
-                        I search the night for something that glows,<br>
-                        and I believe it's there.<br>
-                        <br>
-                        Change The World —<br>
-                        This is the moment the night begins to break.<br>
-                        Change The World —<br>
-                        Now breathe and set it free.<br>
-                        Make a wish.<br>
-                        <br>
-                        日は昇る 東の窓に<br>
-                        夜明けの朝に湧き立つ Coffee Flavor<br>
-                        火は灯る 胸の奥に<br>
-                        薪をくべるように この旋律が<br>
-                        この音色が 心に触れたら いいな<br>
-                        <br>
-                        Change The World ×2<br>
-                        積荷をおろして<br>
-                        Change The World ×2<br>
-                        しがらみをほどいて<br>
-                        <br>
-                        地平へ火が灯る<br>
-                        夜明けの空に湧き立つ Coffee Flavor<br>
-                        日は昇る 瞳の中に<br>
-                        薪をくべるように 夜の闇を溶かして<br>
-                        掌に意識を集めて<br>
-                        吐き出す声に想いをのせる<br>
-                        <br>
-                        その瞳を濁さずに 気持ちを曇らさずに<br>
-                        Uh Change The World 内側に<br>
-                        <br>
-                        &lt; 微笑みをやどした瞳、たとえここが、岸のない暗闇の中でも、&gt;<br>
-                        &lt; それでも願いに手を伸ばせる、それでもまだ静かに手を合わせる。&gt;<br>
-                        &lt; この腕で、この唇で、静かな火種をまだ抱きながら、&gt;<br>
-                        &lt; 私は夜を探し歩く、輝くものを求めて。&gt;<br>
-                        &lt; そして、それは必ずあると信じている。&gt;<br>
-                        <br>
-                        &lt; チェンジザ・ワールドーー&gt;<br>
-                        &lt; 今、夜が明け始める瞬間。&gt;<br>
-                        &lt; チェンジザ・ワールドーー&gt;<br>
-                        &lt; さあ息を吸って、解き放って。&gt;<br>
-                        &lt; 願いを込めて。&gt;<br>
-                    </div>
-                    <button class="lyrics-toggle" onclick="toggleLyrics('lyrics-曲名', this)" aria-expanded="false">
-                        <span class="lyrics-toggle-icon"></span>
-                        <span class="lyrics-toggle-label">すべての歌詞を見る</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- ---Song カード Stay Gold--- -->
-            <div class="card">
-                <img class="card-img" src="images/works/artwork_Stay-Gold_1920x1080.jpg" alt="Stay Gold" loading="lazy">
-                <p class="card-meta">
-                    <span class="card-category">SONG</span>
-                    artwork and Lyrics
-                </p>
-                <h2 class="card-title">Stay Gold</h2>
-                <div class="lyrics-block">
-                    <p class="lyrics-preview">
-                        優しい気持ちが込み上げますように<br>
-                        今言葉をあなたに<br>
-                        空気が揺れるその中に 音が響くその間に<br>
-                        色も形もない香りもしない想いを詰め込んだ<br>
-                        聞こえていますか 届いていますか
-                    </p>
-                    <div class="lyrics-full" id="lyrics-曲名">
-                        <br>
-                        "Stay Gold"<br>
-                        Longing is hotter than fire in some cases, and love is intense.<br>
-                        You know what I mean.<br>
-                        &lt; 憧れは炎より時に熱く 愛は激しい。言いたいこと わかるでしょ。 &gt; <br>
-                        <br>
-                        Baby ずっと恋焦がれた<br>
-                        燃えるような熱い想いを灯して 透き通ってく<br>
-                        ずっと憧れは Stay Gold<br>
-                        <br>
-                        素直な表現方法を 素敵な文章構成を<br>
-                        この詩にこの私に与えてください<br>
-                        花に水をあげるように潅ぐメロディ 届くように<br>
-                        さぁ身を委ね 身体揺らせ<br>
-                        力は抜いて聞いてくれ<br>
-                        <br>
-                        Stay Gold ×4<br>
-                        <br>
-                        Baby ずっと恋焦がれた<br>
-                        燃えるような熱い想いを灯して 透き通ってく<br>
-                        ずっと憧れた 溶けるような長いキスをしよう<br>
-                    </div>
-                    <button class="lyrics-toggle" onclick="toggleLyrics('lyrics-曲名', this)" aria-expanded="false">
-                        <span class="lyrics-toggle-icon"></span>
-                        <span class="lyrics-toggle-label">すべての歌詞を見る</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- ---Product カードテンプレート--- -->
-            <!-- リンクが必要な場合: <div class="card"> を <a class="card" href="URL" target="_blank" rel="noopener"> に変える -->
-            <div class="card">
-                <img class="card-img"
-                    src="images/works/product_tvamastad-logo-15oz-crew-neck-sweatshirt_black_1920x1080.png"
-                    alt="トヴォマスタッドロゴトレーナー" loading="lazy">
-                <p class="card-meta">
-                    <span class="card-category">Product</span>
-                    2026.02 · New Item
-                </p>
-                <h2 class="card-title">Tvamastad logo Sweatshirt</h2>
-                <p class="card-desc">Y10,000 [ 3/3 pcs SOLD OUT ]</p>
-            </div>
-
-            <!-- Liveカード（2026.02） -->
-            <!-- リンクが必要な場合: <div class="card"> を <a class="card" href="URL" target="_blank" rel="noopener"> に変える -->
-            <div class="card">
-                <img class="card-img" src="images/works/flyer_mush-room-comet_20260221_1920x1080.jpg"
-                    alt="Mush Room Comet" loading="lazy">
-                <p class="card-meta">
-                    <span class="card-category">Live</span>
-                    2026.2.21 · Solo Live
-                </p>
-                <h2 class="card-title">Mush Room Comet</h2>
-                <p class="card-desc">神楽坂マッシュレコーズで開催されたソロライブ。映像と照明を組み合わせた一度きりの演出とともに全10曲を演奏しました。来場いただいた皆さまへ心から感謝を。[ 30/30
-                    tix SOLD OUT ]</p>
-            </div>
-
+      <!-- ---Song カード Stay Gold--- -->
+      <div class="card">
+        <img class="card-img" src="images/works/artwork_Change-The-World_1920x1080.jpg" alt="Change The World"
+          loading="lazy">
+        <p class="card-meta">
+          <span class="card-category">SONG</span>
+          artwork and Lyrics
+        </p>
+        <h2 class="card-title">Change The World</h2>
+        <div class="lyrics-block">
+          <p class="lyrics-preview">
+            夜明けの空を眺めてた<br>
+            Change The World —
+          </p>
+          <div class="lyrics-full" id="lyrics-曲名">
+            <br>
+            Eyes that hold a smile,<br>
+            Even here, inside a dark without a shore,<br>
+            I can still reach for a wish,<br>
+            Still, still fold my hands in prayer.<br>
+            With these arms, with these lips,<br>
+            Still carrying a quiet ember,<br>
+            I search the night for something that glows,<br>
+            and I believe it's there.<br>
+            <br>
+            Change The World —<br>
+            This is the moment the night begins to break.<br>
+            Change The World —<br>
+            Now breathe and set it free.<br>
+            Make a wish.<br>
+            <br>
+            日は昇る 東の窓に<br>
+            夜明けの朝に湧き立つ Coffee Flavor<br>
+            火は灯る 胸の奥に<br>
+            薪をくべるように この旋律が<br>
+            この音色が 心に触れたら いいな<br>
+            <br>
+            Change The World ×2<br>
+            積荷をおろして<br>
+            Change The World ×2<br>
+            しがらみをほどいて<br>
+            <br>
+            地平へ火が灯る<br>
+            夜明けの空に湧き立つ Coffee Flavor<br>
+            日は昇る 瞳の中に<br>
+            薪をくべるように 夜の闇を溶かして<br>
+            掌に意識を集めて<br>
+            吐き出す声に想いをのせる<br>
+            <br>
+            その瞳を濁さずに 気持ちを曇らさずに<br>
+            Uh Change The World 内側に<br>
+            <br>
+            &lt; 微笑みをやどした瞳、たとえここが、岸のない暗闇の中でも、&gt;<br>
+            &lt; それでも願いに手を伸ばせる、それでもまだ静かに手を合わせる。&gt;<br>
+            &lt; この腕で、この唇で、静かな火種をまだ抱きながら、&gt;<br>
+            &lt; 私は夜を探し歩く、輝くものを求めて。&gt;<br>
+            &lt; そして、それは必ずあると信じている。&gt;<br>
+            <br>
+            &lt; チェンジザ・ワールドーー&gt;<br>
+            &lt; 今、夜が明け始める瞬間。&gt;<br>
+            &lt; チェンジザ・ワールドーー&gt;<br>
+            &lt; さあ息を吸って、解き放って。&gt;<br>
+            &lt; 願いを込めて。&gt;<br>
+          </div>
+          <button class="lyrics-toggle" onclick="toggleLyrics('lyrics-曲名', this)" aria-expanded="false">
+            <span class="lyrics-toggle-icon"></span>
+            <span class="lyrics-toggle-label">すべての歌詞を見る</span>
+          </button>
         </div>
+      </div>
 
-    </main>
+      <!-- ---Song カード Stay Gold--- -->
+      <div class="card">
+        <img class="card-img" src="images/works/artwork_Stay-Gold_1920x1080.jpg" alt="Stay Gold" loading="lazy">
+        <p class="card-meta">
+          <span class="card-category">SONG</span>
+          artwork and Lyrics
+        </p>
+        <h2 class="card-title">Stay Gold</h2>
+        <div class="lyrics-block">
+          <p class="lyrics-preview">
+            優しい気持ちが込み上げますように<br>
+            今言葉をあなたに<br>
+          </p>
+          <div class="lyrics-full" id="lyrics-曲名">
+            空気が揺れるその中に 音が響くその間に<br>
+            色も形もない香りもしない想いを詰め込んだ<br>
+            聞こえていますか 届いていますか<br>
+            <br>
+            "Stay Gold"<br>
+            Longing is hotter than fire in some cases, and love is intense.<br>
+            You know what I mean.<br>
+            &lt; 憧れは炎より時に熱く 愛は激しい。言いたいこと わかるでしょ。 &gt; <br>
+            <br>
+            Baby ずっと恋焦がれた<br>
+            燃えるような熱い想いを灯して 透き通ってく<br>
+            ずっと憧れは Stay Gold<br>
+            <br>
+            素直な表現方法を 素敵な文章構成を<br>
+            この詩にこの私に与えてください<br>
+            花に水をあげるように潅ぐメロディ 届くように<br>
+            さぁ身を委ね 身体揺らせ<br>
+            力は抜いて聞いてくれ<br>
+            <br>
+            Stay Gold ×4<br>
+            <br>
+            Baby ずっと恋焦がれた<br>
+            燃えるような熱い想いを灯して 透き通ってく<br>
+            ずっと憧れた 溶けるような長いキスをしよう<br>
+          </div>
+          <button class="lyrics-toggle" onclick="toggleLyrics('lyrics-曲名', this)" aria-expanded="false">
+            <span class="lyrics-toggle-icon"></span>
+            <span class="lyrics-toggle-label">すべての歌詞を見る</span>
+          </button>
+        </div>
+      </div>
 
-    <footer>
-        <span class="footer-left">© 2025 Hidéyssy</span>
-        <span class="footer-center">素敵な日にしよう</span>
-        <span class="footer-right">hideyssy.com</span>
-    </footer>
+      <!-- ---Product カードテンプレート--- -->
+      <!-- リンクが必要な場合: <div class="card"> を <a class="card" href="URL" target="_blank" rel="noopener"> に変える -->
+      <div class="card">
+        <img class="card-img" src="images/works/product_tvamastad-logo-15oz-crew-neck-sweatshirt_black_1920x1080.png"
+          alt="トヴォマスタッドロゴトレーナー" loading="lazy">
+        <p class="card-meta">
+          <span class="card-category">Product</span>
+          2026.02 · New Item
+        </p>
+        <h2 class="card-title">Tvamastad logo Sweatshirt</h2>
+        <p class="card-desc">Y10,000 [ 3/3 pcs SOLD OUT ]</p>
+      </div>
 
-    <span class="vert-text">Hidéyssy — mmxxv</span>
+      <!-- Liveカード（2026.02） -->
+      <!-- リンクが必要な場合: <div class="card"> を <a class="card" href="URL" target="_blank" rel="noopener"> に変える -->
+      <div class="card">
+        <img class="card-img" src="images/works/flyer_mush-room-comet_20260221_1920x1080.jpg" alt="Mush Room Comet"
+          loading="lazy">
+        <p class="card-meta">
+          <span class="card-category">Live</span>
+          2026.2.21 · Solo Live
+        </p>
+        <h2 class="card-title">Mush Room Comet</h2>
+        <p class="card-desc">神楽坂マッシュレコーズで開催されたソロライブ。映像と照明を組み合わせた一度きりの演出とともに全10曲を演奏しました。来場いただいた皆さまへ心から感謝を。[ 30/30
+          tix SOLD OUT ]</p>
+      </div>
 
-    <script>
-        function toggleLyrics(id, btn) {
-            const full = document.getElementById(id);
-            const label = btn.querySelector('.lyrics-toggle-label');
-            const isOpen = full.classList.toggle('is-open');
-            btn.classList.toggle('is-open', isOpen);
-            btn.setAttribute('aria-expanded', isOpen);
-            label.textContent = isOpen ? '閉じる' : 'すべての歌詞を見る';
-        }
-    </script>
+    </div>
+
+  </main>
+
+  <footer>
+    <span class="footer-left">© 2025 Hidéyssy</span>
+    <span class="footer-center">素敵な日にしよう</span>
+    <span class="footer-right">hideyssy.com</span>
+  </footer>
+
+  <span class="vert-text">Hidéyssy — mmxxv</span>
+
+  <script src="assets/js/main.js"></script>
 
 </body>
 
