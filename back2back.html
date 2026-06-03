@@ -4,223 +4,312 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BACK 2 BACK — Hidéyssy</title>
-  <meta name="description" content="Hidéyssyとツネキチのツーマンライブ「BACK 2 BACK」。2026年11月頃、都内で開催。" />
-  <meta property="og:title" content="BACK 2 BACK — Hidéyssy" />
-  <meta property="og:description" content="Hidéyssyとツネキチのツーマンライブ「BACK 2 BACK」。" />
-  <meta property="og:image" content="https://hideyssy.com/images/top/Hideyssy_アーティスト写真_2026_1920×1920.jpg" />
-  <meta property="og:url" content="https://hideyssy.com/back2back" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Hidéyssy" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="BACK 2 BACK — Hidéyssy" />
-  <meta name="twitter:description" content="Hidéyssyとツネキチのツーマンライブ「BACK 2 BACK」。" />
-  <meta name="twitter:image" content="https://hideyssy.com/images/top/Hideyssy_アーティスト写真_2026_1920×1920.jpg" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="description" content="Hidéyssy × ツネキチの特設ページ BACK 2 BACK" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Noto+Serif+JP:wght@200;300;400;500&display=swap" rel="stylesheet" />
   <style>
-    :root{
-      --cream:#f5f2ec;
-      --ink:#171512;
-      --muted:#5f5a51;
-      --line:rgba(23,21,18,.12);
-      --text:rgba(255,255,255,.96);
-      --sub:rgba(255,255,255,.84);
-      --progress:0;
+    :root {
+      --progress: 0;
+      --panel: rgba(255,255,255,0.08);
+      --text: #ffffff;
+      --muted: rgba(255,255,255,0.88);
+      --soft: rgba(255,255,255,0.72);
     }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%}
-    body{
-      color:var(--ink);
-      background:#080b10;
-      font-family:'Cormorant Garamond','Noto Serif JP',Georgia,serif;
-      overflow-x:hidden;
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: "Cormorant Garamond", "Noto Serif JP", Georgia, serif;
+      color: #fff;
+      background: #0b0e13;
+      overflow-x: hidden;
     }
-    body::before{
-      content:"";
-      position:fixed;
-      inset:0;
+
+    /* 画面全体の色変化（明るい初期 → スクロールで暗くなる） */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -3;
       background:
         linear-gradient(
           180deg,
-          rgba(255, 180, 110, 0.10) 0%,
-          rgba(255, 132, 88, 0.12) 12%,
-          rgba(98, 74, 120, 0.18) 30%,
-          rgba(38, 42, 72, 0.30) 52%,
-          rgba(10, 14, 24, 0.55) 72%,
-          rgba(4, 6, 10, 0.88) 100%
+          rgba(255,247,235,0.97) 0%,
+          rgba(255,224,186,0.94) 10%,
+          rgba(255,192,160,0.90) 22%,
+          rgba(170,190,255,0.82) 40%,
+          rgba(78,95,170,0.78) 58%,
+          rgba(27,34,60,0.86) 74%,
+          rgba(5,7,12,0.98) 100%
         );
-      opacity:calc(.55 + var(--progress) * .45);
-      z-index:-3;
-      transition:opacity 220ms ease;
+      opacity: calc(0.18 + (1 - var(--progress)) * 0.82);
+      transition: opacity 260ms ease;
     }
-    body::after{
-      content:"";
-      position:fixed;
-      inset:0;
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
       background:
         linear-gradient(
           180deg,
-          rgba(255, 145, 90, 0.02) 0%,
-          rgba(255, 105, 70, 0.02) 18%,
-          rgba(24, 28, 42, 0.04) 36%,
-          rgba(8, 11, 19, 0.14) 56%,
-          rgba(4, 6, 10, 0.42) 76%,
-          rgba(1, 3, 6, 0.72) 100%
+          rgba(255,255,255,0.02) 0%,
+          rgba(255,255,255,0.00) 35%,
+          rgba(0,0,0,0.08) 65%,
+          rgba(0,0,0,0.55) 100%
         );
-      z-index:-2;
-      opacity:calc(.10 + var(--progress) * .75);
-      transition:opacity 240ms ease;
+      opacity: calc(0.00 + var(--progress) * 0.90);
+      transition: opacity 280ms ease;
     }
-    a{color:inherit;text-decoration:none}
-    header{
-      position:sticky;
-      top:0;
-      z-index:20;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      min-height:74px;
-      padding:14px 1rem;
-      background:rgba(245,242,236,.86);
-      backdrop-filter:blur(12px);
-      -webkit-backdrop-filter:blur(12px);
-      border-bottom:1px solid var(--line);
+
+    a { color: inherit; text-decoration: none; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 52px;
+      padding: 8px 1rem;
+      background: rgba(245, 242, 236, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
     }
-    .brand-wrap{display:flex;align-items:center;justify-content:center}
-    .brand{display:block;width:96px;height:auto;transition:opacity .25s ease}
-    .brand:hover{opacity:.55}
-    main{position:relative; z-index:1}
-    .hero{min-height:calc(100vh - 74px);display:flex;align-items:flex-end;padding:0 1rem 1rem}
-    .hero-inner{width:100%;max-width:1200px;margin:0 auto;display:grid;gap:1rem;align-items:end}
-    .visual{
-      overflow:hidden;
-      min-height:68vh;
-      position:relative;
-      background:transparent;
+
+    .brand {
+      display: block;
+      width: 88px;
+      height: auto;
+      transition: opacity .25s ease;
     }
-    .visual::before{
-      content:"";
-      position:absolute; inset:0;
-      background:linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.16) 35%, rgba(0,0,0,.52) 100%);
-      z-index:0;
+    .brand:hover { opacity: .6; }
+
+    main {
+      position: relative;
+      z-index: 1;
     }
-    .visual-copy{
-      position:relative; z-index:1;
-      display:flex; flex-direction:column; justify-content:flex-end;
-      min-height:68vh;
-      padding:1rem;
-      color:var(--text);
+
+    .hero {
+      min-height: 82vh;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 1rem 0.4rem;
     }
-    .eyebrow{
-      display:flex; align-items:center; gap:.75rem;
-      text-transform:uppercase; letter-spacing:.28em; font-size:.72rem; color:var(--sub);
+
+    .hero-inner {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
     }
-    .dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.86)}
-    .hero-title{
-      font-size:clamp(3rem, 9vw, 6rem);
-      line-height:1;
-      font-weight:300;
-      max-width:9ch;
-      margin-top:.8rem;
-      color:var(--text);
+
+    .visual {
+      position: relative;
+      overflow: hidden;
+      min-height: 72vh;
+      border-radius: 0;
+      background: transparent;
     }
-    .hero-sub{
-      max-width:38ch;
-      font-family:'Noto Serif JP',serif;
-      font-weight:300;
-      font-size:1rem; line-height:1.9;
-      color:var(--sub);
-      margin-top:.8rem;
+
+    .visual-copy {
+      position: relative;
+      z-index: 1;
+      min-height: 72vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 0.85rem;
+      padding: 0.95rem 0.95rem 1rem;
+      color: var(--text);
     }
-    .chip-row{
-      display:flex; flex-wrap:wrap; gap:.55rem;
-      margin-top:1rem;
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      text-transform: uppercase;
+      letter-spacing: .28em;
+      font-size: .72rem;
+      color: var(--soft);
     }
-    .chip{
-      display:inline-flex; align-items:center;
-      border:1px solid rgba(255,255,255,.16);
-      border-radius:999px;
-      background:rgba(255,255,255,.06);
-      padding:.45rem .65rem;
-      font-size:.72rem;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      color:var(--text);
+    .dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.92);
     }
-    .panel{border:none; border-radius:0; background:transparent; box-shadow:none; padding:0}
-    .intro{
-      max-width:1200px;
-      margin:0 auto;
-      display:grid; gap:1rem;
-      padding:0 1rem 2rem;
+
+    .hero-title {
+      font-size: clamp(3.2rem, 9vw, 6rem);
+      line-height: 1;
+      font-weight: 300;
+      max-width: 9ch;
+      color: #ffffff;
+      text-shadow: 0 8px 18px rgba(0,0,0,0.18);
     }
-    .lead{
-      font-family:'Noto Serif JP',serif;
-      font-size:1rem; line-height:1.95;
-      color:var(--ink);
-      max-width:66ch;
+
+    .hero-sub {
+      max-width: 40ch;
+      font-family: "Noto Serif JP", serif;
+      font-weight: 300;
+      font-size: 1rem;
+      line-height: 1.9;
+      color: rgba(255,255,255,0.95);
     }
-    .facts{display:grid; gap:.8rem}
-    .fact{border-top:1px solid var(--line); padding-top:.9rem}
-    .fact-label{
-      text-transform:uppercase; letter-spacing:.24em; font-size:.72rem; color:var(--muted); margin-bottom:.25rem;
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .55rem;
+      margin-top: .2rem;
     }
-    .fact-value{
-      font-family:'Noto Serif JP',serif; font-size:1rem; line-height:1.85; color:var(--ink);
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.10);
+      padding: .45rem .65rem;
+      font-size: .72rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #fff;
     }
-    .story{
-      max-width:1200px;
-      margin:0 auto;
-      display:grid; gap:1rem;
-      padding:0 1rem 4rem;
+
+    .content {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem 3rem;
+      display: grid;
+      gap: 1rem;
     }
-    .story-card{border:none; border-radius:0; background:transparent; box-shadow:none; padding:0}
-    .q{
-      text-transform:uppercase; letter-spacing:.18em; font-size:.72rem; color:var(--muted); margin-bottom:.25rem;
+
+    .lead {
+      font-family: "Noto Serif JP", serif;
+      font-size: 1rem;
+      line-height: 1.95;
+      color: rgba(255,255,255,0.96);
+      max-width: 68ch;
     }
-    .a{
-      font-family:'Noto Serif JP',serif; font-size:1rem; line-height:1.95; color:var(--ink); max-width:72ch;
+
+    .facts {
+      display: grid;
+      gap: .7rem;
     }
-    .gallery{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:1rem;
-      margin-top:.3rem;
+
+    .fact {
+      border-top: 1px solid rgba(255,255,255,0.14);
+      padding-top: .7rem;
     }
-    .photo{
-      border:none; border-radius:0; overflow:hidden; background:transparent; box-shadow:none;
+
+    .fact-label {
+      text-transform: uppercase;
+      letter-spacing: .26em;
+      font-size: .72rem;
+      color: rgba(255,255,255,0.82);
+      margin-bottom: .2rem;
     }
-    .photo img{width:100%; height:240px; object-fit:cover; display:block}
-    .photo-caption{
-      padding:.9rem 0;
-      font-family:'Noto Serif JP',serif; font-size:.92rem; line-height:1.8; color:var(--ink);
+
+    .fact-value {
+      font-family: "Noto Serif JP", serif;
+      font-size: 1rem;
+      line-height: 1.85;
+      color: #fff;
     }
-    .top-photo{
-      width:90%;
-      max-width:1100px;
-      margin:0 auto 1rem;
-      display:block;
-      border-radius:24px;
-      object-fit:cover;
-      box-shadow:0 14px 32px rgba(0,0,0,.18);
+
+    .story {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem 4rem;
+      display: grid;
+      gap: 1rem;
     }
-    footer{text-align:center;color:var(--muted);font-size:.86rem;padding:0 1rem 2rem}
-    @media (max-width:1024px){.gallery{grid-template-columns:1fr 1fr}}
-    @media (max-width:720px){
-      header{min-height:64px;padding:14px 1rem}
-      .brand{width:82px}
-      .hero{min-height:auto;padding-top:.7rem}
-      .visual,.visual-copy{min-height:420px}
-      .gallery{grid-template-columns:1fr}
-      .top-photo{width:100%}
+
+    .q {
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      font-size: .72rem;
+      color: rgba(255,255,255,0.82);
+      margin-bottom: .25rem;
+    }
+
+    .a {
+      font-family: "Noto Serif JP", serif;
+      font-size: 1rem;
+      line-height: 1.95;
+      color: #fff;
+      max-width: 72ch;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: .2rem;
+    }
+
+    .photo {
+      overflow: hidden;
+      background: transparent;
+    }
+
+    .photo img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      display: block;
+      border-radius: 18px;
+    }
+
+    .photo-caption {
+      padding: .75rem 0 0;
+      font-family: "Noto Serif JP", serif;
+      font-size: .92rem;
+      line-height: 1.8;
+      color: #fff;
+    }
+
+    .top-photo {
+      width: 92%;
+      max-width: 1100px;
+      display: block;
+      margin: 0 auto 1rem;
+      border-radius: 24px;
+      object-fit: cover;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.22);
+    }
+
+    footer {
+      text-align: center;
+      color: rgba(255,255,255,0.82);
+      font-size: .86rem;
+      padding: 0 1rem 2rem;
+    }
+
+    @media (max-width: 1024px) {
+      .gallery { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      header { min-height: 48px; padding: 8px .9rem; }
+      .brand { width: 78px; }
+      .hero { min-height: 74vh; padding-top: 0; }
+      .visual, .visual-copy { min-height: 64vh; }
+      .gallery { grid-template-columns: 1fr; }
+      .top-photo { width: 100%; border-radius: 18px; }
     }
   </style>
 </head>
 <body>
   <header>
-    <a class="brand-wrap" href="/">
+    <a href="/">
       <img class="brand" src="images/common/Hideyssy_normallogo_02_Black.svg" alt="Hidéyssy" />
     </a>
   </header>
@@ -230,15 +319,15 @@
       <div class="hero-inner">
         <article class="visual">
           <div class="visual-copy">
-            <div>
-              <div class="eyebrow">
-                <span>Two-Man Live</span>
-                <span class="dot"></span>
-                <span>Special Page</span>
-              </div>
-              <h1 class="hero-title">BACK 2 BACK</h1>
-              <p class="hero-sub">Hidéyssy × ツネキチ。音と余白が交差する、静かに熱くなる一夜。</p>
+            <div class="eyebrow">
+              <span>Two-Man Live</span>
+              <span class="dot"></span>
+              <span>Special Page</span>
             </div>
+
+            <h1 class="hero-title">BACK 2 BACK</h1>
+            <p class="hero-sub">Hidéyssy × ツネキチ。音と余白が交差する、静かに熱くなる一夜。</p>
+
             <div class="chip-row">
               <span class="chip">2026年11月頃</span>
               <span class="chip">都内</span>
@@ -251,30 +340,29 @@
 
     <img class="top-photo" src="images/backtoback/BTB_フライヤーイメージ01.webp" alt="BACK 2 BACK キービジュアル" />
 
-    <section class="intro">
-      <article class="panel">
-        <p class="lead">
-          2人のアーティストが同じステージに立つ夜。照明は控えめ、音は深く、空気の層を少しずつ変えていくようなライブをめざしています。
-        </p>
-        <div class="facts">
-          <div class="fact">
-            <div class="fact-label">Date</div>
-            <div class="fact-value">2026年11月頃（詳細は後日発表）</div>
-          </div>
-          <div class="fact">
-            <div class="fact-label">Venue</div>
-            <div class="fact-value">都内・会場詳細は後日確認</div>
-          </div>
-          <div class="fact">
-            <div class="fact-label">Performers</div>
-            <div class="fact-value">Hidéyssy &amp; ツネキチ</div>
-          </div>
-          <div class="fact">
-            <div class="fact-label">Ticket</div>
-            <div class="fact-value">Googleフォームによる受付を予定。詳細は後日更新します。</div>
-          </div>
+    <section class="content">
+      <p class="lead">
+        2人のアーティストが同じステージに立つ夜。照明は控えめ、音は深く、余白の中で少しずつ色を変えていくようなライブをめざしています。
+      </p>
+
+      <div class="facts">
+        <div class="fact">
+          <div class="fact-label">Date</div>
+          <div class="fact-value">2026年11月頃（詳細は後日発表）</div>
         </div>
-      </article>
+        <div class="fact">
+          <div class="fact-label">Venue</div>
+          <div class="fact-value">都内・会場詳細は後日確認</div>
+        </div>
+        <div class="fact">
+          <div class="fact-label">Performers</div>
+          <div class="fact-value">Hidéyssy &amp; ツネキチ</div>
+        </div>
+        <div class="fact">
+          <div class="fact-label">Ticket</div>
+          <div class="fact-value">Googleフォームによる受付を予定。詳細は後日更新します。</div>
+        </div>
+      </div>
     </section>
 
     <section class="story">
@@ -289,19 +377,21 @@
         </article>
         <article class="photo">
           <img src="images/top/Hideyssy_アーティスト写真_2026_1920×1920.jpg" alt="仮画像 3" />
-          <div class="photo-caption">仮画像 3 — 立ち上がる感情のトーンを補助する素材。</div>
+          <div class="photo-caption">仮画像 3 — 感情のトーンを補助する素材。</div>
         </article>
       </div>
 
-      <article class="story-card">
+      <article>
         <p class="q">Q. このイベントを開催するにあたって、一番大切にしたことは？</p>
-        <p class="a">A. 2人が同じ時間を共有すること。単なる“出演”ではなく、観る人と音が少しだけ触れ合う瞬間をつくることを重視しました。</p>
+        <p class="a">A. 2人が同じ時間を共有すること。単なる出演ではなく、観る人と音が少しだけ触れ合う瞬間をつくることを重視しました。</p>
       </article>
-      <article class="story-card">
+
+      <article>
         <p class="q">Q. 観る人にどう感じてほしいですか？</p>
         <p class="a">A. 静かに立ち止まる時間、胸の奥で何かが揺れる時間、そして会場を出たあとも少しだけ残る感覚を持って帰ってほしいです。</p>
       </article>
-      <article class="story-card">
+
+      <article>
         <p class="q">Q. 今後の展開を考えると、何が重要ですか？</p>
         <p class="a">A. 余白のある演出と、出演者の“言葉にしきれない想い”を丁寧に届けること。そこにこそ、ライブの記憶が生まれます。</p>
       </article>
@@ -317,6 +407,7 @@
       const progress = h > 0 ? Math.min(1, y / h) : 0;
       document.documentElement.style.setProperty('--progress', progress.toFixed(3));
     };
+
     window.addEventListener('scroll', setParallax, { passive: true });
     window.addEventListener('resize', setParallax);
     setParallax();
