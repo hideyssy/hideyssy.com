@@ -19,3 +19,12 @@ function toggleLyrics(btn) {
     btn.setAttribute('aria-expanded', String(isOpen));
     label.textContent = isOpen ? '閉じる' : 'すべての歌詞を見る';
 }
+
+document.addEventListener('click', (event) => {
+    const btn = event.target.closest('.lyrics-toggle');
+
+    if (!btn) return;
+
+    event.preventDefault();
+    toggleLyrics(btn);
+});
