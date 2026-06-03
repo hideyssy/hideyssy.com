@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Back to Back — Hidéyssy</title>
+  <meta name="description" content="Hidéyssyとツネキチのツーマンライブ「Back to Back」。2026年11月頃、都内で開催。" />
+  <meta property="og:title" content="Back to Back — Hidéyssy" />
+  <meta property="og:description" content="Hidéyssyとツネキチのツーマンライブ。" />
+  <meta property="og:image" content="https://hideyssy.com/images/top/Hideyssy_アーティスト写真_2026_1920×1920.jpg" />
+  <meta property="og:url" content="https://hideyssy.com/back-to-back" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Hidéyssy" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Back to Back — Hidéyssy" />
+  <meta name="twitter:description" content="Hidéyssyとツネキチのツーマンライブ。" />
+  <meta name="twitter:image" content="https://hideyssy.com/images/top/Hideyssy_アーティスト写真_2026_1920×1920.jpg" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Noto+Serif+JP:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --cream:#f5f2ec;
+      --ink:#171512;
+      --muted:#5e594f;
+      --line:rgba(23,21,18,.12);
+      --panel:rgba(255,255,255,.76);
+      --shadow:0 18px 40px rgba(17,15,12,.12);
+      --radius:28px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      background:
+        linear-gradient(180deg, rgba(245,242,236,.98), rgba(245,242,236,1)),
+        radial-gradient(circle at top, rgba(255,255,255,.65), transparent 35%);
+      color:var(--ink);
+      font-family:'Cormorant Garamond','Noto Serif JP',Georgia,serif;
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+    body::before{
+      content:'';
+      position:fixed;
+      inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events:none; z-index:0; opacity:.5;
+    }
+    header, main, footer{position:relative; z-index:1}
+    a{color:inherit;text-decoration:none}
+    header{
+      position:sticky; top:0; z-index:50;
+      display:grid;
+      grid-template-columns:1fr auto 1fr;
+      align-items:center;
+      gap:1rem;
+      padding:1rem 1.2rem;
+      background:rgba(245,242,236,.88);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--line);
+    }
+    .left-link{
+      justify-self:start;
+      text-transform:uppercase;
+      letter-spacing:.24em;
+      font-size:.72rem;
+      color:var(--muted);
+      transition:color .25s ease;
+    }
+    .left-link:hover{color:var(--ink)}
+    .brand-wrap{justify-self:center}
+    .brand{
+      display:block;
+      width:180px;
+      max-width:40vw;
+      height:auto;
+      transition:opacity .25s ease;
+    }
+    .brand:hover{opacity:.55}
+    .right-chip{
+      justify-self:end;
+      text-transform:uppercase;
+      letter-spacing:.24em;
+      font-size:.72rem;
+      color:var(--muted);
+      border:1px solid var(--line);
+      padding:.45rem .65rem;
+      border-radius:999px;
+      background:rgba(255,255,255,.35);
+    }
+    .hero{
+      width:100%;
+      padding:0 1rem 1rem;
+    }
+    .hero-grid{
+      max-width:1400px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:1.02fr .98fr;
+      gap:1rem;
+      align-items:stretch;
+    }
+    .panel{
+      border:1px solid var(--line);
+      background:var(--panel);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .visual{
+      min-height:78vh;
+      position:relative;
+      background:
+        linear-gradient(140deg, rgba(17,15,12,.2), rgba(17,15,12,.42)),
+        url("images/backtoback/BTB_フライヤーイメージ01.webp") center/cover no-repeat;
+    }
+    .visual::after{
+      content:'';
+      position:absolute; inset:0;
+      background:linear-gradient(180deg, rgba(17,15,12,.04), rgba(17,15,12,.35));
+      pointer-events:none;
+    }
+    .visual-inner{
+      position:relative; z-index:1;
+      display:flex; flex-direction:column; justify-content:space-between;
+      min-height:78vh; padding:1.15rem;
+      color:#fff;
+    }
+    .eyebrow{
+      display:flex; align-items:center; gap:.75rem;
+      text-transform:uppercase; letter-spacing:.28em; font-size:.72rem;
+      color:rgba(255,255,255,.92);
+    }
+    .dot{
+      width:4px; height:4px; border-radius:50%;
+      background:rgba(255,255,255,.85);
+    }
+    .hero-title{
+      font-size:clamp(3rem, 8vw, 6rem);
+      line-height:1;
+      font-weight:300;
+      max-width:9ch;
+      margin-top:.8rem;
+    }
+    .hero-copy{
+      max-width:33ch;
+      font-family:'Noto Serif JP',serif;
+      font-weight:300;
+      font-size:1rem;
+      line-height:1.85;
+      color:rgba(255,255,255,.92);
+    }
+    .chip-row{
+      display:flex; flex-wrap:wrap; gap:.6rem; margin-top:1rem;
+    }
+    .chip{
+      display:inline-flex; align-items:center;
+      border:1px solid rgba(255,255,255,.24);
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      backdrop-filter:blur(6px);
+      padding:.45rem .75rem;
+      font-size:.72rem;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.95);
+    }
+    .info{
+      display:flex; flex-direction:column; justify-content:space-between;
+      padding:1.15rem;
+      min-height:78vh;
+    }
+    .kicker{
+      text-transform:uppercase;
+      letter-spacing:.24em;
+      font-size:.72rem;
+      color:var(--muted);
+      margin-bottom:.6rem;
+    }
+    .lede{
+      font-family:'Noto Serif JP',serif;
+      font-size:1rem;
+      line-height:1.9;
+      color:var(--ink);
+      max-width:56ch;
+      margin-bottom:1rem;
+    }
+    .detail-grid{
+      display:grid;
+      gap:.9rem;
+      margin-top:1rem;
+    }
+    .detail{
+      border-top:1px solid var(--line);
+      padding-top:.9rem;
+    }
+    .detail-label{
+      text-transform:uppercase;
+      letter-spacing:.24em;
+      font-size:.72rem;
+      color:var(--muted);
+      margin-bottom:.25rem;
+    }
+    .detail-value{
+      font-family:'Noto Serif JP',serif;
+      font-size:1rem;
+      line-height:1.8;
+      color:var(--ink);
+    }
+    .cta{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:fit-content;
+      border:1px solid var(--ink);
+      border-radius:999px;
+      padding:.9rem 1rem;
+      background:rgba(255,255,255,.55);
+      transition:transform .25s ease, background .25s ease;
+      font-size:.95rem;
+      letter-spacing:.06em;
+      margin-top:1rem;
+    }
+    .cta:hover{transform:translateY(-1px); background:rgba(255,255,255,.88)}
+    .section{
+      max-width:1400px;
+      margin:0 auto;
+      padding:1rem 1rem 4rem;
+    }
+    .intro-grid{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:1rem;
+      margin-bottom:1rem;
+    }
+    .mini-card{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:1rem;
+      background:var(--panel);
+      box-shadow:var(--shadow);
+    }
+    .mini-card h2{
+      font-size:1rem;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      color:var(--muted);
+      margin-bottom:.35rem;
+    }
+    .mini-card p{
+      font-family:'Noto Serif JP',serif;
+      font-size:.98rem;
+      line-height:1.85;
+      color:var(--ink);
+    }
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:1rem;
+      margin-top:1rem;
+    }
+    .photo-card{
+      border:1px solid var(--line);
+      border-radius:24px;
+      overflow:hidden;
+      background:var(--panel);
+      box-shadow:var(--shadow);
+    }
+    .photo-card img{
+      width:100%;
+      height:240px;
+      object-fit:cover; display:block;
+    }
+    .photo-caption{
+      padding:.9rem;
+      font-family:'Noto Serif JP',serif;
+      font-size:.92rem;
+      line-height:1.8;
+      color:var(--ink);
+    }
+    .story{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:1rem;
+      margin-top:1rem;
+    }
+    .interview{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background:linear-gradient(180deg, rgba(255,255,255,.82), rgba(255,255,255,.92));
+      box-shadow:var(--shadow);
+      padding:1rem;
+    }
+    .question{
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:.72rem;
+      color:var(--muted);
+      margin-bottom:.25rem;
+    }
+    .answer{
+      font-family:'Noto Serif JP',serif;
+      font-size:1rem;
+      line-height:1.95;
+      color:var(--ink);
+      max-width:72ch;
+    }
+    .footnote{
+      text-align:center;
+      color:var(--muted);
+      font-size:.86rem;
+      padding:0 1rem 2rem;
+    }
+    @media (max-width:1100px){
+      .hero-grid,.intro-grid{grid-template-columns:1fr}
+      .gallery{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width:720px){
+      header{
+        grid-template-columns:1fr;
+        text-align:center;
+      }
+      .left-link,.right-chip{justify-self:center}
+      .gallery{grid-template-columns:1fr}
+      .visual,.info{min-height:auto}
+      .visual-inner{min-height:420px}
+      .hero-title{font-size:clamp(2.4rem, 14vw, 3.8rem)}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="left-link" href="/">Index</a>
+    <a class="brand-wrap" href="/">
+      <img class="brand" src="images/common/Hideyssy_normallogo_02_Black.svg" alt="Hidéyssy" />
+    </a>
+    <span class="right-chip">Back to Back</span>
+  </header>
+
+  <section class="hero">
+    <div class="hero-grid">
+      <article class="panel visual">
+        <div class="visual-inner">
+          <div>
+            <div class="eyebrow">
+              <span>Two-Man Live</span>
+              <span class="dot"></span>
+              <span>Special Page</span>
+            </div>
+            <h1 class="hero-title">Back to Back</h1>
+            <p class="hero-copy">Hidéyssy × ツネキチ。音と余白が交差する、静かに熱くなる一夜。</p>
+          </div>
+          <div class="chip-row">
+            <span class="chip">2026年11月頃</span>
+            <span class="chip">都内</span>
+            <span class="chip">予約受付予定</span>
+          </div>
+        </div>
+      </article>
+
+      <aside class="panel info">
+        <div>
+          <p class="kicker">Event</p>
+          <p class="lede">
+            2人のアーティストが同じステージに立つ夜。照明は控えめ、音は深く、空気の層を少しずつ変えていくようなライブをめざしています。
+          </p>
+          <div class="detail-grid">
+            <div class="detail">
+              <div class="detail-label">Date</div>
+              <div class="detail-value">2026年11月頃（詳細は後日発表）</div>
+            </div>
+            <div class="detail">
+              <div class="detail-label">Venue</div>
+              <div class="detail-value">都内・会場詳細は後日確認</div>
+            </div>
+            <div class="detail">
+              <div class="detail-label">Performers</div>
+              <div class="detail-value">Hidéyssy &amp; ツネキチ</div>
+            </div>
+            <div class="detail">
+              <div class="detail-label">Ticket</div>
+              <div class="detail-value">Googleフォームによる受付を予定。詳細は後日更新します。</div>
+            </div>
+          </div>
+        </div>
+        <a class="cta" href="#">予約方法は準備中</a>
+      </aside>
+    </div>
+  </section>
+
+  <main>
+    <section class="section">
+      <div class="intro-grid">
+        <article class="mini-card">
+          <h2>Why now</h2>
+          <p>このイベントは、2人がそれぞれの方向に進みながらも、同じ空間で響き合うという実験的な意味を持っています。短い時間の中に、観る人の呼吸まで変えるような音をつくる。</p>
+        </article>
+        <article class="mini-card">
+          <h2>Visual Direction</h2>
+          <p>キービジュアルは切り抜かず、全体を見せるレイアウトにしています。仮画像を配置した段階でも、イベントの雰囲気が一目で伝わるようにしています。</p>
+        </article>
+      </div>
+
+      <div class="gallery">
+        <article class="photo-card">
+          <img src="images/works/artwork_Change-The-World_1920x1080.webp" alt="仮画像 1" />
+          <div class="photo-caption">仮画像 1 — 時間の流れを感じる色味のサンプル。</div>
+        </article>
+        <article class="photo-card">
+          <img src="images/works/artwork_Stay-Gold_1920x1080.webp" alt="仮画像 2" />
+          <div class="photo-caption">仮画像 2 — 余白のある静かな空気感のサンプル。</div>
+        </article>
+        <article class="photo-card">
+          <img src="images/top/Hideyssy_アーティスト写真_2026_1920×1920.jpg" alt="仮画像 3" />
+          <div class="photo-caption">仮画像 3 — 立ち上がる感情のトーンを補助する素材。</div>
+        </article>
+      </div>
+
+      <div class="story">
+        <article class="interview">
+          <p class="question">Q. このイベントを開催するにあたって、一番大切にしたことは？</p>
+          <p class="answer">A. 2人が同じ時間を共有すること。単なる“出演”ではなく、観る人と音が少しだけ触れ合う瞬間をつくることを重視しました。</p>
+        </article>
+        <article class="interview">
+          <p class="question">Q. 観る人にどう感じてほしいですか？</p>
+          <p class="answer">A. 静かに立ち止まる時間、胸の奥で何かが揺れる時間、そして会場を出たあとも少しだけ残る感覚を持って帰ってほしいです。</p>
+        </article>
+        <article class="interview">
+          <p class="question">Q. 今後の展開を考えると、何が重要ですか？</p>
+          <p class="answer">A. 余白のある演出と、出演者の“言葉にしきれない想い”を丁寧に届けること。そこにこそ、ライブの記憶が生まれます。</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footnote">© 2025 Hidéyssy</footer>
+</body>
+</html>
