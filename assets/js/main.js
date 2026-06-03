@@ -21,7 +21,10 @@ function toggleLyrics(btn) {
 }
 
 document.addEventListener('click', (event) => {
-    const btn = event.target.closest('.lyrics-toggle');
+    const path = event.composedPath ? event.composedPath() : [];
+    const btn = path.find((el) => el instanceof HTMLElement && el.matches('.lyrics-toggle'))
+        || (event.target instanceof HTMLElement ? event.target.closest('.lyrics-toggle') : null)
+        || (event.target.parentElement ? event.target.parentElement.closest('.lyrics-toggle') : null);
 
     if (!btn) return;
 
