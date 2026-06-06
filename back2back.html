@@ -284,6 +284,31 @@
       box-shadow: none;
     }
 
+    .top-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto 1rem;
+    }
+
+    .top-wrap .top-photo {
+      margin: 0;
+      display: block;
+      width: 100%;
+    }
+
+    .top-text {
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      max-width: 600px;
+      opacity: 0;
+      animation: fadein 2.0s ease forwards;
+      animation-delay: 0.6s;
+    }
+
     footer {
       text-align: center;
       color: rgba(255, 255, 255, 0.82);
@@ -327,12 +352,26 @@
         font-size: 0;
       }
     }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
   </style>
 </head>
 
 <body>
   <main>
-    <img class="top-photo" src="images/backtoback/BACK-2-BACK_キービジュアル_5091×2160_21対9.jpg" alt="BACK 2 BACK キービジュアル" />
+    <div class="top-wrap">
+      <img class="top-photo" src="images/backtoback/BACK-2-BACK_キービジュアル_5091×2160_21対9.jpg" alt="BACK 2 BACK キービジュアル" />
+      <img class="top-text" src="images/backtoback/Hideyssy×ツネキチ_WEB用テキストロゴ_1818×314.png"
+        alt="Hideyssy × ツネキチ テキストロゴ" />
+    </div>
 
     <section class="content">
       <div class="summary-card">
