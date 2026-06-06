@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,18 +8,29 @@
   <meta name="description" content="Hidéyssy × ツネキチのスペシャルライブ BACK 2 BACK の特設ページ" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500;600&family=Noto+Serif+JP:wght@200;300;400;500&family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500;600&family=Noto+Serif+JP:wght@200;300;400;500&family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
   <style>
     :root {
       --progress: 0;
-      --panel: rgba(255,255,255,0.08);
+      --panel: rgba(255, 255, 255, 0.08);
       --text: #ffffff;
-      --muted: rgba(255,255,255,0.88);
-      --soft: rgba(255,255,255,0.72);
+      --muted: rgba(255, 255, 255, 0.88);
+      --soft: rgba(255, 255, 255, 0.72);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
     body {
       font-family: "Inter", "Noto Serif JP", Arial, sans-serif;
       color: #fff;
@@ -33,16 +45,14 @@
       inset: 0;
       z-index: -3;
       background:
-        linear-gradient(
-          180deg,
-          rgba(255,247,235,0.97) 0%,
-          rgba(255,224,186,0.94) 10%,
-          rgba(255,192,160,0.90) 22%,
-          rgba(170,190,255,0.82) 40%,
-          rgba(78,95,170,0.78) 58%,
-          rgba(27,34,60,0.86) 74%,
-          rgba(5,7,12,0.98) 100%
-        );
+        linear-gradient(180deg,
+          rgba(255, 247, 235, 0.97) 0%,
+          rgba(255, 224, 186, 0.94) 10%,
+          rgba(255, 192, 160, 0.90) 22%,
+          rgba(170, 190, 255, 0.82) 40%,
+          rgba(78, 95, 170, 0.78) 58%,
+          rgba(27, 34, 60, 0.86) 74%,
+          rgba(5, 7, 12, 0.98) 100%);
       opacity: calc(0.18 + (1 - var(--progress)) * 0.82);
       transition: opacity 260ms ease;
     }
@@ -53,18 +63,19 @@
       inset: 0;
       z-index: -2;
       background:
-        linear-gradient(
-          180deg,
-          rgba(255,255,255,0.02) 0%,
-          rgba(255,255,255,0.00) 35%,
-          rgba(0,0,0,0.08) 65%,
-          rgba(0,0,0,0.55) 100%
-        );
+        linear-gradient(180deg,
+          rgba(255, 255, 255, 0.02) 0%,
+          rgba(255, 255, 255, 0.00) 35%,
+          rgba(0, 0, 0, 0.08) 65%,
+          rgba(0, 0, 0, 0.55) 100%);
       opacity: calc(0.00 + var(--progress) * 0.90);
       transition: opacity 280ms ease;
     }
 
-    a { color: inherit; text-decoration: none; }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
     header {
       position: sticky;
@@ -78,18 +89,21 @@
       background: rgba(245, 242, 236, 0.88);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(0,0,0,0.08);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     }
 
     .brand {
       display: block;
       margin-left: auto;
-      margin-right: auto; 
+      margin-right: auto;
       width: 88px;
       height: auto;
       transition: opacity .25s ease;
     }
-    .brand:hover { opacity: .6; }
+
+    .brand:hover {
+      opacity: .6;
+    }
 
     main {
       position: relative;
@@ -116,7 +130,7 @@
       text-transform: uppercase;
       letter-spacing: .14em;
       font-size: 1.4rem;
-      color: rgba(255,255,255,0.82);
+      color: rgba(255, 255, 255, 0.82);
     }
 
     .summary-title {
@@ -130,7 +144,7 @@
       font-family: "Noto Serif JP", serif;
       font-size: 1.1rem;
       line-height: 1.95;
-      color: rgba(255,255,255,0.96);
+      color: rgba(255, 255, 255, 0.96);
       max-width: 70ch;
     }
 
@@ -141,27 +155,27 @@
     }
 
     .detail-card {
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.08);
       padding: .9rem;
       display: grid;
       gap: .25rem;
     }
 
     .ticket-card {
-      border: 1px solid rgba(255,255,255,0.18);
-      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
       padding: 1rem;
       display: grid;
       gap: .35rem;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
     }
 
     .ticket-label {
       text-transform: uppercase;
       letter-spacing: .24em;
       font-size: .8rem;
-      color: rgba(255,255,255,0.86);
+      color: rgba(255, 255, 255, 0.86);
     }
 
     .ticket-price {
@@ -175,7 +189,7 @@
       font-family: "Noto Serif JP", serif;
       font-size: 1.1rem;
       line-height: 1.8;
-      color: rgba(255,255,255,0.95);
+      color: rgba(255, 255, 255, 0.95);
     }
 
     .ticket-button {
@@ -189,14 +203,14 @@
       color: #161b22;
       font-weight: 600;
       letter-spacing: .04em;
-      box-shadow: 0 8px 18px rgba(255,255,255,0.18);
+      box-shadow: 0 8px 18px rgba(255, 255, 255, 0.18);
     }
 
     .detail-label {
       text-transform: uppercase;
       letter-spacing: .22em;
       font-size: .8rem;
-      color: rgba(255,255,255,0.82);
+      color: rgba(255, 255, 255, 0.82);
     }
 
     .detail-value {
@@ -219,7 +233,7 @@
       text-transform: uppercase;
       letter-spacing: .18em;
       font-size: .72rem;
-      color: rgba(255,255,255,0.82);
+      color: rgba(255, 255, 255, 0.82);
       margin-bottom: .25rem;
     }
 
@@ -271,23 +285,45 @@
 
     footer {
       text-align: center;
-      color: rgba(255,255,255,0.82);
+      color: rgba(255, 255, 255, 0.82);
       font-size: .86rem;
       padding: 0 1rem 2rem;
     }
 
     @media (max-width: 1024px) {
-      .gallery { grid-template-columns: 1fr 1fr; }
+      .gallery {
+        grid-template-columns: 1fr 1fr;
+      }
     }
 
     @media (max-width: 720px) {
-      header { min-height: 48px; padding: 8px .9rem; }
-      .brand { width: 78px; }
-      .gallery { grid-template-columns: 1fr; }
-      .top-photo { width: 100%; border-radius: 0px; aspect-ratio: 16 / 9; }
+      header {
+        min-height: 48px;
+        padding: 8px .9rem;
+      }
+
+      .brand {
+        width: 78px;
+      }
+
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .top-photo {
+        width: 100%;
+        border-radius: 0px;
+        aspect-ratio: 16 / 9;
+      }
+
+      .break {
+        display: block;
+        font-size: 0;
+      }
     }
   </style>
 </head>
+
 <body>
   <main>
     <img class="top-photo" src="images/backtoback/BACK-2-BACK_キービジュアル_5091×2160_21対9.jpg" alt="BACK 2 BACK キービジュアル" />
@@ -309,7 +345,7 @@
         </article>
         <article class="detail-card">
           <div class="detail-label">時間</div>
-          <div class="detail-value">開場 15:45 / 開演 16:45</div>
+          <div class="detail-value">開場 15:45<span class="break"> / </span>開演 16:45</div>
         </article>
         <article class="detail-card">
           <div class="detail-label">会場</div>
@@ -325,7 +361,8 @@
         <div class="ticket-label">予約</div>
         <div class="ticket-price">チケット予約は Google フォームから受付中</div>
         <!-- <p class="ticket-note">チケット情報は随時更新します。予約開始時はこのブロックから案内をお届けします。</p> -->
-        <a class="ticket-button" href="https://forms.gle/wYgBkZED8WdNR29w6" target="_blank" rel="noopener noreferrer">予約はこちら</a>
+        <a class="ticket-button" href="https://forms.gle/wYgBkZED8WdNR29w6" target="_blank"
+          rel="noopener noreferrer">予約はこちら</a>
       </article>
     </section>
 
@@ -388,4 +425,5 @@
     setParallax();
   </script>
 </body>
+
 </html>
