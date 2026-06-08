@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>テトリス</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0d0d1a;
+    --panel-bg: #1a1a2e;
+    --border: rgba(255,255,255,0.08);
+    --text: #e8e6f0;
+    --muted: #8880a0;
+    --accent: #7c6fd4;
+  }
+  body {
+    background: var(--bg);
+    font-family: 'Space Grotesk', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    color: var(--text);
+  }
+  h1 {
+    font-family: 'DM Mono', monospace;
+    font-size: 2.2rem;
+    font-weight: 500;
+    letter-spacing: -1px;
+    color: var(--text);
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  #app {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  canvas#board {
+    border-radius: 10px;
+    display: block;
+    border: 1px solid var(--border);
+  }
+  #right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 100px;
+  }
+  .panel {
+    background: var(--panel-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+  }
+  .panel-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .panel-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  canvas#next {
+    border-radius: 6px;
+    display: block;
+    margin-top: 6px;
+  }
+  button {
+    width: 100%;
+    padding: 9px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 10px;
+    border: 1px solid var(--accent);
+    background: transparent;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    transition: background 0.15s, color 0.15s;
+  }
+  button:hover { background: var(--accent); color: #fff; }
+  #hint {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+<h1>TETRIS</h1>
+<div id="app">
+  <div style="display:flex;flex-direction:column;gap:10px;">
+    <canvas id="board" width="200" height="400"></canvas>
+    <button id="start-btn">スタート</button>
+  </div>
+  <div id="right">
+    <div class="panel"><div class="panel-label">Score</div><div class="panel-val" id="score">0</div></div>
+    <div class="panel"><div class="panel-label">Level</div><div class="panel-val" id="level">1</div></div>
+    <div class="panel"><div class="panel-label">Lines</div><div class="panel-val" id="lines">0</div></div>
+    <div class="panel">
+      <div class="panel-label">Next</div>
+      <canvas id="next" width="80" height="80"></canvas>
+    </div>
+    <div id="hint">← → 移動<br>↑ 回転<br>↓ 落下<br>Space 即落下</div>
+  </div>
+</div>
+
+<script>
+const COLS=10, ROWS=20, B=20;
+const COLORS=['#f59563','#5DCAA5','#378ADD','#edcf72','#D4537E','#f65e3b','#7c6fd4'];
+const SHAPES=[
+  [[1,1,1,1]],
+  [[1,1],[1,1]],
+  [[0,1,0],[1,1,1]],
+  [[1,0,0],[1,1,1]],
+  [[0,0,1],[1,1,1]],
+  [[0,1,1],[1,1,0]],
+  [[1,1,0],[0,1,1]]
+];
+
+const cv=document.getElementById('board'), ctx=cv.getContext('2d');
+const nc=document.getElementById('next'), nctx=nc.getContext('2d');
+
+let grid, piece, next, score, lines, level, timer, running=false;
+
+function newGrid(){ return Array(ROWS).fill(0).map(()=>Array(COLS).fill(0)); }
+function randPiece(){
+  const s=SHAPES[Math.floor(Math.random()*SHAPES.length)];
+  return { shape:s, color:COLORS[Math.floor(Math.random()*COLORS.length)], x:Math.floor((COLS-s[0].length)/2), y:0 };
+}
+function valid(p,dx=0,dy=0,shape=null){
+  const s=shape||p.shape;
+  for(let r=0;r<s.length;r++) for(let c=0;c<s[r].length;c++){
+    if(!s[r][c]) continue;
+    const nx=p.x+c+dx, ny=p.y+r+dy;
+    if(nx<0||nx>=COLS||ny>=ROWS) return false;
+    if(ny>=0&&grid[ny][nx]) return false;
+  }
+  return true;
+}
+function rotate(s){ return s[0].map((_,i)=>s.map(r=>r[i]).reverse()); }
+
+function lock(){
+  piece.shape.forEach((row,r)=>row.forEach((v,c)=>{ if(v&&piece.y+r>=0) grid[piece.y+r][piece.x+c]=piece.color; }));
+  let cleared=0;
+  for(let r=ROWS-1;r>=0;r--){
+    if(grid[r].every(c=>c)){ grid.splice(r,1); grid.unshift(Array(COLS).fill(0)); cleared++; r++; }
+  }
+  lines+=cleared;
+  score+=[0,100,300,500,800][cleared]*level;
+  level=Math.floor(lines/10)+1;
+  document.getElementById('score').textContent=score;
+  document.getElementById('level').textContent=level;
+  document.getElementById('lines').textContent=lines;
+  piece=next; next=randPiece();
+  if(!valid(piece)){ endGame(); return; }
+  clearInterval(timer); timer=setInterval(tick,Math.max(80,700-level*60));
+  drawNext(); draw();
+}
+
+function tick(){ if(!valid(piece,0,1)) lock(); else{ piece.y++; draw(); } }
+
+function draw(){
+  ctx.fillStyle='#0d0d1a'; ctx.fillRect(0,0,cv.width,cv.height);
+  for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++){
+    if(grid[r][c]){
+      ctx.fillStyle=grid[r][c];
+      ctx.fillRect(c*B+1,r*B+1,B-2,B-2);
+    } else {
+      ctx.fillStyle='rgba(255,255,255,0.03)';
+      ctx.fillRect(c*B+1,r*B+1,B-2,B-2);
+    }
+  }
+  if(piece){
+    let ghost={...piece};
+    while(valid(ghost,0,1)) ghost.y++;
+    piece.shape.forEach((row,r)=>row.forEach((v,c)=>{ if(v){ ctx.fillStyle='rgba(255,255,255,0.12)'; ctx.fillRect((ghost.x+c)*B+1,(ghost.y+r)*B+1,B-2,B-2); }}));
+    piece.shape.forEach((row,r)=>row.forEach((v,c)=>{ if(v){ ctx.fillStyle=piece.color; ctx.fillRect((piece.x+c)*B+1,(piece.y+r)*B+1,B-2,B-2); }}));
+  }
+}
+
+function drawNext(){
+  nctx.clearRect(0,0,80,80);
+  const s=next.shape, bk=16;
+  const ox=Math.floor((5-s[0].length)/2)*bk, oy=Math.floor((5-s.length)/2)*bk;
+  s.forEach((row,r)=>row.forEach((v,c)=>{ if(v){ nctx.fillStyle=next.color; nctx.fillRect(ox+c*bk+1,oy+r*bk+1,bk-2,bk-2); }}));
+}
+
+function startGame(){
+  grid=newGrid(); score=0; lines=0; level=1;
+  document.getElementById('score').textContent=0;
+  document.getElementById('level').textContent=1;
+  document.getElementById('lines').textContent=0;
+  next=randPiece(); piece=randPiece();
+  running=true; clearInterval(timer);
+  timer=setInterval(tick,640);
+  drawNext(); draw();
+  document.getElementById('start-btn').textContent='リスタート';
+}
+
+function endGame(){
+  clearInterval(timer); running=false;
+  ctx.fillStyle='rgba(0,0,0,0.65)'; ctx.fillRect(0,0,cv.width,cv.height);
+  ctx.fillStyle='#fff'; ctx.font='600 15px Space Grotesk, sans-serif';
+  ctx.textAlign='center'; ctx.fillText('GAME OVER',cv.width/2,cv.height/2-10);
+  ctx.font='12px Space Grotesk, sans-serif'; ctx.fillStyle='rgba(255,255,255,0.6)';
+  ctx.fillText('リスタートを押してね',cv.width/2,cv.height/2+14);
+}
+
+document.getElementById('start-btn').onclick=startGame;
+document.addEventListener('keydown',e=>{
+  if(!running||!piece) return;
+  if(e.key==='ArrowLeft'){ if(valid(piece,-1,0)) piece.x--; }
+  else if(e.key==='ArrowRight'){ if(valid(piece,1,0)) piece.x++; }
+  else if(e.key==='ArrowDown'){ if(valid(piece,0,1)) piece.y++; else lock(); }
+  else if(e.key==='ArrowUp'){ const r=rotate(piece.shape); if(valid(piece,0,0,r)) piece.shape=r; }
+  else if(e.key===' '){ while(valid(piece,0,1)) piece.y++; lock(); e.preventDefault(); return; }
+  else return;
+  e.preventDefault(); draw();
+});
+
+let tx=0,ty=0;
+cv.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
+cv.addEventListener('touchend',e=>{
+  if(!running) return;
+  const dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty;
+  if(Math.abs(dx)>Math.abs(dy)){
+    if(dx>25&&valid(piece,1,0)) piece.x++;
+    else if(dx<-25&&valid(piece,-1,0)) piece.x--;
+  } else {
+    if(dy>25){ while(valid(piece,0,1)) piece.y++; lock(); }
+    else if(dy<-25){ const r=rotate(piece.shape); if(valid(piece,0,0,r)) piece.shape=r; }
+  }
+  draw();
+},{passive:true});
+
+ctx.fillStyle='#0d0d1a'; ctx.fillRect(0,0,cv.width,cv.height);
+ctx.fillStyle='rgba(255,255,255,0.4)'; ctx.font='13px Space Grotesk, sans-serif';
+ctx.textAlign='center'; ctx.fillText('スタートを押してね',cv.width/2,cv.height/2);
+</script>
+</body>
+</html>
