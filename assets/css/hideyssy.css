@@ -330,7 +330,6 @@ footer {
     gap: 5rem;
     margin-top: 4.5rem;
     padding-top: 3rem;
-    border-top: 1px solid var(--line);
     opacity: 0;
     animation: fadeUp 1s ease forwards 1.4s;
 }
