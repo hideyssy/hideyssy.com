@@ -132,7 +132,8 @@ main {
     flex-direction: column;
     justify-content: center;
     padding: 5rem 3rem 8rem;
-    max-width: 1200px; /* 1100 → 1200 */
+    max-width: 1200px;
+    /* 1100 → 1200 */
     margin: 0 auto;
     width: 100%;
 }
@@ -169,7 +170,8 @@ footer {
     justify-content: space-between;
     align-items: center;
     padding: 2rem 3rem;
-    border-top: 1px solid var(--line); /* 追加 */
+    border-top: 1px solid var(--line);
+    /* 追加 */
     opacity: 0;
     animation: fadeUp 1s ease forwards 1.8s;
 }
@@ -296,7 +298,8 @@ footer {
 
 .hero img {
     width: 100%;
-    height: 72vh; /* 60 → 72vh */
+    height: 72vh;
+    /* 60 → 72vh */
     object-fit: cover;
     object-position: center;
     display: block;
@@ -325,9 +328,17 @@ footer {
     animation: slideUp 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.headline .line:nth-child(1) .line-inner { animation-delay: 0.7s; }
-.headline .line:nth-child(2) .line-inner { animation-delay: 0.85s; }
-.headline .line:nth-child(3) .line-inner { animation-delay: 1.0s; }
+.headline .line:nth-child(1) .line-inner {
+    animation-delay: 0.7s;
+}
+
+.headline .line:nth-child(2) .line-inner {
+    animation-delay: 0.85s;
+}
+
+.headline .line:nth-child(3) .line-inner {
+    animation-delay: 1.0s;
+}
 
 .headline em {
     font-style: italic;
@@ -361,7 +372,8 @@ footer {
 .description {
     font-family: 'Noto Serif JP', serif;
     font-weight: 300;
-    font-size: 1.05rem; /* 0.95 → 1.05rem */
+    font-size: 1.05rem;
+    /* 0.95 → 1.05rem */
     line-height: 2.3;
     letter-spacing: 0.05em;
     color: var(--ink);
@@ -383,66 +395,46 @@ footer {
 /* ── SNS Links ── */
 .links-block {
     display: flex;
-    flex-direction: column;
-    padding-top: 1.8rem;
-    min-width: 130px;
-}
-
-.nav-link {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.68rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--warm-gray);
-    text-decoration: none;
-    padding: 0.8rem 0;
-    border-bottom: 1px solid var(--line);
-    display: flex;
-    justify-content: space-between;
+    flex-direction: row;
     align-items: center;
-    transition: color 0.3s ease;
-}
-
-.nav-link:first-child {
-    border-top: 1px solid var(--line);
-}
-
-.nav-link:hover {
-    color: var(--ink);
-}
-
-.nav-link .arrow {
-    font-size: 0.75rem;
-    opacity: 0;
-    transform: translateX(-5px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.nav-link:hover .arrow {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-/* ── Games Block ── */
-.games-block {
-    margin-top: 2.5rem;
-    border-top: 1px solid var(--line);
+    gap: 1.4rem;
     padding-top: 2rem;
 }
 
-.games-label {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.58rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
+.sns-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+    text-decoration: none;
     color: var(--warm-gray);
-    margin-bottom: 1.2rem;
+    opacity: 0.55;
+    transition: opacity 0.3s ease, color 0.3s ease;
 }
 
-.games-links {
+.sns-link:hover {
+    opacity: 1;
+    color: var(--ink);
+}
+
+.sns-icon {
+    width: 1.35rem;
+    height: 1.35rem;
+}
+
+.sns-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.52rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+}
+
+/* ── Games Card (timeline内) ── */
+.card--games .games-links {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     flex-wrap: wrap;
+    margin-top: 1.2rem;
 }
 
 .game-link {
@@ -476,7 +468,8 @@ footer {
     border-top: 1px solid var(--line);
     display: flex;
     flex-direction: column;
-    gap: 4rem; /* 5 → 4rem */
+    gap: 4rem;
+    /* 5 → 4rem */
 }
 
 /* ── Card ── */
@@ -484,7 +477,8 @@ footer {
     display: block;
     text-decoration: none;
     color: inherit;
-    overflow: hidden; /* zoom が枠外に出ないよう追加 */
+    overflow: hidden;
+    /* zoom が枠外に出ないよう追加 */
 }
 
 .card-img {
@@ -528,7 +522,8 @@ footer {
 .card-title {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 300;
-    font-size: 1.9rem; /* 1.4 → 1.9rem */
+    font-size: 1.9rem;
+    /* 1.4 → 1.9rem */
     letter-spacing: 0.02em;
     color: var(--ink);
     margin-bottom: 0.7rem;
@@ -661,30 +656,19 @@ footer {
 /* ── Responsive（TOP固有） ── */
 @media (max-width: 700px) {
     .hero img {
-        height: 48vh;
+        height: auto;
+        aspect-ratio: 1 / 1;
     }
 
     .mid-section {
         flex-direction: column;
-        gap: 2.5rem;
+        gap: 2rem;
     }
 
     .links-block {
         flex-direction: row;
-        width: 100%;
-        border-top: 1px solid var(--line);
-        padding-top: 1.5rem;
-    }
-
-    .nav-link {
-        border: none;
-        padding: 0;
-        flex: 1;
-        justify-content: center;
-    }
-
-    .nav-link:first-child {
-        border-top: none;
+        gap: 1.8rem;
+        padding-top: 0;
     }
 
     .card-title {
