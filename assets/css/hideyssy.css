@@ -50,12 +50,11 @@ header {
     justify-content: center;
     align-items: center;
     padding: 0.6rem 3rem;
-    position: relative;
-    opacity: 0;
-    animation: fadeUp 1s ease forwards 0.2s;
     position: sticky;
     top: 0;
     z-index: 50;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.2s;
     background-color: rgba(245, 242, 236, 0.88);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -133,7 +132,7 @@ main {
     flex-direction: column;
     justify-content: center;
     padding: 5rem 3rem 8rem;
-    max-width: 1100px;
+    max-width: 1200px; /* 1100 → 1200 */
     margin: 0 auto;
     width: 100%;
 }
@@ -170,6 +169,7 @@ footer {
     justify-content: space-between;
     align-items: center;
     padding: 2rem 3rem;
+    border-top: 1px solid var(--line); /* 追加 */
     opacity: 0;
     animation: fadeUp 1s ease forwards 1.8s;
 }
@@ -238,10 +238,26 @@ footer {
     }
 }
 
+/* ── Scroll fade-in (JS で .is-visible を付与) ── */
+.scroll-fade {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-fade.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 /* ── Responsive ── */
 @media (max-width: 700px) {
     header {
         padding: 0.6rem 1.4rem;
+    }
+
+    nav.header-nav {
+        right: 1.4rem;
     }
 
     .logo img {
@@ -280,7 +296,7 @@ footer {
 
 .hero img {
     width: 100%;
-    height: 60vh;
+    height: 72vh; /* 60 → 72vh */
     object-fit: cover;
     object-position: center;
     display: block;
@@ -309,17 +325,9 @@ footer {
     animation: slideUp 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.headline .line:nth-child(1) .line-inner {
-    animation-delay: 0.7s;
-}
-
-.headline .line:nth-child(2) .line-inner {
-    animation-delay: 0.85s;
-}
-
-.headline .line:nth-child(3) .line-inner {
-    animation-delay: 1.0s;
-}
+.headline .line:nth-child(1) .line-inner { animation-delay: 0.7s; }
+.headline .line:nth-child(2) .line-inner { animation-delay: 0.85s; }
+.headline .line:nth-child(3) .line-inner { animation-delay: 1.0s; }
 
 .headline em {
     font-style: italic;
@@ -353,7 +361,7 @@ footer {
 .description {
     font-family: 'Noto Serif JP', serif;
     font-weight: 300;
-    font-size: 0.95rem;
+    font-size: 1.05rem; /* 0.95 → 1.05rem */
     line-height: 2.3;
     letter-spacing: 0.05em;
     color: var(--ink);
@@ -415,6 +423,52 @@ footer {
     transform: translateX(0);
 }
 
+/* ── Games Block ── */
+.games-block {
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--line);
+    padding-top: 2rem;
+}
+
+.games-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--warm-gray);
+    margin-bottom: 1.2rem;
+}
+
+.games-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.game-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: 1px solid var(--line);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    text-decoration: none;
+    transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.game-link:hover {
+    background: rgba(26, 24, 20, 0.04);
+    border-color: rgba(26, 24, 20, 0.4);
+}
+
+.game-link .arrow {
+    font-size: 0.75rem;
+    opacity: 0.45;
+}
+
 /* ── Timeline ── */
 .timeline {
     margin-top: 4rem;
@@ -422,7 +476,7 @@ footer {
     border-top: 1px solid var(--line);
     display: flex;
     flex-direction: column;
-    gap: 5rem;
+    gap: 4rem; /* 5 → 4rem */
 }
 
 /* ── Card ── */
@@ -430,6 +484,7 @@ footer {
     display: block;
     text-decoration: none;
     color: inherit;
+    overflow: hidden; /* zoom が枠外に出ないよう追加 */
 }
 
 .card-img {
@@ -473,11 +528,11 @@ footer {
 .card-title {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 300;
-    font-size: 1.4rem;
+    font-size: 1.9rem; /* 1.4 → 1.9rem */
     letter-spacing: 0.02em;
     color: var(--ink);
     margin-bottom: 0.7rem;
-    line-height: 1.3;
+    line-height: 1.25;
     position: relative;
     display: inline-block;
 }
@@ -606,7 +661,7 @@ footer {
 /* ── Responsive（TOP固有） ── */
 @media (max-width: 700px) {
     .hero img {
-        height: 40vh;
+        height: 48vh;
     }
 
     .mid-section {
@@ -630,6 +685,10 @@ footer {
 
     .nav-link:first-child {
         border-top: none;
+    }
+
+    .card-title {
+        font-size: 1.5rem;
     }
 }
 
