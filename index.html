@@ -83,31 +83,37 @@
       </div>
 
       <nav class="links-block">
-        <a href="https://instagram.com/hideyssy" class="nav-link" target="_blank" rel="noopener">
-          Instagram <span class="arrow">↗</span>
+        <a href="https://instagram.com/hideyssy" class="sns-link" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg class="sns-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+            <circle cx="12" cy="12" r="4" />
+            <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none" />
+          </svg>
+          <span class="sns-label">Instagram</span>
         </a>
-        <a href="https://youtube.com/@hideyssy" class="nav-link" target="_blank" rel="noopener">
-          YouTube <span class="arrow">↗</span>
+        <a href="https://youtube.com/@hideyssy" class="sns-link" target="_blank" rel="noopener" aria-label="YouTube">
+          <svg class="sns-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="5" width="20" height="14" rx="4" />
+            <polygon points="10,9 16,12 10,15" fill="currentColor" stroke="none" />
+          </svg>
+          <span class="sns-label">YouTube</span>
         </a>
-        <a href="https://x.com/hideyssy" class="nav-link" target="_blank" rel="noopener">
-          X <span class="arrow">↗</span>
+        <a href="https://x.com/hideyssy" class="sns-link" target="_blank" rel="noopener" aria-label="X">
+          <svg class="sns-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path
+              d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.736-8.845L2.25 2.25h6.775l4.261 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+          </svg>
+          <span class="sns-label">X</span>
         </a>
       </nav>
-      <div class="games-block">
-        <p class="games-label">Games</p>
-        <div class="games-links">
-          <a href="/games/2048.html" class="game-link">2048 <span class="arrow">↗</span></a>
-          <a href="/games/tetris.html" class="game-link">Tetris <span class="arrow">↗</span></a>
-        </div>
-      </div>
     </div>
 
 
     <!-- ---Works タイムライン カテゴリ：Live / Music / Product ※ 新しいものを上に追加していく（上が最新）--- -->
 
     <div class="timeline">
-
-      <!-- Live カード -->
       <!-- <a class="card" href="#" target="_blank" rel="noopener">
                 <img class="card-img" src="images/works/flyer_イベント名_1920x1080.jpg" alt="イベント名" loading="lazy">
                 <p class="card-meta">
@@ -160,6 +166,19 @@
                 <h2 class="card-title">アイテム名</h2>
                 <p class="card-desc">素材・サイズ・価格など。</p>
             </a> -->
+
+      <!-- Games カード -->
+      <div class="card card--games">
+        <p class="card-meta">
+          <span class="card-category">Expt</span>
+        </p>
+        <h2 class="card-title">Games</h2>
+        <p class="card-desc">ゲームを設置してみました。遊んでいってください。</p>
+        <div class="games-links">
+          <a href="/games/2048.html" class="game-link">2048 <span class="arrow">↗</span></a>
+          <a href="/games/tetris.html" class="game-link">Tetris <span class="arrow">↗</span></a>
+        </div>
+      </div>
 
       <!-- Liveカード（2026.02） -->
       <!-- リンクが必要な場合: <div class="card"> を <a class="card" href="URL" target="_blank" rel="noopener"> に変える -->
