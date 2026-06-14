@@ -31,3 +31,29 @@ document.addEventListener('click', (event) => {
     event.preventDefault();
     toggleLyrics(btn);
 });
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   スクロールフェードイン
+   .timeline 内の .card に .scroll-fade を付与し、
+   Intersection Observer で .is-visible を追加する
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+(function () {
+    const cards = document.querySelectorAll('.timeline .card');
+    if (!cards.length) return;
+
+    cards.forEach((card) => card.classList.add('scroll-fade'));
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    cards.forEach((card) => observer.observe(card));
+})();
