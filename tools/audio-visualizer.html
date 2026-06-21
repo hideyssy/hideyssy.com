@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>SonicMirror — Audio Visualizer</title>
+  <style>
+    :root {
+      --bg: #05060a;
+      --ink: #eef1fb;
+      --accent1: #7ef7ec;
+      --accent2: #ff5fa2;
+      --accent3: #9b7bff;
+      --dim: rgba(238, 241, 251, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg);
+      color: var(--ink);
+      overflow: hidden;
+      overscroll-behavior: none;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      touch-action: none;
+    }
+
+    canvas {
+      display: block;
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ---- Start screen ---- */
+    #start-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 50% 30%, #11131c 0%, #05060a 70%);
+      text-align: center;
+      padding: 32px;
+    }
+
+    #start-screen.hidden {
+      display: none;
+    }
+
+    .logo-mark {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 22px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, var(--accent1), var(--accent3), var(--accent2), var(--accent1));
+      animation: spin 6s linear infinite;
+      filter: blur(0.2px);
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin: 0 0 8px;
+    }
+
+    p.sub {
+      color: var(--dim);
+      font-size: 14px;
+      line-height: 1.6;
+      max-width: 320px;
+      margin: 0 0 28px;
+    }
+
+    #start-btn {
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      padding: 16px 40px;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      border-radius: 999px;
+      color: #05060a;
+      background: linear-gradient(120deg, var(--accent1), var(--accent3));
+      box-shadow: 0 8px 30px rgba(126, 247, 236, 0.25);
+    }
+
+    #start-btn:active {
+      transform: scale(0.97);
+    }
+
+    #err-msg {
+      margin-top: 18px;
+      font-size: 12.5px;
+      color: #ff8a8a;
+      max-width: 300px;
+      line-height: 1.5;
+      display: none;
+    }
+
+    /* ---- Live overlay UI ---- */
+    #ui {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: max(18px, env(safe-area-inset-top)) 18px max(18px, env(safe-area-inset-bottom));
+      opacity: 1;
+      transition: opacity 0.5s ease;
+    }
+
+    #ui.faded {
+      opacity: 0;
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      pointer-events: auto;
+    }
+
+    .mode-pill {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dim);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 8px 14px;
+      border-radius: 999px;
+      backdrop-filter: blur(6px);
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--ink);
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+    }
+
+    .bottom-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      pointer-events: auto;
+    }
+
+    .mode-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.22);
+      transition: all 0.25s ease;
+    }
+
+    .dot.active {
+      background: var(--accent1);
+      width: 20px;
+      border-radius: 4px;
+    }
+
+    .hint {
+      font-size: 11px;
+      color: var(--dim);
+      letter-spacing: 0.04em;
+    }
+
+    /* settings sheet */
+    #sheet {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 40;
+      background: rgba(10, 11, 16, 0.92);
+      backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px 20px 0 0;
+      padding: 20px 22px max(20px, env(safe-area-inset-bottom));
+      transform: translateY(110%);
+      transition: transform 0.35s cubic-bezier(.2, .9, .3, 1);
+    }
+
+    #sheet.open {
+      transform: translateY(0);
+    }
+
+    .sheet-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 14px;
+    }
+
+    .sheet-row:last-child {
+      border-bottom: none;
+    }
+
+    .switch {
+      width: 44px;
+      height: 26px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      position: relative;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .switch.on {
+      background: var(--accent1);
+    }
+
+    .switch::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #fff;
+      transition: left 0.2s ease;
+    }
+
+    .switch.on::after {
+      left: 21px;
+    }
+
+    .sheet-title {
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 6px;
+    }
+
+    .mode-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .mode-btn {
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 13px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--ink);
+    }
+
+    .mode-btn.active {
+      background: rgba(126, 247, 236, 0.15);
+      border-color: var(--accent1);
+      color: var(--accent1);
+    }
+
+    #sheet-close {
+      width: 36px;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.25);
+      margin: 0 auto 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="canvas"></canvas>
+
+  <div id="start-screen">
+    <div class="logo-mark"></div>
+    <h1>SonicMirror</h1>
+    <p class="sub">マイクの音をリアルタイムで取り込み、画面をビジュアライザーとして投影します。会場の音量に合わせて自動調整されます。</p>
+    <button id="start-btn">マイクをオンにして開始</button>
+    <div id="err-msg"></div>
+  </div>
+
+  <div id="ui" class="faded">
+    <div class="top-row">
+      <div class="mode-pill" id="mode-label">WAVE</div>
+      <div style="display:flex; gap:8px;">
+        <div class="icon-btn" id="fullscreen-btn">⤢</div>
+        <div class="icon-btn" id="settings-btn">⚙</div>
+      </div>
+    </div>
+    <div class="bottom-row">
+      <div class="mode-dots" id="dots"></div>
+      <div class="hint">タップで切替 ・ 長押しで設定 ・ 何も操作しないとUIは消えます</div>
+    </div>
+  </div>
+
+  <div id="sheet">
+    <div id="sheet-close"></div>
+    <div class="sheet-title">表示モード</div>
+    <div class="mode-grid" id="mode-grid"></div>
+    <div class="sheet-row">
+      <span>自動で切り替える</span>
+      <div class="switch" id="auto-switch"></div>
+    </div>
+    <div class="sheet-row">
+      <span>感度</span>
+      <input type="range" id="sens-slider" min="0.5" max="2.5" step="0.05" value="1" style="width:140px;">
+    </div>
+    <div class="sheet-row">
+      <span>明るさ</span>
+      <input type="range" id="bright-slider" min="0.4" max="1.4" step="0.05" value="1" style="width:140px;">
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      let W, H, DPR;
+      function resize() {
+        DPR = Math.min(window.devicePixelRatio || 1, 2);
+        W = window.innerWidth; H = window.innerHeight;
+        canvas.width = W * DPR; canvas.height = H * DPR;
+        canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      // ---------- Audio setup ----------
+      let audioCtx, analyser, dataFreq, dataTime, source;
+      let sensitivity = 1, brightness = 1;
+      let level = 0, bass = 0, mid = 0, treble = 0, beat = 0, beatDecay = 0;
+      let smoothLevel = 0;
+
+      async function startAudio() {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: {
+            echoCancellation: false,
+            noiseSuppression: false,
+            autoGainControl: false
+          }
+        });
+        source = audioCtx.createMediaStreamSource(stream);
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 1024;
+        analyser.smoothingTimeConstant = 0.75;
+        source.connect(analyser);
+        dataFreq = new Uint8Array(analyser.frequencyBinCount);
+        dataTime = new Uint8Array(analyser.fftSize);
+      }
+
+      function analyze() {
+        if (!analyser) return;
+        analyser.getByteFrequencyData(dataFreq);
+        analyser.getByteTimeDomainData(dataTime);
+
+        const n = dataFreq.length;
+        const bassEnd = Math.floor(n * 0.12);
+        const midEnd = Math.floor(n * 0.5);
+        let b = 0, m = 0, t = 0;
+        for (let i = 0; i < bassEnd; i++) b += dataFreq[i];
+        for (let i = bassEnd; i < midEnd; i++) m += dataFreq[i];
+        for (let i = midEnd; i < n; i++) t += dataFreq[i];
+        bass = (b / bassEnd) / 255;
+        mid = (m / (midEnd - bassEnd)) / 255;
+        treble = (t / (n - midEnd)) / 255;
+
+        let sum = 0;
+        for (let i = 0; i < n; i++) sum += dataFreq[i];
+        level = (sum / n) / 255;
+        level = Math.min(1, level * sensitivity);
+        smoothLevel += (level - smoothLevel) * 0.18;
+
+        // simple beat detection on bass
+        beatDecay *= 0.9;
+        if (bass * sensitivity > beatDecay + 0.12) {
+          beat = 1;
+          beatDecay = bass * sensitivity;
+        } else {
+          beat *= 0.85;
+        }
+      }
+
+      // ---------- Visual modes ----------
+      const modes = ['wave', 'bars', 'particles', 'kaleido', 'plasma', 'nebula', 'orb3d', 'wavefield'];
+      const modeNames = {
+        wave: 'WAVE', bars: 'SPECTRUM', particles: 'PARTICLES',
+        kaleido: 'KALEIDO', plasma: 'PLASMA', nebula: 'NEBULA',
+        orb3d: 'ORB 3D', wavefield: 'WAVEFIELD'
+      };
+      let currentMode = 0;
+      let hue = 200;
+
+      // particle pool
+      const particles = [];
+      const MAX_PARTICLES = 220;
+      function spawnParticle() {
+        const ang = Math.random() * Math.PI * 2;
+        const speed = 0.6 + Math.random() * 2.2;
+        particles.push({
+          x: W / 2, y: H / 2,
+          vx: Math.cos(ang) * speed, vy: Math.sin(ang) * speed,
+          life: 1, size: 1.5 + Math.random() * 3,
+          hue: hue + (Math.random() * 60 - 30)
+        });
+      }
+
+      function clearFrame(alpha) {
+        ctx.fillStyle = `rgba(5,6,10,${alpha})`;
+        ctx.fillRect(0, 0, W, H);
+      }
+
+      function drawWave() {
+        clearFrame(0.25);
+        if (!dataTime) return;
+        ctx.lineWidth = 2 + smoothLevel * 4;
+        ctx.strokeStyle = `hsla(${hue}, 90%, 65%, 0.9)`;
+        ctx.shadowBlur = 18 * brightness;
+        ctx.shadowColor = `hsla(${hue},100%,60%,0.8)`;
+        ctx.beginPath();
+        const n = dataTime.length;
+        const slice = W / n;
+        for (let i = 0; i < n; i++) {
+          const v = (dataTime[i] - 128) / 128;
+          const y = H / 2 + v * H * 0.32 * (0.5 + sensitivity * 0.5);
+          const x = i * slice;
+          if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        // mirror echo
+        ctx.globalAlpha = 0.35;
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = `hsla(${hue + 120},90%,65%,0.6)`;
+        ctx.beginPath();
+        for (let i = 0; i < n; i++) {
+          const v = (dataTime[i] - 128) / 128;
+          const y = H / 2 - v * H * 0.32 * (0.5 + sensitivity * 0.5);
+          const x = i * slice;
+          if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+        ctx.shadowBlur = 0;
+        hue += 0.3 + smoothLevel * 1.5;
+      }
+
+      function drawBars() {
+        clearFrame(0.35);
+        if (!dataFreq) return;
+        const n = 64;
+        const step = Math.floor(dataFreq.length / n);
+        const barW = W / n;
+        ctx.shadowBlur = 14 * brightness;
+        for (let i = 0; i < n; i++) {
+          let v = 0;
+          for (let j = 0; j < step; j++) v += dataFreq[i * step + j];
+          v = (v / step) / 255 * sensitivity;
+          v = Math.min(1, v);
+          const h = v * H * 0.75;
+          const hh = hue + i * 2.2;
+          ctx.fillStyle = `hsla(${hh},90%,${55 + v * 20}%,0.95)`;
+          ctx.shadowColor = `hsla(${hh},100%,60%,0.9)`;
+          const x = i * barW;
+          ctx.fillRect(x + 1, H - h, barW - 2, h);
+          ctx.fillRect(x + 1, H - h - 6, barW - 2, 3); // cap
+        }
+        ctx.shadowBlur = 0;
+        hue += 0.25;
+      }
+
+      function drawParticles() {
+        clearFrame(0.18);
+        const spawnCount = Math.floor(2 + bass * sensitivity * 14);
+        for (let i = 0; i < spawnCount && particles.length < MAX_PARTICLES; i++) spawnParticle();
+        ctx.globalCompositeOperation = 'lighter';
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.x += p.vx * (1 + treble * 3);
+          p.y += p.vy * (1 + treble * 3);
+          p.life -= 0.012;
+          if (p.life <= 0) { particles.splice(i, 1); continue; }
+          const r = p.size * (1 + beat * 2) * brightness;
+          ctx.beginPath();
+          ctx.fillStyle = `hsla(${p.hue},95%,65%,${p.life})`;
+          ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalCompositeOperation = 'source-over';
+        hue += 0.4;
+      }
+
+      function drawKaleido() {
+        clearFrame(0.22);
+        if (!dataFreq) return;
+        const cx = W / 2, cy = H / 2;
+        const segments = 10;
+        const n = 48;
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.shadowBlur = 16 * brightness;
+        for (let s = 0; s < segments; s++) {
+          ctx.save();
+          ctx.rotate((Math.PI * 2 / segments) * s + (smoothLevel * 0.6));
+          ctx.beginPath();
+          for (let i = 0; i < n; i++) {
+            const v = dataFreq[i * 4] / 255 * sensitivity;
+            const r = 20 + i * 4 + v * 150;
+            const ang = (i / n) * 0.9;
+            const x = Math.cos(ang) * r;
+            const y = Math.sin(ang) * r;
+            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          }
+          const hh = hue + s * 12;
+          ctx.strokeStyle = `hsla(${hh},90%,65%,0.8)`;
+          ctx.shadowColor = `hsla(${hh},100%,60%,0.8)`;
+          ctx.lineWidth = 1.5 + beat * 2;
+          ctx.stroke();
+          ctx.restore();
+        }
+        ctx.restore();
+        ctx.shadowBlur = 0;
+        hue += 0.5 + beat * 2;
+      }
+
+      function drawPlasma() {
+        clearFrame(0.12);
+        const cx = W / 2, cy = H / 2;
+        const t = performance.now() * 0.0006;
+        const rings = 5;
+        ctx.globalCompositeOperation = 'lighter';
+        for (let r = 0; r < rings; r++) {
+          const radius = 40 + r * (60 + bass * 120) + Math.sin(t * 2 + r) * 20;
+          const hh = hue + r * 40;
+          const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+          grad.addColorStop(0, `hsla(${hh},100%,65%,${0.18 * brightness})`);
+          grad.addColorStop(1, `hsla(${hh},100%,50%,0)`);
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(cx + Math.sin(t + r) * 40 * mid, cy + Math.cos(t * 1.3 + r) * 40 * treble, radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalCompositeOperation = 'source-over';
+        hue += 0.3 + smoothLevel;
+      }
+
+      const stars = Array.from({ length: 140 }, () => ({
+        x: Math.random(), y: Math.random(), z: Math.random() * 0.8 + 0.2, tw: Math.random() * Math.PI * 2
+      }));
+      function drawNebula() {
+        clearFrame(0.2);
+        ctx.globalCompositeOperation = 'lighter';
+        // glow center
+        const cx = W / 2, cy = H * 0.55;
+        const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, W * 0.6);
+        grad.addColorStop(0, `hsla(${hue},90%,55%,${0.10 + smoothLevel * 0.18})`);
+        grad.addColorStop(0.5, `hsla(${hue + 60},90%,50%,${0.05 + bass * 0.1})`);
+        grad.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+
+        stars.forEach((s, i) => {
+          s.tw += 0.02 + treble * 0.05;
+          const x = s.x * W, y = s.y * H;
+          const r = (1 + Math.sin(s.tw) * 0.5 + 0.5) * (1.2 + beat * 2) * s.z * brightness;
+          ctx.beginPath();
+          ctx.fillStyle = `hsla(${hue + i * 2},85%,75%,${0.5 + 0.5 * Math.sin(s.tw)})`;
+          ctx.arc(x, y, r, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        ctx.globalCompositeOperation = 'source-over';
+        hue += 0.2 + smoothLevel * 0.8;
+      }
+
+      // ---------- 3D Orb (wireframe sphere, manual perspective projection) ----------
+      const orbPoints = (() => {
+        const pts = [];
+        const rings = 22, perRing = 28;
+        for (let r = 0; r < rings; r++) {
+          const phi = Math.PI * (r / (rings - 1));
+          for (let i = 0; i < perRing; i++) {
+            const theta = (Math.PI * 2 * i) / perRing;
+            pts.push({
+              x: Math.sin(phi) * Math.cos(theta),
+              y: Math.cos(phi),
+              z: Math.sin(phi) * Math.sin(theta),
+              ring: r, idx: i
+            });
+          }
+        }
+        return pts;
+      })();
+      let orbRotY = 0, orbRotX = 0.3;
+      function drawOrb3D() {
+        clearFrame(0.28);
+        const cx = W / 2, cy = H / 2;
+        const baseR = Math.min(W, H) * 0.28;
+        const wobble = bass * sensitivity * 0.6;
+        orbRotY += 0.004 + treble * 0.02;
+        orbRotX += (Math.sin(performance.now() * 0.0003)) * 0.0006 + mid * 0.002;
+
+        const cosY = Math.cos(orbRotY), sinY = Math.sin(orbRotY);
+        const cosX = Math.cos(orbRotX), sinX = Math.sin(orbRotX);
+        const fov = 380;
+
+        const projected = [];
+        for (let i = 0; i < orbPoints.length; i++) {
+          const p = orbPoints[i];
+          const freqVal = dataFreq ? dataFreq[(p.ring * 7 + p.idx * 3) % dataFreq.length] / 255 : 0;
+          const rr = baseR * (1 + freqVal * 0.5 * sensitivity + wobble * 0.4);
+
+          let x = p.x * rr, y = p.y * rr, z = p.z * rr;
+          let x1 = x * cosY - z * sinY;
+          let z1 = x * sinY + z * cosY;
+          let y1 = y * cosX - z1 * sinX;
+          let z2 = y * sinX + z1 * cosX;
+
+          const scale = fov / (fov + z2 + baseR * 1.4);
+          const sx = cx + x1 * scale;
+          const sy = cy + y1 * scale;
+          projected.push({ sx, sy, scale, z2, freqVal });
+        }
+
+        ctx.shadowBlur = 10 * brightness;
+        const rings = 22, perRing = 28;
+        for (let r = 0; r < rings; r++) {
+          ctx.beginPath();
+          for (let i = 0; i <= perRing; i++) {
+            const p = projected[r * perRing + (i % perRing)];
+            if (i === 0) ctx.moveTo(p.sx, p.sy); else ctx.lineTo(p.sx, p.sy);
+          }
+          const hh = hue + r * 6;
+          const alpha = 0.25 + projected[r * perRing].scale * 0.4;
+          ctx.strokeStyle = `hsla(${hh},90%,65%,${alpha})`;
+          ctx.shadowColor = `hsla(${hh},100%,60%,0.7)`;
+          ctx.lineWidth = 1 + beat * 1.5;
+          ctx.stroke();
+        }
+        for (let i = 0; i < perRing; i += 2) {
+          ctx.beginPath();
+          for (let r = 0; r < rings; r++) {
+            const p = projected[r * perRing + i];
+            if (r === 0) ctx.moveTo(p.sx, p.sy); else ctx.lineTo(p.sx, p.sy);
+          }
+          ctx.strokeStyle = `hsla(${hue + 160},85%,65%,0.18)`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+        const coreR = 18 + smoothLevel * 40 * brightness;
+        const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, coreR);
+        grad.addColorStop(0, `hsla(${hue + 40},100%,75%,0.9)`);
+        grad.addColorStop(1, `hsla(${hue + 40},100%,60%,0)`);
+        ctx.fillStyle = grad;
+        ctx.beginPath(); ctx.arc(cx, cy, coreR, 0, Math.PI * 2); ctx.fill();
+
+        ctx.shadowBlur = 0;
+        hue += 0.35 + beat * 1.2;
+      }
+
+      // ---------- Wavefield: wave line that continuously emits particles along its motion ----------
+      const fieldParticles = [];
+      const MAX_FIELD_PARTICLES = 260;
+      function drawWaveField() {
+        clearFrame(0.16);
+        if (!dataTime) return;
+        const n = dataTime.length;
+        const slice = W / n;
+        const midY = H / 2;
+        const amp = H * 0.28 * (0.5 + sensitivity * 0.5);
+
+        ctx.lineWidth = 2 + smoothLevel * 3;
+        ctx.shadowBlur = 16 * brightness;
+        [1, -1].forEach((dir, k) => {
+          ctx.beginPath();
+          ctx.strokeStyle = `hsla(${hue + k * 100},90%,65%,0.85)`;
+          ctx.shadowColor = `hsla(${hue + k * 100},100%,60%,0.8)`;
+          for (let i = 0; i < n; i++) {
+            const v = (dataTime[i] - 128) / 128;
+            const x = i * slice;
+            const y = midY + dir * v * amp;
+            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        });
+        ctx.shadowBlur = 0;
+
+        const emitCount = 1 + Math.floor(treble * sensitivity * 8);
+        for (let e = 0; e < emitCount && fieldParticles.length < MAX_FIELD_PARTICLES; e++) {
+          const i = Math.floor(Math.random() * n);
+          const v = (dataTime[i] - 128) / 128;
+          const x = i * slice;
+          const dir = Math.random() < 0.5 ? 1 : -1;
+          const y = midY + dir * v * amp;
+          fieldParticles.push({
+            x, y,
+            vx: (Math.random() - 0.5) * 0.6,
+            vy: dir * (0.4 + Math.random() * 1.6) - dir * v * 0.6,
+            life: 1, size: 1 + Math.random() * 2.5,
+            hue: hue + (Math.random() * 80 - 40)
+          });
+        }
+
+        ctx.globalCompositeOperation = 'lighter';
+        for (let i = fieldParticles.length - 1; i >= 0; i--) {
+          const p = fieldParticles[i];
+          p.x += p.vx; p.y += p.vy;
+          p.vy *= 0.985;
+          p.life -= 0.012;
+          if (p.life <= 0) { fieldParticles.splice(i, 1); continue; }
+          ctx.beginPath();
+          ctx.fillStyle = `hsla(${p.hue},95%,68%,${p.life * 0.9})`;
+          ctx.arc(p.x, p.y, p.size * (1 + beat * 1.5), 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalCompositeOperation = 'source-over';
+
+        hue += 0.3 + smoothLevel * 1.2;
+      }
+
+      const drawFns = {
+        wave: drawWave, bars: drawBars, particles: drawParticles, kaleido: drawKaleido,
+        plasma: drawPlasma, nebula: drawNebula, orb3d: drawOrb3D, wavefield: drawWaveField
+      };
+
+      function loop() {
+        analyze();
+        drawFns[modes[currentMode]]();
+        requestAnimationFrame(loop);
+      }
+
+      // ---------- UI wiring ----------
+      const startScreen = document.getElementById('start-screen');
+      const startBtn = document.getElementById('start-btn');
+      const errMsg = document.getElementById('err-msg');
+      const ui = document.getElementById('ui');
+      const modeLabel = document.getElementById('mode-label');
+      const dotsEl = document.getElementById('dots');
+      const sheet = document.getElementById('sheet');
+      const settingsBtn = document.getElementById('settings-btn');
+      const sheetClose = document.getElementById('sheet-close');
+      const modeGrid = document.getElementById('mode-grid');
+      const autoSwitch = document.getElementById('auto-switch');
+      const sensSlider = document.getElementById('sens-slider');
+      const brightSlider = document.getElementById('bright-slider');
+      const fullscreenBtn = document.getElementById('fullscreen-btn');
+
+      modes.forEach((m, i) => {
+        const d = document.createElement('div');
+        d.className = 'dot' + (i === 0 ? ' active' : '');
+        dotsEl.appendChild(d);
+        const b = document.createElement('div');
+        b.className = 'mode-btn' + (i === 0 ? ' active' : '');
+        b.textContent = modeNames[m];
+        b.addEventListener('click', () => setMode(i));
+        modeGrid.appendChild(b);
+      });
+
+      function setMode(i) {
+        currentMode = (i + modes.length) % modes.length;
+        modeLabel.textContent = modeNames[modes[currentMode]];
+        [...dotsEl.children].forEach((d, idx) => d.classList.toggle('active', idx === currentMode));
+        [...modeGrid.children].forEach((d, idx) => d.classList.toggle('active', idx === currentMode));
+      }
+
+      let autoMode = false;
+      let autoTimer = null;
+      function setAuto(v) {
+        autoMode = v;
+        autoSwitch.classList.toggle('on', v);
+        if (autoTimer) clearInterval(autoTimer);
+        if (v) {
+          autoTimer = setInterval(() => setMode(currentMode + 1), 9000);
+        }
+      }
+      autoSwitch.addEventListener('click', () => setAuto(!autoMode));
+
+      sensSlider.addEventListener('input', e => sensitivity = parseFloat(e.target.value));
+      brightSlider.addEventListener('input', e => brightness = parseFloat(e.target.value));
+
+      // start flow
+      startBtn.addEventListener('click', async () => {
+        try {
+          await startAudio();
+          startScreen.classList.add('hidden');
+          requestAnimationFrame(loop);
+          scheduleFade();
+          try { await document.documentElement.requestFullscreen?.(); } catch (e) { }
+          try { await screen.orientation?.lock?.('landscape'); } catch (e) { }
+        } catch (err) {
+          errMsg.style.display = 'block';
+          errMsg.textContent = 'マイクへのアクセスが許可されませんでした。ブラウザの設定でマイク権限を許可してから、もう一度お試しください。';
+          console.error(err);
+        }
+      });
+
+      // tap canvas to cycle mode, long-press to open settings
+      let pressTimer = null;
+      let longPressed = false;
+      function onPointerDown(e) {
+        longPressed = false;
+        pressTimer = setTimeout(() => {
+          longPressed = true;
+          sheet.classList.add('open');
+          showUI();
+        }, 550);
+      }
+      function onPointerUp(e) {
+        clearTimeout(pressTimer);
+        if (!longPressed && !sheet.classList.contains('open')) {
+          setMode(currentMode + 1);
+          showUI();
+        }
+      }
+      canvas.addEventListener('pointerdown', onPointerDown);
+      canvas.addEventListener('pointerup', onPointerUp);
+
+      sheetClose.addEventListener('click', () => sheet.classList.remove('open'));
+      settingsBtn.addEventListener('click', () => sheet.classList.toggle('open'));
+
+      fullscreenBtn.addEventListener('click', async () => {
+        try {
+          if (!document.fullscreenElement) await document.documentElement.requestFullscreen();
+          else await document.exitFullscreen();
+        } catch (e) { }
+      });
+
+      let fadeTimer = null;
+      function showUI() {
+        ui.classList.remove('faded');
+        clearTimeout(fadeTimer);
+        fadeTimer = setTimeout(() => ui.classList.add('faded'), 3500);
+      }
+      function scheduleFade() {
+        showUI();
+      }
+
+      // prevent accidental scroll/zoom
+      document.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+      document.addEventListener('gesturestart', e => e.preventDefault());
+
+    })();
+  </script>
+</body>
+
+</html>
