@@ -445,7 +445,7 @@
       // ---------- Audio setup ----------
       let audioCtx, analyser, dataFreq, dataTime, source;
       let sensitivity = 1, brightness = 1;
-      let level = 0, bass = 0, mid = 0, treble = 0, beat = 0, beatDecay = 0;
+      let level = 0, bass = 0, mid = 0, treble = 0, beat = 0, beatDecay = 0, smoothBeat = 0;
       let smoothLevel = 0;
 
       async function startAudio() {
@@ -877,9 +877,12 @@
       function loop() {
         analyze();
 
+        // smooth the beat pulse so it never strobes — gentle, continuous motion only
+        smoothBeat += (beat - smoothBeat) * 0.25;
+
         ctx.save();
-        // beat-driven punch: whole frame briefly zooms on strong hits
-        const punch = 1 + beat * 0.035 + smoothLevel * 0.015;
+        // beat-driven punch: whole frame gently scales on strong hits (no flashing)
+        const punch = 1 + smoothBeat * 0.025 + smoothLevel * 0.012;
         if (punch !== 1) {
           ctx.translate(W / 2, H / 2);
           ctx.scale(punch, punch);
@@ -889,12 +892,6 @@
         ctx.restore();
 
         drawVignette();
-
-        // beat flash overlay for extra punch
-        if (beat > 0.45) {
-          ctx.fillStyle = `hsla(${hue},90%,75%,${(beat - 0.45) * 0.22})`;
-          ctx.fillRect(0, 0, W, H);
-        }
 
         if (transitioning) {
           const t = Math.min(1, (performance.now() - transStart) / TRANS_MS);
@@ -952,12 +949,13 @@
 
       // ---- Auto-cycle interval selection ----
       const intervalOptions = [
-        { label: '5秒', ms: 5000 },
-        { label: '10秒', ms: 10000 },
-        { label: '20秒', ms: 20000 },
-        { label: '30秒', ms: 30000 }
+        { label: '30秒', ms: 30000 },
+        { label: '1分', ms: 60000 },
+        { label: '2分', ms: 120000 },
+        { label: '3分', ms: 180000 },
+        { label: '5分', ms: 300000 }
       ];
-      let autoIntervalMs = 10000;
+      let autoIntervalMs = 60000;
       intervalOptions.forEach((opt, i) => {
         const b = document.createElement('div');
         b.className = 'mode-btn' + (opt.ms === autoIntervalMs ? ' active' : '');
