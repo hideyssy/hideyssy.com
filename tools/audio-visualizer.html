@@ -204,19 +204,36 @@
     }
 
     /* settings sheet */
-    #sheet {
+    #sheet-backdrop {
       position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 40;
-      background: rgba(10, 11, 16, 0.92);
-      backdrop-filter: blur(16px);
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 20px 20px 0 0;
-      padding: 20px 22px max(20px, env(safe-area-inset-bottom));
-      transform: translateY(110%);
-      transition: transform 0.35s cubic-bezier(.2, .9, .3, 1);
+      inset: 0;
+      z-index: 39;
+      background: rgba(0, 0, 0, 0.45);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    #sheet-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:40;
+    background:rgba(10, 11, 16, 0.92);
+    backdrop-filter: blur(16px);
+    border-top:1px solid rgba(255, 255, 255, 0.08);
+    border-radius:20px 20px 0 0;
+    padding:20px 22px max(20px, env(safe-area-inset-bottom));
+    transform: translateY(110%);
+    transition: transform 0.35s cubic-bezier(.2, .9, .3, 1);
+    max-height: 80vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     }
 
     #sheet.open {
@@ -334,14 +351,30 @@
     </div>
   </div>
 
+  <div id="sheet-backdrop"></div>
   <div id="sheet">
     <div id="sheet-close"></div>
+    <div class="top-row" style="margin-bottom:6px;">
+      <div class="sheet-title" style="margin-bottom:0;">設定</div>
+      <div class="icon-btn" id="sheet-x" style="pointer-events:auto;">✕</div>
+    </div>
+
     <div class="sheet-title">表示モード</div>
     <div class="mode-grid" id="mode-grid"></div>
+
     <div class="sheet-row">
       <span>自動で切り替える</span>
       <div class="switch" id="auto-switch"></div>
     </div>
+
+    <div class="sheet-title" style="margin-top:14px;">切り替えの間隔</div>
+    <div class="mode-grid" id="interval-grid"></div>
+
+    <div class="sheet-row">
+      <span>ゆっくりフェードで切替</span>
+      <div class="switch on" id="fade-switch"></div>
+    </div>
+
     <div class="sheet-row">
       <span>感度</span>
       <input type="range" id="sens-slider" min="0.5" max="2.5" step="0.05" value="1" style="width:140px;">
@@ -391,6 +424,7 @@
         dataTime = new Uint8Array(analyser.fftSize);
       }
 
+      let bassCeil = 0.05, midCeil = 0.05, trebCeil = 0.05, levelCeil = 0.05;
       function analyze() {
         if (!analyser) return;
         analyser.getByteFrequencyData(dataFreq);
@@ -403,23 +437,35 @@
         for (let i = 0; i < bassEnd; i++) b += dataFreq[i];
         for (let i = bassEnd; i < midEnd; i++) m += dataFreq[i];
         for (let i = midEnd; i < n; i++) t += dataFreq[i];
-        bass = (b / bassEnd) / 255;
-        mid = (m / (midEnd - bassEnd)) / 255;
-        treble = (t / (n - midEnd)) / 255;
+        let rawBass = (b / bassEnd) / 255;
+        let rawMid = (m / (midEnd - bassEnd)) / 255;
+        let rawTreb = (t / (n - midEnd)) / 255;
 
         let sum = 0;
         for (let i = 0; i < n; i++) sum += dataFreq[i];
-        level = (sum / n) / 255;
-        level = Math.min(1, level * sensitivity);
-        smoothLevel += (level - smoothLevel) * 0.18;
+        let rawLevel = (sum / n) / 255;
 
-        // simple beat detection on bass
-        beatDecay *= 0.9;
-        if (bass * sensitivity > beatDecay + 0.12) {
+        // adaptive auto-gain: track a slowly-decaying ceiling per band so quiet
+        // and loud sections both produce full-range, dramatic motion
+        bassCeil = Math.max(rawBass, bassCeil * 0.992);
+        midCeil = Math.max(rawMid, midCeil * 0.992);
+        trebCeil = Math.max(rawTreb, trebCeil * 0.992);
+        levelCeil = Math.max(rawLevel, levelCeil * 0.992);
+
+        bass = Math.pow(Math.min(1, (rawBass / Math.max(bassCeil, 0.05)) * sensitivity), 0.7);
+        mid = Math.pow(Math.min(1, (rawMid / Math.max(midCeil, 0.05)) * sensitivity), 0.7);
+        treble = Math.pow(Math.min(1, (rawTreb / Math.max(trebCeil, 0.05)) * sensitivity), 0.7);
+        level = Math.pow(Math.min(1, (rawLevel / Math.max(levelCeil, 0.05)) * sensitivity), 0.7);
+
+        smoothLevel += (level - smoothLevel) * 0.22;
+
+        // beat detection on normalized bass — punchier & more responsive
+        beatDecay *= 0.88;
+        if (bass > beatDecay + 0.16) {
           beat = 1;
-          beatDecay = bass * sensitivity;
+          beatDecay = bass;
         } else {
-          beat *= 0.85;
+          beat *= 0.82;
         }
       }
 
@@ -767,7 +813,8 @@
       const snapCanvas = document.createElement('canvas');
       const snapCtx = snapCanvas.getContext('2d');
       let transitioning = false, transStart = 0;
-      const TRANS_MS = 1400;
+      let slowFade = true;
+      let TRANS_MS = 3000; // slow, dreamy crossfade by default
 
       function beginTransition() {
         snapCanvas.width = canvas.width;
@@ -787,8 +834,25 @@
 
       function loop() {
         analyze();
+
+        ctx.save();
+        // beat-driven punch: whole frame briefly zooms on strong hits
+        const punch = 1 + beat * 0.035 + smoothLevel * 0.015;
+        if (punch !== 1) {
+          ctx.translate(W / 2, H / 2);
+          ctx.scale(punch, punch);
+          ctx.translate(-W / 2, -H / 2);
+        }
         drawFns[modes[currentMode]]();
+        ctx.restore();
+
         drawVignette();
+
+        // beat flash overlay for extra punch
+        if (beat > 0.45) {
+          ctx.fillStyle = `hsla(${hue},90%,75%,${(beat - 0.45) * 0.22})`;
+          ctx.fillRect(0, 0, W, H);
+        }
 
         if (transitioning) {
           const t = Math.min(1, (performance.now() - transStart) / TRANS_MS);
@@ -811,10 +875,14 @@
       const modeLabel = document.getElementById('mode-label');
       const dotsEl = document.getElementById('dots');
       const sheet = document.getElementById('sheet');
+      const sheetBackdrop = document.getElementById('sheet-backdrop');
       const settingsBtn = document.getElementById('settings-btn');
       const sheetClose = document.getElementById('sheet-close');
+      const sheetX = document.getElementById('sheet-x');
       const modeGrid = document.getElementById('mode-grid');
+      const intervalGrid = document.getElementById('interval-grid');
       const autoSwitch = document.getElementById('auto-switch');
+      const fadeSwitch = document.getElementById('fade-switch');
       const sensSlider = document.getElementById('sens-slider');
       const brightSlider = document.getElementById('bright-slider');
       const fullscreenBtn = document.getElementById('fullscreen-btn');
@@ -840,17 +908,56 @@
         [...modeGrid.children].forEach((d, idx) => d.classList.toggle('active', idx === currentMode));
       }
 
+      // ---- Auto-cycle interval selection ----
+      const intervalOptions = [
+        { label: '5秒', ms: 5000 },
+        { label: '10秒', ms: 10000 },
+        { label: '20秒', ms: 20000 },
+        { label: '30秒', ms: 30000 }
+      ];
+      let autoIntervalMs = 10000;
+      intervalOptions.forEach((opt, i) => {
+        const b = document.createElement('div');
+        b.className = 'mode-btn' + (opt.ms === autoIntervalMs ? ' active' : '');
+        b.textContent = opt.label;
+        b.addEventListener('click', () => {
+          autoIntervalMs = opt.ms;
+          [...intervalGrid.children].forEach(c => c.classList.remove('active'));
+          b.classList.add('active');
+          if (autoMode) { // re-schedule with new interval
+            if (autoTimer) clearTimeout(autoTimer);
+            scheduleNextAuto();
+          }
+        });
+        intervalGrid.appendChild(b);
+      });
+
       let autoMode = false;
       let autoTimer = null;
+      function scheduleNextAuto() {
+        // small organic jitter (±10%) so it doesn't feel mechanical
+        const wait = autoIntervalMs * (0.9 + Math.random() * 0.2);
+        autoTimer = setTimeout(() => {
+          setMode(currentMode + 1);
+          if (autoMode) scheduleNextAuto();
+        }, wait);
+      }
       function setAuto(v) {
         autoMode = v;
         autoSwitch.classList.toggle('on', v);
-        if (autoTimer) clearInterval(autoTimer);
-        if (v) {
-          autoTimer = setInterval(() => setMode(currentMode + 1), 9000);
-        }
+        if (autoTimer) { clearTimeout(autoTimer); autoTimer = null; }
+        if (v) scheduleNextAuto();
       }
       autoSwitch.addEventListener('click', () => setAuto(!autoMode));
+
+      // ---- Slow fade toggle ----
+      function setSlowFade(v) {
+        slowFade = v;
+        fadeSwitch.classList.toggle('on', v);
+        TRANS_MS = v ? 3000 : 700;
+      }
+      fadeSwitch.addEventListener('click', () => setSlowFade(!slowFade));
+      setSlowFade(true);
 
       sensSlider.addEventListener('input', e => sensitivity = parseFloat(e.target.value));
       brightSlider.addEventListener('input', e => brightness = parseFloat(e.target.value));
@@ -862,6 +969,7 @@
           startScreen.classList.add('hidden');
           requestAnimationFrame(loop);
           scheduleFade();
+          setAuto(true); // auto-cycle through visuals by default
           try { await document.documentElement.requestFullscreen?.(); } catch (e) { }
           try { await screen.orientation?.lock?.('landscape'); } catch (e) { }
         } catch (err) {
@@ -878,8 +986,7 @@
         longPressed = false;
         pressTimer = setTimeout(() => {
           longPressed = true;
-          sheet.classList.add('open');
-          showUI();
+          openSheet();
         }, 550);
       }
       function onPointerUp(e) {
@@ -891,9 +998,24 @@
       }
       canvas.addEventListener('pointerdown', onPointerDown);
       canvas.addEventListener('pointerup', onPointerUp);
+      canvas.addEventListener('pointercancel', () => clearTimeout(pressTimer));
 
-      sheetClose.addEventListener('click', () => sheet.classList.remove('open'));
-      settingsBtn.addEventListener('click', () => sheet.classList.toggle('open'));
+      function openSheet() {
+        sheet.classList.add('open');
+        sheetBackdrop.classList.add('open');
+        showUI();
+      }
+      function closeSheet() {
+        sheet.classList.remove('open');
+        sheetBackdrop.classList.remove('open');
+      }
+
+      sheetClose.addEventListener('click', closeSheet);
+      sheetX.addEventListener('click', closeSheet);
+      sheetBackdrop.addEventListener('click', closeSheet);
+      settingsBtn.addEventListener('click', () => {
+        if (sheet.classList.contains('open')) closeSheet(); else openSheet();
+      });
 
       fullscreenBtn.addEventListener('click', async () => {
         try {
@@ -912,8 +1034,12 @@
         showUI();
       }
 
-      // prevent accidental scroll/zoom
-      document.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+      // prevent accidental page scroll/zoom, but never block taps/scrolls
+      // inside the settings sheet (this was the cause of "can't close settings")
+      document.addEventListener('touchmove', e => {
+        if (e.target.closest && e.target.closest('#sheet')) return; // allow sheet to scroll
+        e.preventDefault();
+      }, { passive: false });
       document.addEventListener('gesturestart', e => e.preventDefault());
 
     })();
