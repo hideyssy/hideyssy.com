@@ -219,21 +219,23 @@
       pointer-events: auto;
     }
 
-    position:fixed;
-    left:0;
-    right:0;
-    bottom:0;
-    z-index:40;
-    background:rgba(10, 11, 16, 0.92);
-    backdrop-filter: blur(16px);
-    border-top:1px solid rgba(255, 255, 255, 0.08);
-    border-radius:20px 20px 0 0;
-    padding:20px 22px max(20px, env(safe-area-inset-bottom));
-    transform: translateY(110%);
-    transition: transform 0.35s cubic-bezier(.2, .9, .3, 1);
-    max-height: 80vh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    #sheet {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 40;
+      background: rgba(10, 11, 16, 0.92);
+      backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px 20px 0 0;
+      padding: 20px 22px max(20px, env(safe-area-inset-bottom));
+      transform: translateY(110%);
+      transition: transform 0.35s cubic-bezier(.2, .9, .3, 1);
+      max-height: 80vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
     }
 
     #sheet.open {
@@ -251,6 +253,46 @@
 
     .sheet-row:last-child {
       border-bottom: none;
+    }
+
+    input[type="range"] {
+      touch-action: pan-x;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 28px;
+      background: transparent;
+    }
+
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent1);
+      margin-top: -8px;
+      box-shadow: 0 0 6px rgba(126, 247, 236, 0.6);
+    }
+
+    input[type="range"]::-moz-range-track {
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: none;
+      background: var(--accent1);
+      box-shadow: 0 0 6px rgba(126, 247, 236, 0.6);
     }
 
     .switch {
