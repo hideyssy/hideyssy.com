@@ -771,7 +771,7 @@
         document.getElementById('kb').onclick = () => { won = false; msg.className = ''; msg.innerHTML = ''; };
       } else if (gameOver) {
         msg.className = 'over';
-        msg.innerHTML = '<div class="msg-text">ゲームオーバー</div><button id="kb">もう一度</button>';
+        msg.innerHTML = '<div class="msg-text">ゲームオーバー<br>現実に戻る時間だ</div><button id="kb">もう一度</button>';
         document.getElementById('kb').onclick = init;
       } else {
         msg.className = '';
