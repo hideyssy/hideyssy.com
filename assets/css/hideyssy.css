@@ -1,825 +1,613 @@
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   Hidéyssy — 共通スタイル
-   style.css
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+<!DOCTYPE html>
+<html lang="ja">
 
-*,
-*::before,
-*::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* ── 視覚的には隠すが、検索エンジンやスクリーンリーダーには読ませる ── */
-.visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
-
-:root {
-    --cream: #f5f2ec;
-    --ink: #1a1814;
-    --warm-gray: #5c5850;
-    --line: rgba(26, 24, 20, 0.12);
-}
-
-html,
-body {
-    height: 100%;
-}
-
-body {
-    background-color: var(--cream);
-    color: var(--ink);
-    font-family: 'Cormorant Garamond', 'Noto Serif JP', Georgia, serif;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
-}
-
-/* ── Grain ── */
-body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 100;
-    opacity: 0.5;
-}
-
-/* ── Header ── */
-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0.6rem 3rem;
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    opacity: 0;
-    animation: fadeUp 1s ease forwards 0.2s;
-    background-color: rgba(245, 242, 236, 0.88);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--line);
-}
-
-.logo {
-    display: inline-block;
-    text-decoration: none;
-    transition: opacity 0.3s ease;
-}
-
-.logo:hover {
-    opacity: 0.45;
-}
-
-.logo img {
-    height: 3.5rem;
-    width: auto;
-    display: block;
-}
-
-nav.header-nav {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-    padding-top: 0.15rem;
-    position: absolute;
-    right: 3rem;
-}
-
-.nav-item {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.62rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--warm-gray);
-    text-decoration: none;
-    transition: color 0.3s ease;
-    position: relative;
-    padding-bottom: 0.2rem;
-}
-
-.nav-item::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 1px;
-    background: var(--ink);
-    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.nav-item:hover {
-    color: var(--ink);
-}
-
-.nav-item:hover::after {
-    width: 100%;
-}
-
-.nav-item.active {
-    color: var(--ink);
-}
-
-.nav-item.active::after {
-    width: 100%;
-}
-
-/* ── Main ── */
-main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 5rem 3rem 8rem;
-    max-width: 1200px;
-    /* 1100 → 1200 */
-    margin: 0 auto;
-    width: 100%;
-}
-
-/* ── Eyebrow ── */
-.eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-    margin-bottom: 2.0rem;
-    opacity: 0;
-    animation: fadeUp 1s ease forwards 0.6s;
-}
-
-.eyebrow span {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.6rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--warm-gray);
-}
-
-.eyebrow .dot {
-    width: 2.5px;
-    height: 2.5px;
-    border-radius: 50%;
-    background: var(--warm-gray);
-    opacity: 0.5;
-}
-
-/* ── Footer ── */
-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2rem 3rem;
-    border-top: 1px solid var(--line);
-    /* 追加 */
-    opacity: 0;
-    animation: fadeUp 1s ease forwards 1.8s;
-}
-
-.footer-left {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.62rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ink);
-}
-
-.footer-center {
-    font-family: 'Noto Serif JP', serif;
-    font-weight: 200;
-    font-size: 0.62rem;
-    letter-spacing: 0.25em;
-    color: var(--warm-gray);
-}
-
-.footer-right {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.62rem;
-    letter-spacing: 0.2em;
-    color: var(--ink);
-}
-
-/* ── Vertical text ── */
-.vert-text {
-    position: fixed;
-    right: 2.2rem;
-    top: 50%;
-    transform: translateY(-50%) rotate(90deg);
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.52rem;
-    letter-spacing: 0.38em;
-    text-transform: uppercase;
-    color: rgba(26, 24, 20, 0.13);
-    white-space: nowrap;
-    opacity: 0;
-    animation: fadeUp 1s ease forwards 2.2s;
-}
-
-/* ── Animations ── */
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(14px);
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Hidéyssy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f2e9da;
+      --paper-2: #e8dcc6;
+      --black: #181410;
+      --ink: #241d16;
+      --ink-soft: #6b5c48;
+      --kraft: #7a5236;
+      --brass: #c7a24c;
+      --teal: #3e5c56;
+      --focus: #3e5c56;
     }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(65px);
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "EB Garamond", serif;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
     }
-}
 
-/* ── Scroll fade-in (JS で .is-visible を付与) ── */
-.scroll-fade {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-}
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(circle at 8% 12%, rgba(122, 82, 54, 0.05) 0 120px, transparent 121px),
+        radial-gradient(circle at 92% 85%, rgba(199, 162, 76, 0.06) 0 160px, transparent 161px),
+        radial-gradient(circle at 85% 15%, rgba(62, 92, 86, 0.04) 0 90px, transparent 91px);
+    }
 
-.scroll-fade.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-/* ── Responsive ── */
-@media (max-width: 700px) {
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 4px;
+    }
+
     header {
-        padding: 0.6rem 1.4rem;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2.2rem 6vw 1.4rem;
+      border-bottom: 1px solid rgba(24, 20, 16, 0.14);
     }
 
-    nav.header-nav {
-        right: 1.4rem;
+    .logo {
+      font-family: "Abril Fatface", serif;
+      font-size: 1.25rem;
+      letter-spacing: 0.01em;
     }
 
-    .logo img {
-        height: 2.4rem;
+    .home-link {
+      font-family: "Space Mono", monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      border-bottom: 1px solid rgba(24, 20, 16, 0.3);
+      padding-bottom: 2px;
+      transition: color .2s ease, border-color .2s ease;
+    }
+
+    .home-link:hover {
+      color: var(--teal);
+      border-color: var(--teal);
     }
 
     main {
-        padding: 3rem 1.8rem 6rem;
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 4.5rem 6vw 3rem;
+      text-align: center;
+    }
+
+    .eyebrow {
+      font-family: "Space Mono", monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--kraft);
+      margin-bottom: 1.2rem;
+    }
+
+    h1 {
+      font-family: "Abril Fatface", serif;
+      font-size: clamp(2.3rem, 6vw, 3.6rem);
+      line-height: 1.15;
+      color: var(--ink);
+    }
+
+    .subtitle {
+      margin: 1.2rem auto 0;
+      max-width: 38ch;
+      color: var(--ink-soft);
+      font-size: 1.05rem;
+      font-style: italic;
+    }
+
+    .player {
+      position: relative;
+      max-width: 520px;
+      margin: 3.6rem auto 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 1400px;
+    }
+
+    .flip-btn {
+      all: unset;
+      width: 100%;
+      aspect-ratio: 1/1;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      display: block;
+    }
+
+    .flip-inner {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.9s cubic-bezier(.4, .2, .2, 1);
+    }
+
+    .flip-btn.is-flipped .flip-inner {
+      transform: rotateY(180deg);
+    }
+
+    .record-face {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .record-face.back {
+      transform: rotateY(180deg);
+      background: radial-gradient(circle at 40% 32%, #f6ead0, var(--paper-2) 55%, #d9c9a6 100%);
+      box-shadow: 0 18px 40px rgba(24, 20, 16, 0.28);
+    }
+
+    .back-text {
+      max-width: 70%;
+      font-family: "Abril Fatface", serif;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: var(--kraft);
+    }
+
+    .back-text span {
+      display: block;
+      font-family: "Space Mono", monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      color: var(--ink-soft);
+      margin-bottom: 0.6rem;
+    }
+
+    .record {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background:
+        repeating-radial-gradient(circle at 50% 50%,
+          #232019 0 2px,
+          #1c1914 2px 7px);
+      box-shadow: 0 18px 40px rgba(24, 20, 16, 0.28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: spin 16s linear infinite;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .record::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background:
+        repeating-radial-gradient(circle, transparent 0 2px, rgba(255, 255, 255, 0.035) 2px 3px),
+        conic-gradient(from 200deg,
+          transparent 0deg,
+          rgba(255, 255, 255, 0.18) 16deg,
+          transparent 36deg,
+          transparent 200deg,
+          rgba(255, 255, 255, 0.09) 214deg,
+          transparent 232deg);
+      animation: spin 16s linear infinite reverse;
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+    }
+
+    /* ターンテーブルの台座（盤に地に足がついた印象を出す） */
+    .player::before {
+      content: "";
+      position: absolute;
+      inset: -6%;
+      z-index: -1;
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at center, transparent 33%, rgba(90, 60, 30, 0.08) 34%, transparent 36%),
+        linear-gradient(var(--paper), var(--paper-2));
+    }
+
+    .etching {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .record,
+      .record::before {
+        animation: none;
+      }
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .label {
+      width: 58%;
+      aspect-ratio: 1/1;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 32%, #d8b768, var(--brass) 40%, #a9803a 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.4rem;
+      position: relative;
+      box-shadow: inset 0 0 0 1px rgba(24, 20, 16, 0.25), inset 0 0 20px rgba(255, 255, 255, 0.15), 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .label::after {
+      content: "";
+      position: absolute;
+      width: 8%;
+      aspect-ratio: 1/1;
+      border-radius: 50%;
+      background: var(--paper);
+      box-shadow: 0 0 0 3px rgba(24, 20, 16, 0.15);
+    }
+
+    .label .side {
+      font-family: "Space Mono", monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      color: rgba(24, 20, 16, 0.6);
+      margin-bottom: 0.4rem;
+    }
+
+    .label .title {
+      font-family: "Abril Fatface", serif;
+      font-size: 1.05rem;
+      color: var(--black);
+      margin-bottom: 0.7rem;
+    }
+
+    .tonearm {
+      position: absolute;
+      top: -2%;
+      right: -6%;
+      width: 46%;
+      height: 46%;
+      transform-origin: 88% 12%;
+      transform: rotate(-18deg);
+      transition: transform .35s ease;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .tonearm svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .tracklist {
+      position: relative;
+      z-index: 1;
+      margin-top: 3.2rem;
+      display: flex;
+      flex-direction: column;
+      max-width: 520px;
+      margin-inline: auto;
+      border-top: 1px solid rgba(24, 20, 16, 0.16);
+    }
+
+    .track {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.05rem 0.4rem;
+      border-bottom: 1px solid rgba(24, 20, 16, 0.16);
+      text-align: left;
+      position: relative;
+      transition: background .25s ease, padding-left .25s ease;
+      cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><circle cx='26' cy='6' r='4.5' fill='%232a241c'/><line x1='26' y1='6' x2='6' y2='26' stroke='%232a241c' stroke-width='3' stroke-linecap='round'/><circle cx='6' cy='26' r='3' fill='%23c7a24c'/></svg>") 6 26, pointer;
+    }
+
+    .track::before {
+      content: "";
+      position: absolute;
+      left: 0.3rem;
+      top: 50%;
+      width: 22px;
+      height: 9px;
+      transform: translateY(-50%) rotate(-28deg);
+      border-top: 2px solid var(--brass);
+      border-right: 5px solid var(--brass);
+      opacity: 0;
+      transition: opacity .2s ease;
+      pointer-events: none;
+    }
+
+    .track:hover,
+    .track:focus-visible {
+      background: rgba(199, 162, 76, 0.14);
+      padding-left: 1.9rem;
+    }
+
+    .track:hover::before,
+    .track:focus-visible::before {
+      opacity: 1;
+    }
+
+    .track .num {
+      font-family: "Space Mono", monospace;
+      font-size: 0.78rem;
+      color: var(--kraft);
+      width: 1.6rem;
+      flex-shrink: 0;
+    }
+
+    .track .name {
+      flex: 1;
+      font-size: 1.1rem;
+    }
+
+    .track .val {
+      font-family: "Space Mono", monospace;
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      text-align: right;
+    }
+
+    /* トラックごとに終着角度の異なるバウンドを個別のキーフレームで定義
+     （共通の1つのアニメーションに後から角度を上書きしようとすると、
+     実行中のアニメーションが静的なtransformを無視してしまうため、
+     必ずトラックごとに別々のanimationとして持たせている） */
+    @keyframes needle-drop-1 {
+      0% {
+        transform: rotate(-18deg) translateY(-2px);
+      }
+
+      55% {
+        transform: rotate(-34deg) translateY(8px);
+      }
+
+      72% {
+        transform: rotate(-31deg) translateY(-2px);
+      }
+
+      100% {
+        transform: rotate(-32deg) translateY(0);
+      }
+    }
+
+    @keyframes needle-drop-2 {
+      0% {
+        transform: rotate(-18deg) translateY(-2px);
+      }
+
+      55% {
+        transform: rotate(-20deg) translateY(8px);
+      }
+
+      72% {
+        transform: rotate(-17deg) translateY(-2px);
+      }
+
+      100% {
+        transform: rotate(-18deg) translateY(0);
+      }
+    }
+
+    @keyframes needle-drop-3 {
+      0% {
+        transform: rotate(-18deg) translateY(-2px);
+      }
+
+      55% {
+        transform: rotate(-6deg) translateY(8px);
+      }
+
+      72% {
+        transform: rotate(-3deg) translateY(-2px);
+      }
+
+      100% {
+        transform: rotate(-4deg) translateY(0);
+      }
+    }
+
+    .player:has(.track1:hover) .tonearm,
+    .player:has(.track1:focus-visible) .tonearm {
+      animation: needle-drop-1 .45s cubic-bezier(.2, .9, .3, 1) forwards;
+    }
+
+    .player:has(.track2:hover) .tonearm,
+    .player:has(.track2:focus-visible) .tonearm {
+      animation: needle-drop-2 .45s cubic-bezier(.2, .9, .3, 1) forwards;
+    }
+
+    .player:has(.track3:hover) .tonearm,
+    .player:has(.track3:focus-visible) .tonearm {
+      animation: needle-drop-3 .45s cubic-bezier(.2, .9, .3, 1) forwards;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .player:has(.track1:hover) .tonearm,
+      .player:has(.track1:focus-visible) .tonearm {
+        animation: none;
+        transform: rotate(-32deg);
+      }
+
+      .player:has(.track2:hover) .tonearm,
+      .player:has(.track2:focus-visible) .tonearm {
+        animation: none;
+        transform: rotate(-18deg);
+      }
+
+      .player:has(.track3:hover) .tonearm,
+      .player:has(.track3:focus-visible) .tonearm {
+        animation: none;
+        transform: rotate(-4deg);
+      }
+    }
+
+    .hint {
+      margin-top: 1.6rem;
+      font-family: "Space Mono", monospace;
+      font-size: 0.66rem;
+      letter-spacing: 0.06em;
+      color: var(--ink-soft);
+      opacity: 0.75;
     }
 
     footer {
-        padding: 1.8rem;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.6rem;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      padding: 2.4rem 6vw 2.6rem;
+      margin-top: 3.5rem;
+      border-top: 1px solid rgba(24, 20, 16, 0.14);
+      font-family: "Space Mono", monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.04em;
+      color: var(--ink-soft);
     }
 
-    .vert-text {
-        display: none;
+    @media (max-width:700px) {
+      main {
+        padding: 3.6rem 6vw 2rem;
+      }
+
+      .player {
+        max-width: 280px;
+      }
+
+      .track .name {
+        font-size: 1rem;
+      }
     }
-}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   Hidéyssy — TOPページ固有スタイル
-   index.css
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-
-/* ── Hero Image ── */
-.hero {
-    width: 100%;
-    opacity: 0;
-    animation: fadeUp 1.2s ease forwards 0.3s;
-    overflow: hidden;
-    margin-bottom: 2rem;
-}
-
-.hero img {
-    width: 100%;
-    height: 72vh;
-    /* 60 → 72vh */
-    object-fit: cover;
-    object-position: center;
-    display: block;
-}
-
-/* ── Headline ── */
-.headline {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 300;
-    font-size: clamp(2.8rem, 6.5vw, 6rem);
-    line-height: 1.1;
-    letter-spacing: 0.01em;
-    color: var(--ink);
-}
-
-.headline .line {
-    display: block;
-    overflow: hidden;
-    padding-bottom: 0.15em;
-}
-
-.headline .line-inner {
-    display: block;
-    opacity: 0;
-    transform: translateY(65px);
-    animation: slideUp 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.headline .line:nth-child(1) .line-inner {
-    animation-delay: 0.7s;
-}
-
-.headline .line:nth-child(2) .line-inner {
-    animation-delay: 0.85s;
-}
-
-.headline .line:nth-child(3) .line-inner {
-    animation-delay: 1.0s;
-}
-
-.headline em {
-    font-style: italic;
-    font-weight: 300;
-}
-
-/* ── Mid Section ── */
-.mid-section {
-    display: flex;
-    align-items: flex-start;
-    gap: 5rem;
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    opacity: 0;
-    animation: fadeUp 1s ease forwards 1.4s;
-}
-
-.description-block {
-    flex: 1;
-}
-
-.desc-label {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.58rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--warm-gray);
-    margin-bottom: 1.2rem;
-}
-
-.description {
-    font-family: 'Noto Serif JP', serif;
-    font-weight: 300;
-    font-size: 1.05rem;
-    /* 0.95 → 1.05rem */
-    line-height: 2.3;
-    letter-spacing: 0.05em;
-    color: var(--ink);
-    max-width: 30em;
-}
-
-.description .en-sub {
-    display: block;
-    margin-top: 1rem;
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-weight: 300;
-    font-size: 0.88rem;
-    line-height: 1.9;
-    color: rgba(140, 136, 128, 0.65);
-    letter-spacing: 0.02em;
-}
-
-/* ── SNS Links ── */
-.links-block {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1.4rem;
-    padding-top: 2rem;
-}
-
-.sns-link {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.45rem;
-    text-decoration: none;
-    color: var(--warm-gray);
-    opacity: 0.55;
-    transition: opacity 0.3s ease, color 0.3s ease;
-}
-
-.sns-link:hover {
-    opacity: 1;
-    color: var(--ink);
-}
-
-.sns-icon {
-    width: 1.35rem;
-    height: 1.35rem;
-}
-
-.sns-label {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.52rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-}
-
-/* ── Games Card (timeline内) ── */
-.card--games .games-links {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 1.2rem;
-}
-
-.game-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
-    border: 1px solid var(--line);
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1rem;
-    letter-spacing: 0.08em;
-    color: var(--ink);
-    text-decoration: none;
-    transition: background 0.25s ease, border-color 0.25s ease;
-}
-
-.game-link:hover {
-    background: rgba(26, 24, 20, 0.04);
-    border-color: rgba(26, 24, 20, 0.4);
-}
-
-.game-link .arrow {
-    font-size: 0.75rem;
-    opacity: 0.45;
-}
-
-/* ── Timeline ── */
-.timeline {
-    margin-top: 4rem;
-    padding-top: 2.5rem;
-    border-top: 1px solid var(--line);
-    display: flex;
-    flex-direction: column;
-    gap: 4rem;
-    /* 5 → 4rem */
-}
-
-/* ── Card ── */
-.card {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    overflow: hidden;
-    /* zoom が枠外に出ないよう追加 */
-}
-
-.card-img {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    display: block;
-    margin-bottom: 1.4rem;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    transform-origin: center;
-}
-
-.card:hover .card-img {
-    opacity: 0.88;
-    transform: scale(1.015);
-}
-
-.card-meta {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.62rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--warm-gray);
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-}
-
-.card-category {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.58rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--cream);
-    background: var(--ink);
-    padding: 0.15em 0.6em;
-    display: inline-block;
-}
-
-.card-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 300;
-    font-size: 1.9rem;
-    /* 1.4 → 1.9rem */
-    letter-spacing: 0.02em;
-    color: var(--ink);
-    margin-bottom: 0.7rem;
-    line-height: 1.25;
-    position: relative;
-    display: inline-block;
-}
-
-.card-title::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 1px;
-    background: var(--ink);
-    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.card:hover .card-title::after {
-    width: 100%;
-}
-
-.card-desc {
-    font-family: 'Noto Serif JP', serif;
-    font-weight: 300;
-    font-size: 0.82rem;
-    line-height: 2.1;
-    color: var(--warm-gray);
-    letter-spacing: 0.04em;
-    max-width: 48em;
-    transition: color 0.3s ease;
-}
-
-.card:hover .card-desc {
-    color: var(--ink);
-}
-
-/* ── アコーディオン（歌詞用） ── */
-.lyrics-block {
-    margin-top: 0.5rem;
-    max-width: 36em;
-    border-left: 1px solid var(--line);
-    padding-left: 1.8rem;
-}
-
-.lyrics-preview {
-    font-family: 'Noto Serif JP', serif;
-    font-weight: 300;
-    font-size: 0.88rem;
-    line-height: 2.6;
-    letter-spacing: 0.08em;
-    color: var(--ink);
-}
-
-.lyrics-full {
-    font-family: 'Noto Serif JP', serif;
-    font-weight: 300;
-    font-size: 0.88rem;
-    line-height: 2.6;
-    letter-spacing: 0.08em;
-    color: var(--ink);
-    overflow: hidden;
-    max-height: 0;
-    transition: max-height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.lyrics-full.is-open {
-    max-height: 2000px;
-}
-
-.lyrics-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 1.2rem;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.62rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--warm-gray);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    transition: color 0.3s ease;
-}
-
-.lyrics-toggle:hover {
-    color: var(--ink);
-}
-
-.lyrics-toggle-icon {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    position: relative;
-    transition: transform 0.4s ease;
-}
-
-.lyrics-toggle-icon::before,
-.lyrics-toggle-icon::after {
-    content: '';
-    position: absolute;
-    background: currentColor;
-}
-
-.lyrics-toggle-icon::before {
-    width: 10px;
-    height: 1px;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-}
-
-.lyrics-toggle-icon::after {
-    width: 1px;
-    height: 10px;
-    left: 50%;
-    top: 0;
-    transform: translateX(-50%);
-    transition: transform 0.4s ease, opacity 0.4s ease;
-}
-
-.lyrics-toggle.is-open .lyrics-toggle-icon::after {
-    transform: translateX(-50%) rotate(90deg);
-    opacity: 0;
-}
-
-/* ── Responsive（TOP固有） ── */
-@media (max-width: 700px) {
-
-    /* mainのpaddingを越えて広げつつ、左右にごく小さい余白だけ残す */
-    .hero {
-        width: calc(100% + 2.4rem);
-        margin-left: -1.2rem;
-    }
-
-    .hero img {
-        height: auto;
-        aspect-ratio: 4 / 3;
-    }
-
-    /* カード画像も同様に、横長のまま左右の余白を小さくして大きく見せる */
-    /* .card の overflow:hidden がはみ出し分をクリップしてしまうため、モバイルでは解除する */
-    .card {
-        overflow: visible;
-    }
-
-    .card-img {
-        width: calc(100% + 2.4rem);
-        margin-left: -1.2rem;
-    }
-
-    .mid-section {
-        flex-direction: column;
-        gap: 2rem;
-    }
-
-    .links-block {
-        flex-direction: row;
-        gap: 1.8rem;
-        padding-top: 0;
-    }
-
-    .card-title {
-        font-size: 1.5rem;
-    }
-}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   Hidéyssy — Contactページ固有スタイル
-   contact.css
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-
-/* contact.html の main は eyebrow の余白を多めに */
-.eyebrow {
-    margin-bottom: 3.5rem;
-}
-
-/* ── Page Title ── */
-.page-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 300;
-    font-size: clamp(2.8rem, 6vw, 5.5rem);
-    line-height: 1.05;
-    letter-spacing: 0.02em;
-    color: var(--ink);
-    overflow: hidden;
-    opacity: 0;
-    animation: fadeUp 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.5s;
-    margin-bottom: 1rem;
-}
-
-.page-title em {
-    font-style: italic;
-    font-weight: 300;
-}
-
-.page-subtitle {
-    font-family: 'Noto Serif JP', serif;
-    font-weight: 200;
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    color: var(--warm-gray);
-    opacity: 0;
-    animation: fadeUp 1s ease forwards 0.7s;
-    margin-bottom: 5rem;
-}
-
-/* ── Contact Block ── */
-.contact-section {
-    border-top: 1px solid var(--line);
-    padding-top: 3rem;
-    opacity: 0;
-    animation: fadeUp 1s ease forwards 0.9s;
-}
-
-.contact-row {
-    display: flex;
-    align-items: baseline;
-    gap: 4rem;
-    padding: 2rem 0;
-    border-bottom: 1px solid var(--line);
-}
-
-.contact-label {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.62rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--warm-gray);
-    min-width: 80px;
-}
-
-.contact-value {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 300;
-    font-size: 1.15rem;
-    letter-spacing: 0.05em;
-    color: var(--ink);
-    text-decoration: none;
-    position: relative;
-    padding-bottom: 0.15rem;
-    transition: opacity 0.3s ease;
-}
-
-.contact-value::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 1px;
-    background: var(--ink);
-    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.contact-value:hover {
-    opacity: 0.6;
-}
-
-.contact-value:hover::after {
-    width: 100%;
-}
-
-.contact-note {
-    font-family: 'Noto Serif JP', serif;
-    font-weight: 200;
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    color: var(--warm-gray);
-    margin-left: auto;
-}
-
-/* ── Responsive（Contact固有） ── */
-@media (max-width: 700px) {
-    .contact-row {
-        flex-direction: column;
-        gap: 0.8rem;
-    }
-
-    .contact-note {
-        margin-left: 0;
-    }
-}
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <a href="#" class="logo">Hidéyssy</a>
+    <a href="#" class="home-link">← Home</a>
+  </header>
+
+  <main>
+    <p class="eyebrow">Side A · Contact</p>
+    <h1>Play a message.</h1>
+    <p class="subtitle">好きな連絡方法に、そっと針を落としてください。</p>
+
+    <div class="player">
+      <button class="flip-btn" id="flipBtn" aria-label="レコードをひっくり返す">
+        <span class="flip-inner">
+          <span class="record-face front">
+            <span class="record">
+              <svg class="etching" viewBox="0 0 200 200" aria-hidden="true">
+                <path id="etchPath" d="M 100,100 m -78,0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0" fill="none" />
+                <text font-family="Space Mono, monospace" font-size="6.5" letter-spacing="2.5"
+                  fill="rgba(242,233,218,0.35)">
+                  <textPath href="#etchPath" startOffset="0%">H-0001-A ヒデイシィ ・ GET IN TOUCH ・ H-0001-A ヒデイシィ ・ GET IN
+                    TOUCH ・</textPath>
+                </text>
+              </svg>
+              <span class="label">
+                <span class="side">SIDE A</span>
+                <span class="title">Hidéyssy</span>
+              </span>
+            </span>
+          </span>
+          <span class="record-face back">
+            <span class="back-text"><span>SIDE B</span>記録より、記憶を。</span>
+          </span>
+        </span>
+      </button>
+      <div class="tonearm" aria-hidden="true">
+        <svg viewBox="0 0 100 100">
+          <circle cx="88" cy="12" r="7" fill="#2a241c" />
+          <line x1="88" y1="12" x2="18" y2="70" stroke="#2a241c" stroke-width="3" stroke-linecap="round" />
+          <circle cx="18" cy="70" r="4" fill="#c7a24c" />
+        </svg>
+      </div>
+    </div>
+    <p class="hint">盤面をクリックすると、B面が見られます</p>
+
+    <div class="tracklist">
+      <a class="track track1" href="mailto:hideyssy.s.mail@gmail.com">
+        <span class="num">01</span>
+        <span class="name">Email</span>
+        <span class="val">hideyssy.s.mail@gmail.com</span>
+      </a>
+      <a class="track track2" href="https://instagram.com/hideyssy" target="_blank" rel="noopener">
+        <span class="num">02</span>
+        <span class="name">Instagram</span>
+        <span class="val">@hideyssy</span>
+      </a>
+      <a class="track track3" href="https://x.com/hideyssy" target="_blank" rel="noopener">
+        <span class="num">03</span>
+        <span class="name">X (Twitter)</span>
+        <span class="val">@hideyssy</span>
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    <span>© 2025 Hidéyssy</span>
+    <span>素敵な日にしよう</span>
+    <span>hideyssy.com</span>
+  </footer>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('flipBtn');
+      btn.addEventListener('click', function () {
+        btn.classList.toggle('is-flipped');
+      });
+    })();
+  </script>
+
+</body>
+
+</html>
