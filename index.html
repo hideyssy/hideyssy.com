@@ -162,21 +162,6 @@
                 <p class="card-desc">素材・サイズ・価格など。</p>
             </a> -->
 
-      <!-- Games カード -->
-      <div class="card card--games">
-        <img class="card-img" src="images/works/games_2048-tetris_1920x1080.webp" alt="Games" loading="lazy">
-        <p class="card-meta">
-          <span class="card-category">Expt</span>
-          Play in Browser
-        </p>
-        <h2 class="card-title">Games</h2>
-        <p class="card-desc">ゲームを設置してみました。遊んでいってください。</p>
-        <div class="games-links">
-          <a href="/games/2048.html" class="game-link">2048 <span class="arrow">↗</span></a>
-          <a href="/games/tetris.html" class="game-link">Tetris <span class="arrow">↗</span></a>
-        </div>
-      </div>
-
       <!-- Liveカード（2026.02） -->
       <!-- リンクが必要な場合: <div class="card"> を <a class="card" href="URL" target="_blank" rel="noopener"> に変える -->
       <div class="card">
@@ -188,6 +173,52 @@
         <h2 class="card-title">BACK 2 BACK</h2>
         <p class="card-desc">神楽坂セッションハウスにて、ツネキチさんをお招きした特別なライブです。OPEN 15:45 / START 16:45 ￥2,000 詳細と予約は <a
             href="/back2back">専用ページ</a> からご確認ください。</p>
+      </div>
+
+      <!-- Song カード -->
+      <div class="card">
+        <img class="card-img" src="images/works/artwork_Stay-Gold_1920x1080.webp" alt="Stay Gold" loading="lazy">
+        <p class="card-meta">
+          <span class="card-category">SONG</span>
+          artwork and Lyrics
+        </p>
+        <h2 class="card-title">Stay Gold</h2>
+        <div class="lyrics-block">
+          <p class="lyrics-preview">
+            優しい気持ちが込み上げますように<br>
+            今言葉をあなたに<br>
+          </p>
+          <div class="lyrics-full" id="lyrics-stay-gold">
+            空気が揺れるその中に 音が響くその間に<br>
+            色も形もない香りもしない想いを詰め込んだ<br>
+            聞こえていますか 届いていますか<br>
+            <br>
+            "Stay Gold"<br>
+            Longing is hotter than fire in some cases, and love is intense.<br>
+            You know what I mean.<br>
+            <!-- &lt; 憧れは炎より時に熱く 愛は激しい。言いたいこと わかるでしょ。 &gt; <br> -->
+            <br>
+            Baby ずっと恋焦がれた<br>
+            燃えるような熱い想いを灯して 透き通ってく<br>
+            ずっと憧れは Stay Gold<br>
+            <br>
+            素直な表現方法を 素敵な文章構成を<br>
+            この詩にこの私に与えてください<br>
+            花に水をあげるように潅ぐメロディ 届くように<br>
+            さぁ身を委ね 身体揺らせ<br>
+            力は抜いて聞いてくれ<br>
+            <br>
+            Stay Gold ×4<br>
+            <br>
+            Baby ずっと恋焦がれた<br>
+            燃えるような熱い想いを灯して 透き通ってく<br>
+            ずっと憧れた 溶けるような長いキスをしよう<br>
+          </div>
+          <button class="lyrics-toggle" aria-expanded="false">
+            <span class="lyrics-toggle-icon"></span>
+            <span class="lyrics-toggle-label">すべての歌詞を見る</span>
+          </button>
+        </div>
       </div>
 
       <!-- Song カード -->
@@ -242,6 +273,21 @@
         </div>
       </div>
 
+      <!-- Games カード -->
+      <div class="card card--games">
+        <img class="card-img" src="images/works/games_2048-tetris_1920x1080.webp" alt="Games" loading="lazy">
+        <p class="card-meta">
+          <span class="card-category">Expt</span>
+          Play in Browser
+        </p>
+        <h2 class="card-title">Games</h2>
+        <p class="card-desc">ゲームを設置してみました。遊んでいってください。</p>
+        <div class="games-links">
+          <a href="/games/2048.html" class="game-link">2048 <span class="arrow">↗</span></a>
+          <a href="/games/tetris.html" class="game-link">Tetris <span class="arrow">↗</span></a>
+        </div>
+      </div>
+
       <!-- Song カード -->
       <div class="card">
         <img class="card-img" src="images/works/artwork_Blue-Night_1920x1080.webp" alt="Blue Night" loading="lazy">
@@ -269,52 +315,6 @@
             砂浜に打ち寄せる波<br>
             あの日夢見ていた景色<br>
             ノスタルジックにふと思い出した Blue Night<br>
-          </div>
-          <button class="lyrics-toggle" aria-expanded="false">
-            <span class="lyrics-toggle-icon"></span>
-            <span class="lyrics-toggle-label">すべての歌詞を見る</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Song カード -->
-      <div class="card">
-        <img class="card-img" src="images/works/artwork_Stay-Gold_1920x1080.webp" alt="Stay Gold" loading="lazy">
-        <p class="card-meta">
-          <span class="card-category">SONG</span>
-          artwork and Lyrics
-        </p>
-        <h2 class="card-title">Stay Gold</h2>
-        <div class="lyrics-block">
-          <p class="lyrics-preview">
-            優しい気持ちが込み上げますように<br>
-            今言葉をあなたに<br>
-          </p>
-          <div class="lyrics-full" id="lyrics-stay-gold">
-            空気が揺れるその中に 音が響くその間に<br>
-            色も形もない香りもしない想いを詰め込んだ<br>
-            聞こえていますか 届いていますか<br>
-            <br>
-            "Stay Gold"<br>
-            Longing is hotter than fire in some cases, and love is intense.<br>
-            You know what I mean.<br>
-            <!-- &lt; 憧れは炎より時に熱く 愛は激しい。言いたいこと わかるでしょ。 &gt; <br> -->
-            <br>
-            Baby ずっと恋焦がれた<br>
-            燃えるような熱い想いを灯して 透き通ってく<br>
-            ずっと憧れは Stay Gold<br>
-            <br>
-            素直な表現方法を 素敵な文章構成を<br>
-            この詩にこの私に与えてください<br>
-            花に水をあげるように潅ぐメロディ 届くように<br>
-            さぁ身を委ね 身体揺らせ<br>
-            力は抜いて聞いてくれ<br>
-            <br>
-            Stay Gold ×4<br>
-            <br>
-            Baby ずっと恋焦がれた<br>
-            燃えるような熱い想いを灯して 透き通ってく<br>
-            ずっと憧れた 溶けるような長いキスをしよう<br>
           </div>
           <button class="lyrics-toggle" aria-expanded="false">
             <span class="lyrics-toggle-icon"></span>
