@@ -393,6 +393,83 @@
       text-align: right;
     }
 
+    /* ── メールのコピー用ボタン ── */
+    .track-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border-bottom: 1px solid rgba(24, 20, 16, 0.16);
+    }
+
+    .track-row .track {
+      flex: 1;
+      border-bottom: none;
+    }
+
+    .copy-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      flex-shrink: 0;
+      border-radius: 8px;
+      border: 1px solid rgba(24, 20, 16, 0.18);
+      background: transparent;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition: color .2s ease, border-color .2s ease, background .2s ease;
+    }
+
+    .copy-btn:hover,
+    .copy-btn:focus-visible {
+      color: var(--teal);
+      border-color: var(--teal);
+      background: rgba(62, 92, 86, 0.08);
+    }
+
+    .copy-btn.copied {
+      color: var(--teal);
+      border-color: var(--teal);
+    }
+
+    .copy-btn::after {
+      content: "コピーしました";
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      background: var(--ink);
+      color: var(--paper);
+      font-family: "Space Mono", monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.04em;
+      padding: 0.35rem 0.6rem;
+      border-radius: 6px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+
+    .copy-btn.copied::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
     /* トラックごとに終着角度の異なるバウンドを個別のキーフレームで定義
      （共通の1つのアニメーションに後から角度を上書きしようとすると、
      実行中のアニメーションが静的なtransformを無視してしまうため、
@@ -575,11 +652,21 @@
     <p class="hint">盤面をクリックすると、B面が見られます</p>
 
     <div class="tracklist">
-      <a class="track track1" href="mailto:hideyssy.s.mail@gmail.com">
-        <span class="num">01</span>
-        <span class="name">Email</span>
-        <span class="val">hideyssy.s.mail@gmail.com</span>
-      </a>
+      <div class="track-row">
+        <a class="track track1" href="mailto:hideyssy.s.mail@gmail.com">
+          <span class="num">01</span>
+          <span class="name">Email</span>
+          <span class="val">hideyssy.s.mail@gmail.com</span>
+        </a>
+        <button class="copy-btn" type="button" data-copy="hideyssy.s.mail@gmail.com" aria-label="メールアドレスをコピー">
+          <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true">
+            <rect x="6.5" y="6.5" width="10" height="11" rx="1.4" fill="none" stroke="currentColor"
+              stroke-width="1.4" />
+            <rect x="3.5" y="2.5" width="10" height="11" rx="1.4" fill="none" stroke="currentColor"
+              stroke-width="1.4" />
+          </svg>
+        </button>
+      </div>
       <a class="track track2" href="https://instagram.com/hideyssy" target="_blank" rel="noopener">
         <span class="num">02</span>
         <span class="name">Instagram</span>
@@ -591,6 +678,7 @@
         <span class="val">@hideyssy</span>
       </a>
     </div>
+    <span id="copyAnnouncer" class="visually-hidden" aria-live="polite"></span>
   </main>
 
   <footer>
@@ -604,6 +692,45 @@
       var btn = document.getElementById('flipBtn');
       btn.addEventListener('click', function () {
         btn.classList.toggle('is-flipped');
+      });
+    })();
+
+    (function () {
+      var copyBtn = document.querySelector('.copy-btn');
+      var announcer = document.getElementById('copyAnnouncer');
+      if (!copyBtn) return;
+
+      var resetTimer;
+
+      function showCopied() {
+        copyBtn.classList.add('copied');
+        copyBtn.setAttribute('aria-label', 'コピーしました');
+        if (announcer) announcer.textContent = 'メールアドレスをコピーしました';
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(function () {
+          copyBtn.classList.remove('copied');
+          copyBtn.setAttribute('aria-label', 'メールアドレスをコピー');
+        }, 1800);
+      }
+
+      function fallbackCopy(text) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); showCopied(); } catch (e) { /* コピーに失敗した場合は何もしない */ }
+        document.body.removeChild(ta);
+      }
+
+      copyBtn.addEventListener('click', function () {
+        var text = copyBtn.getAttribute('data-copy');
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(showCopied, function () { fallbackCopy(text); });
+        } else {
+          fallbackCopy(text);
+        }
       });
     })();
   </script>
