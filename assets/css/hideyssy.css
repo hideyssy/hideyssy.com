@@ -668,9 +668,27 @@ footer {
 
 /* ── Responsive（TOP固有） ── */
 @media (max-width: 700px) {
+
+    /* mainのpaddingを越えて広げつつ、左右にごく小さい余白だけ残す */
+    .hero {
+        width: calc(100% + 2.4rem);
+        margin-left: -1.2rem;
+    }
+
     .hero img {
         height: auto;
         aspect-ratio: 4 / 3;
+    }
+
+    /* カード画像も同様に、横長のまま左右の余白を小さくして大きく見せる */
+    /* .card の overflow:hidden がはみ出し分をクリップしてしまうため、モバイルでは解除する */
+    .card {
+        overflow: visible;
+    }
+
+    .card-img {
+        width: calc(100% + 2.4rem);
+        margin-left: -1.2rem;
     }
 
     .mid-section {
