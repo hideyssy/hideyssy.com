@@ -439,6 +439,188 @@
       color: #75695a;
     }
 
+
+    /* ---------- PATTERN 1: floating embers ---------- */
+    .embers {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .ember {
+      position: absolute;
+      bottom: -20px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--amber);
+      box-shadow: 0 0 8px 3px rgba(226, 162, 77, 0.55);
+      opacity: 0;
+      animation-name: emberRise;
+      animation-timing-function: ease-in;
+      animation-iteration-count: infinite;
+    }
+
+    @keyframes emberRise {
+      0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+      }
+
+      8% {
+        opacity: .9;
+      }
+
+      50% {
+        transform: translateY(-52vh) translateX(14px);
+        opacity: .7;
+      }
+
+      100% {
+        transform: translateY(-104vh) translateX(-10px);
+        opacity: 0;
+      }
+    }
+
+    .lantern-icon {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      vertical-align: -3px;
+      margin-right: 6px;
+      animation: swayIcon 3.2s ease-in-out infinite;
+    }
+
+    .lantern-icon.after {
+      margin-right: 0;
+      margin-left: 6px;
+    }
+
+    @keyframes swayIcon {
+
+      0%,
+      100% {
+        transform: rotate(-4deg);
+      }
+
+      50% {
+        transform: rotate(4deg);
+      }
+    }
+
+
+    /* ---------- cheers (beer glass clink) on first reveal ---------- */
+    .cheers {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 2px;
+      margin: 26px 0 6px;
+      height: 56px;
+      position: relative;
+    }
+
+    .cheers .mug {
+      font-size: 46px;
+      line-height: 1;
+      display: inline-block;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
+    }
+
+    .cheers .mug.left {
+      transform: translateX(-30px) rotate(-30deg);
+      transform-origin: 80% 100%;
+    }
+
+    .cheers .mug.right {
+      transform: translateX(30px) rotate(30deg) scaleX(-1);
+      transform-origin: 20% 100%;
+    }
+
+    .cheers .spark {
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%) scale(0);
+      font-size: 22px;
+      opacity: 0;
+    }
+
+    #content.reveal .cheers .mug.left {
+      animation: clinkLeft 1.1s cubic-bezier(.34, 1.4, .4, 1) .35s both;
+    }
+
+    #content.reveal .cheers .mug.right {
+      animation: clinkRight 1.1s cubic-bezier(.34, 1.4, .4, 1) .35s both;
+    }
+
+    #content.reveal .cheers .spark {
+      animation: sparkPop .7s ease-out .78s both;
+    }
+
+    @keyframes clinkLeft {
+      0% {
+        transform: translateX(-30px) rotate(-30deg);
+      }
+
+      58% {
+        transform: translateX(-4px) rotate(-14deg);
+      }
+
+      68% {
+        transform: translateX(-8px) rotate(-18deg);
+      }
+
+      78% {
+        transform: translateX(-3px) rotate(-13deg);
+      }
+
+      100% {
+        transform: translateX(-8px) rotate(-16deg);
+      }
+    }
+
+    @keyframes clinkRight {
+      0% {
+        transform: translateX(30px) rotate(30deg) scaleX(-1);
+      }
+
+      58% {
+        transform: translateX(4px) rotate(14deg) scaleX(-1);
+      }
+
+      68% {
+        transform: translateX(8px) rotate(18deg) scaleX(-1);
+      }
+
+      78% {
+        transform: translateX(3px) rotate(13deg) scaleX(-1);
+      }
+
+      100% {
+        transform: translateX(8px) rotate(16deg) scaleX(-1);
+      }
+    }
+
+    @keyframes sparkPop {
+      0% {
+        opacity: 0;
+        transform: translateX(-50%) scale(.3) translateY(4px);
+      }
+
+      45% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.15) translateY(-10px);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateX(-50%) scale(1) translateY(-22px);
+      }
+    }
+
     @media (max-width:480px) {
       section {
         padding: 76px 20px;
@@ -452,6 +634,40 @@
 </head>
 
 <body>
+
+  <div class="embers">
+    <span class="ember"
+      style="left:32%; animation-delay:4.74s; animation-duration:7.78s; width:7px; height:7px;"></span>
+    <span class="ember"
+      style="left:82%; animation-delay:4.65s; animation-duration:10.63s; width:7px; height:7px;"></span>
+    <span class="ember"
+      style="left:35%; animation-delay:4.41s; animation-duration:8.15s; width:7px; height:7px;"></span>
+    <span class="ember"
+      style="left:71%; animation-delay:6.69s; animation-duration:9.86s; width:5px; height:5px;"></span>
+    <span class="ember"
+      style="left:31%; animation-delay:5.08s; animation-duration:12.21s; width:7px; height:7px;"></span>
+    <span class="ember"
+      style="left:96%; animation-delay:0.12s; animation-duration:11.66s; width:5px; height:5px;"></span>
+    <span class="ember"
+      style="left:77%; animation-delay:0.34s; animation-duration:11.68s; width:6px; height:6px;"></span>
+    <span class="ember"
+      style="left:62%; animation-delay:4.76s; animation-duration:12.52s; width:7px; height:7px;"></span>
+    <span class="ember" style="left:93%; animation-delay:6.3s; animation-duration:9.56s; width:7px; height:7px;"></span>
+    <span class="ember"
+      style="left:19%; animation-delay:7.03s; animation-duration:7.58s; width:5px; height:5px;"></span>
+    <span class="ember"
+      style="left:65%; animation-delay:1.74s; animation-duration:12.79s; width:7px; height:7px;"></span>
+    <span class="ember"
+      style="left:82%; animation-delay:6.84s; animation-duration:9.53s; width:7px; height:7px;"></span>
+    <span class="ember"
+      style="left:75%; animation-delay:2.81s; animation-duration:10.51s; width:5px; height:5px;"></span>
+    <span class="ember"
+      style="left:45%; animation-delay:5.46s; animation-duration:12.57s; width:6px; height:6px;"></span>
+    <span class="ember"
+      style="left:79%; animation-delay:5.37s; animation-duration:7.98s; width:6px; height:6px;"></span>
+    <span class="ember"
+      style="left:71%; animation-delay:7.24s; animation-duration:10.41s; width:5px; height:5px;"></span>
+  </div>
 
   <!-- GATE -->
   <div id="gate">
@@ -475,11 +691,28 @@
       <div class="hero-eyebrow">ホームパーティ</div>
       <h1 class="hero-title">Goody<br><span class="hero-vol">vol.7</span></h1>
       <p class="hero-tagline">神楽坂のヒデイシィ宅で<br>ゆったり飲みましょう</p>
+      <div class="cheers">
+        <span class="mug left">🍺</span>
+        <span class="spark">✨</span>
+        <span class="mug right">🍺</span>
+      </div>
       <div class="hero-scroll">SCROLL</div>
     </header>
 
     <section>
-      <div class="section-label">Invitation</div>
+      <div class="section-label"><svg class="lantern-icon" viewBox="0 0 24 24" fill="none" stroke="#e2a24d"
+          stroke-width="1.4">
+          <ellipse cx="12" cy="12" rx="6" ry="8" />
+          <line x1="12" y1="2" x2="12" y2="4" />
+          <line x1="12" y1="20" x2="12" y2="22" />
+          <line x1="6" y1="12" x2="18" y2="12" />
+        </svg>Invitation<svg class="lantern-icon after" viewBox="0 0 24 24" fill="none" stroke="#e2a24d"
+          stroke-width="1.4">
+          <ellipse cx="12" cy="12" rx="6" ry="8" />
+          <line x1="12" y1="2" x2="12" y2="4" />
+          <line x1="12" y1="20" x2="12" y2="22" />
+          <line x1="6" y1="12" x2="18" y2="12" />
+        </svg></div>
       <p class="invite-text">
         友人が集まって、ご飯を食べたりお酒を飲んだり、ちょっと歌ったり、怖い話を披露したり、力を抜いてゆっくり楽しむ、そんなホームパーティです。
       </p>
