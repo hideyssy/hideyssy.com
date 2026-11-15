@@ -469,8 +469,8 @@ main.is-filtering > .mid-section {
 
 .desc-label {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 0.58rem;
-    letter-spacing: 0.3em;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--warm-gray);
     margin-bottom: 1.2rem;
@@ -495,7 +495,7 @@ main.is-filtering > .mid-section {
     font-weight: 300;
     font-size: 0.88rem;
     line-height: 1.9;
-    color: rgba(140, 136, 128, 0.65);
+    color: var(--warm-gray);
     letter-spacing: 0.02em;
 }
 
@@ -515,7 +515,7 @@ main.is-filtering > .mid-section {
     gap: 0.45rem;
     text-decoration: none;
     color: var(--warm-gray);
-    opacity: 0.55;
+    opacity: 1;
     transition: opacity 0.3s ease, color 0.3s ease;
 }
 
@@ -531,8 +531,8 @@ main.is-filtering > .mid-section {
 
 .sns-label {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 0.52rem;
-    letter-spacing: 0.22em;
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
 }
 
@@ -607,8 +607,8 @@ main.is-filtering > .mid-section {
 
 .card-category {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 0.62rem;
-    letter-spacing: 0.2em;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--cream);
     background: var(--ink);
@@ -619,7 +619,7 @@ main.is-filtering > .mid-section {
 
 .card-title {
     font-family: 'Cormorant Garamond', serif;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 1.9rem;
     /* 1.4 → 1.9rem */
     letter-spacing: 0.02em;
@@ -653,11 +653,11 @@ main.is-filtering > .mid-section {
 
 .card-desc {
     font-family: 'Noto Serif JP', serif;
-    font-weight: 300;
-    font-size: 0.98rem;
-    line-height: 2.1;
+    font-weight: 400;
+    font-size: 1.05rem;
+    line-height: 1.95;
     color: var(--warm-gray);
-    letter-spacing: 0.04em;
+    letter-spacing: 0.02em;
     max-width: 48em;
     transition: color 0.3s ease;
 }
