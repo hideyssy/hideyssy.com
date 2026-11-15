@@ -38,10 +38,11 @@ document.addEventListener('click', (event) => {
 (function () {
     const menuToggle = document.querySelector('.menu-toggle');
     const menu = document.querySelector('.header-menu');
+    const main = document.querySelector('main');
     const cards = document.querySelectorAll('.timeline .card');
     const filterOptions = document.querySelectorAll('.filter-option');
 
-    if (!menuToggle || !menu || !cards.length || !filterOptions.length) return;
+    if (!menuToggle || !menu || !main || !cards.length || !filterOptions.length) return;
 
     const closeMenu = () => {
         menu.hidden = true;
@@ -59,6 +60,7 @@ document.addEventListener('click', (event) => {
     filterOptions.forEach((option) => {
         option.addEventListener('click', () => {
             const filter = option.dataset.filter;
+            main.classList.toggle('is-filtering', filter !== 'all');
 
             cards.forEach((card) => {
                 const category = card.querySelector('.card-category');
