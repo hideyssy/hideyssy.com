@@ -189,8 +189,8 @@ nav.header-nav {
 
 .nav-item {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 0.62rem;
-    letter-spacing: 0.25em;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--warm-gray);
     text-decoration: none;
@@ -251,8 +251,8 @@ main {
 
 .eyebrow span {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 0.6rem;
-    letter-spacing: 0.3em;
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--warm-gray);
 }
@@ -279,24 +279,24 @@ footer {
 
 .footer-left {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 0.62rem;
-    letter-spacing: 0.2em;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--ink);
 }
 
 .footer-center {
     font-family: 'Noto Serif JP', serif;
-    font-weight: 200;
-    font-size: 0.62rem;
-    letter-spacing: 0.25em;
+    font-weight: 300;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
     color: var(--warm-gray);
 }
 
 .footer-right {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 0.62rem;
-    letter-spacing: 0.2em;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
     color: var(--ink);
 }
 
@@ -676,19 +676,19 @@ main.is-filtering > .mid-section {
 
 .lyrics-preview {
     font-family: 'Noto Serif JP', serif;
-    font-weight: 300;
-    font-size: 0.88rem;
-    line-height: 2.6;
-    letter-spacing: 0.08em;
+    font-weight: 400;
+    font-size: 0.95rem;
+    line-height: 2.3;
+    letter-spacing: 0.04em;
     color: var(--ink);
 }
 
 .lyrics-full {
     font-family: 'Noto Serif JP', serif;
-    font-weight: 300;
-    font-size: 0.88rem;
-    line-height: 2.6;
-    letter-spacing: 0.08em;
+    font-weight: 400;
+    font-size: 0.95rem;
+    line-height: 2.3;
+    letter-spacing: 0.04em;
     color: var(--ink);
     overflow: hidden;
     max-height: 0;
@@ -705,8 +705,8 @@ main.is-filtering > .mid-section {
     gap: 0.5rem;
     margin-top: 1.2rem;
     font-family: 'Cormorant Garamond', serif;
-    font-size: 0.62rem;
-    letter-spacing: 0.25em;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--warm-gray);
     background: none;
@@ -856,8 +856,8 @@ main.is-filtering > .mid-section {
 
 .contact-label {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 0.62rem;
-    letter-spacing: 0.3em;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--warm-gray);
     min-width: 80px;
@@ -896,9 +896,9 @@ main.is-filtering > .mid-section {
 
 .contact-note {
     font-family: 'Noto Serif JP', serif;
-    font-weight: 200;
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
+    font-weight: 300;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
     color: var(--warm-gray);
     margin-left: auto;
 }
