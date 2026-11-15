@@ -403,6 +403,14 @@ main.is-filtering > .mid-section {
     display: none;
 }
 
+main.is-filtering {
+    padding-top: 2rem;
+}
+
+main.is-filtering > .timeline {
+    margin-top: 0;
+}
+
 .hero img {
     width: 100%;
     height: 72vh;
