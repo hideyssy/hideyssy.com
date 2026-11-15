@@ -91,12 +91,100 @@ header {
 }
 
 nav.header-nav {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-    padding-top: 0.15rem;
     position: absolute;
     right: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.menu-toggle {
+    display: flex;
+    width: 2.4rem;
+    height: 2.4rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color 0.3s ease, opacity 0.3s ease;
+}
+
+.menu-toggle:hover {
+    border-color: rgba(26, 24, 20, 0.4);
+}
+
+.menu-toggle span {
+    width: 1rem;
+    height: 1px;
+    background: currentColor;
+    transition: transform 0.3s ease;
+}
+
+.menu-toggle[aria-expanded="true"] span:first-child {
+    transform: translateY(3px) rotate(45deg);
+}
+
+.menu-toggle[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle[aria-expanded="true"] span:last-child {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+.header-menu {
+    position: absolute;
+    top: calc(100% + 0.8rem);
+    right: 0;
+    display: flex;
+    min-width: 13rem;
+    flex-direction: column;
+    gap: 1.2rem;
+    padding: 1.3rem;
+    border: 1px solid var(--line);
+    background: var(--cream);
+    box-shadow: 0 0.8rem 2rem rgba(26, 24, 20, 0.08);
+}
+
+.header-menu[hidden] {
+    display: none;
+}
+
+.filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.filter-option {
+    padding: 0.45rem 0;
+    border: 0;
+    background: transparent;
+    color: var(--warm-gray);
+    cursor: pointer;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-align: left;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.filter-option:hover,
+.filter-option.is-active {
+    color: var(--ink);
+}
+
+.filter-option.is-active {
+    text-decoration: underline;
+    text-underline-offset: 0.3rem;
+}
+
+.header-menu .nav-item {
+    align-self: flex-start;
 }
 
 .nav-item {
@@ -494,6 +582,10 @@ footer {
     /* zoom が枠外に出ないよう追加 */
 }
 
+.card[hidden] {
+    display: none;
+}
+
 .card-img {
     width: 100%;
     aspect-ratio: 16 / 9;
@@ -509,27 +601,16 @@ footer {
     transform: scale(1.015);
 }
 
-.card-meta {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.62rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--warm-gray);
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-}
-
 .card-category {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 0.58rem;
+    font-size: 0.62rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--cream);
     background: var(--ink);
-    padding: 0.15em 0.6em;
+    padding: 0.35em 0.7em;
     display: inline-block;
+    flex-shrink: 0;
 }
 
 .card-title {
@@ -541,11 +622,17 @@ footer {
     color: var(--ink);
     margin-bottom: 0.7rem;
     line-height: 1.25;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.card-title-text {
     position: relative;
     display: inline-block;
 }
 
-.card-title::after {
+.card-title-text::after {
     content: '';
     position: absolute;
     bottom: -2px;
@@ -556,14 +643,14 @@ footer {
     transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.card:hover .card-title::after {
+.card:hover .card-title-text::after {
     width: 100%;
 }
 
 .card-desc {
     font-family: 'Noto Serif JP', serif;
     font-weight: 300;
-    font-size: 0.82rem;
+    font-size: 0.98rem;
     line-height: 2.1;
     color: var(--warm-gray);
     letter-spacing: 0.04em;
