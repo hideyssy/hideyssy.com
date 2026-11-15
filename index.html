@@ -48,7 +48,21 @@
       <img src="images/common/Hideyssy_normallogo_02_Black.svg" alt="Hidéyssy">
     </a>
     <nav class="header-nav">
-      <a href="/contact" class="nav-item">Contact</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="header-menu" id="header-menu" hidden>
+        <div class="filter-options" role="group" aria-label="カードの種類で絞り込む">
+          <button class="filter-option is-active" type="button" data-filter="all" aria-pressed="true">All</button>
+          <button class="filter-option" type="button" data-filter="song" aria-pressed="false">SONG</button>
+          <button class="filter-option" type="button" data-filter="live" aria-pressed="false">Live</button>
+          <button class="filter-option" type="button" data-filter="product" aria-pressed="false">Product</button>
+          <button class="filter-option" type="button" data-filter="expt" aria-pressed="false">Expt</button>
+        </div>
+        <a href="/contact" class="nav-item">Contact</a>
+      </div>
     </nav>
   </header>
 
