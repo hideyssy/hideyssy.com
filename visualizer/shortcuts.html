@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sound Visualizer ショートカット一覧</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 40px 20px 60px;
+      background: #0e1016;
+      color: #e6e8ee;
+      font-family: "Segoe UI", "Yu Gothic UI", "Meiryo", sans-serif;
+      line-height: 1.7;
+    }
+    main { max-width: 820px; margin: 0 auto; }
+    h1 { margin: 0 0 4px; font-size: 28px; letter-spacing: 0.04em; }
+    .sub { color: #9aa0b4; margin: 0 0 32px; }
+    h2 {
+      margin: 36px 0 12px;
+      padding-left: 10px;
+      border-left: 4px solid #3a5bd9;
+      font-size: 19px;
+    }
+    table { width: 100%; border-collapse: collapse; background: #161922; border-radius: 10px; overflow: hidden; }
+    th, td { padding: 11px 16px; text-align: left; border-bottom: 1px solid #262a36; vertical-align: top; }
+    th { background: #1d2130; color: #cfd6ff; font-weight: 600; font-size: 14px; }
+    tr:last-child td { border-bottom: none; }
+    td:first-child { width: 190px; white-space: nowrap; }
+    kbd {
+      display: inline-block;
+      min-width: 28px;
+      padding: 2px 8px;
+      border: 1px solid #5a6072;
+      border-bottom-width: 3px;
+      border-radius: 6px;
+      background: #232736;
+      color: #fff;
+      font-family: inherit;
+      font-size: 14px;
+      text-align: center;
+    }
+    .note { color: #9aa0b4; font-size: 14px; }
+    code { font-family: Consolas, monospace; color: #ffd479; }
+    ol, ul { padding-left: 22px; }
+    li { margin: 4px 0; }
+    .box {
+      background: #161922;
+      border: 1px solid #262a36;
+      border-radius: 10px;
+      padding: 14px 20px;
+    }
+    .warn { border-color: #6b5a24; background: #1f1b10; }
+    @media print {
+      body { background: #fff; color: #000; padding: 0; }
+      table, .box { background: #fff; border: 1px solid #bbb; }
+      th { background: #eee; color: #000; }
+      td, th { border-bottom-color: #ccc; }
+      kbd { background: #f4f4f4; color: #000; border-color: #888; }
+      .sub, .note { color: #444; }
+      .warn { background: #fff; border-color: #bbb; }
+      code { color: #000; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Sound Visualizer ショートカット一覧</h1>
+  <p class="sub">マイクの音に反応するビジュアライザーの操作早見表</p>
+
+  <h2>キーボード操作</h2>
+  <table>
+    <tr><th>キー</th><th>動作</th></tr>
+    <tr><td><kbd>Space</kbd></td><td>次へ切り替え（フェード）<br><span class="note">切り替える対象は「設定」タブで「文字と映像の両方 / 文字のみ / 映像のみ」から選べます</span></td></tr>
+    <tr><td><kbd>→</kbd></td><td>文字を次へ</td></tr>
+    <tr><td><kbd>←</kbd></td><td>文字を前へ</td></tr>
+    <tr><td><kbd>↓</kbd></td><td>映像を次へ（背景画像も映像とセットで切り替わります）</td></tr>
+    <tr><td><kbd>↑</kbd></td><td>映像を前へ</td></tr>
+    <tr><td><kbd>T</kbd></td><td>文字の表示 / 非表示</td></tr>
+    <tr><td><kbd>L</kbd></td><td>ロゴの表示 / 非表示</td></tr>
+    <tr><td><kbd>F</kbd></td><td>全画面の切り替え</td></tr>
+    <tr><td><kbd>S</kbd></td><td>設定パネルの表示 / 非表示</td></tr>
+    <tr><td><kbd>H</kbd></td><td>キー操作のヘルプを表示</td></tr>
+    <tr><td><kbd>Esc</kbd> / <kbd>Enter</kbd></td><td>文字の入力欄から抜ける（入力中はショートカットが効きません）</td></tr>
+  </table>
+  <p class="note">リストの最後で「次へ」を押すと先頭に戻ります。キー操作はビジュアライザーの画面を選択（クリック）している間だけ有効です。</p>
+
+  <h2>外部ディスプレイで使う手順</h2>
+  <div class="box">
+    <ol>
+      <li><code>start.bat</code> をダブルクリックして開き（黒いウィンドウは開いたままにします）、「開始する」を押してマイクを「サイトへのアクセス時は許可」にします。<code>index.html</code> を直接開いても動きますが、マイクの許可を毎回求められることがあります。</li>
+      <li><kbd>S</kbd> で設定パネルを開き、「設定」タブの「ディスプレイを検出」を押します。</li>
+      <li>外部ディスプレイを選んで「全画面で表示」を押します。</li>
+      <li><kbd>S</kbd> で設定パネルを閉じます。</li>
+    </ol>
+    <p class="note">ディスプレイ一覧が出ない場合は、ウィンドウを外部ディスプレイへドラッグしてから <kbd>F</kbd> を押してください。</p>
+  </div>
+
+  <h2>設定パネルのタブ</h2>
+  <table>
+    <tr><th>タブ</th><th>できること</th></tr>
+    <tr><td>文字</td><td>表示する文字のリストの追加・編集・並べ替え、文字ごとの大きさ（文字スタイルの大きさに対する ％）、テキストファイルの読み込み / 書き出し、切り替え演出（フェード / ぼかし / ズーム / 浮かび上がる）と時間、一定時間ごとの自動切り替え、時計・カウントダウンの設定</td></tr>
+    <tr><td>映像</td><td>映像パターン（「なし（背景のみ）」も選択可）・配色・背景画像の切り替え順リスト、映像ごとの調整（動きの速さ / 反応の強さ / 明るさ / 背景色：黒・パレット色・指定色）、背景画像の表示方法（合わせ方・重ね方・暗さ・ぼかし・動き）、切り替え演出（フェード / ズーム / ぼかし / スライド）と時間、一定時間ごとの自動切り替え</td></tr>
+    <tr><td>文字スタイル</td><td>フォント・サイズ・位置・色・アウトライン・影の調整、音への反応（脈動 / 発光 / 揺れ / 色変化）</td></tr>
+    <tr><td>ロゴ</td><td>ロゴ画像の設定、表示位置・サイズ・余白・不透明度</td></tr>
+    <tr><td>プリセット</td><td>今の設定に名前を付けて保存、読み込み・上書き・削除（マイクの設定は含まれません）</td></tr>
+    <tr><td>設定</td><td>マイクの選択と感度・接続状態（途切れたら自動で再接続）、スペースキーの切り替え対象、全画面表示、描画の解像度、設定ファイルの書き出し / 読み込み</td></tr>
+  </table>
+
+  <h2>覚えておくと便利なこと</h2>
+  <div class="box warn">
+    <ul>
+      <li>文字リストの番号ボタンを押すと、その文字へ直接切り替わります（映像リストも同じです）。</li>
+      <li>文字の入力欄で Enter を押すと改行になります（入力を終えるときは Esc）。テキストファイルでは <code>\n</code> と書くと改行になります。空欄にすると文字なしになります。</li>
+      <li>文字の中に <code>{clock}</code>（時刻）、<code>{date}</code>（日付）、<code>{countdown}</code>（残り時間）と書くと、自動で更新され続けます。例: 1 行目に <code>開演まで</code>、2 行目に <code>{countdown}</code><br>カウントダウンする時間（時間・分・秒）は「文字」タブで設定します。カウントダウンを含む文字が表示された時に数え始めます。</li>
+      <li>投影中はノートPC側で別の作業ができます。切り替える時は、外部ディスプレイの画面を一度クリックしてから <kbd>Space</kbd> を押してください。</li>
+      <li>設定はブラウザに自動保存されます。別のPCへ移す時は「設定をファイルに書き出し」を使ってください。背景画像・ロゴ・プリセットも一緒に書き出されます。</li>
+    </ul>
+  </div>
+</main>
+</body>
+</html>

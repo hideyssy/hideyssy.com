@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sound Visualizer</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="stage">
+    <div id="visual-layers"></div>
+    <div id="finish">
+      <div id="vignette"></div>
+      <div id="grain"></div>
+    </div>
+    <img id="logo" class="off" alt="">
+    <div id="text-wrap"></div>
+  </div>
+
+  <div id="start-overlay">
+    <div class="start-box">
+      <h1>Sound Visualizer</h1>
+      <p>クリックするとマイクを有効にして開始します</p>
+      <button id="start-btn" class="primary">開始する</button>
+      <button id="start-silent-btn">マイクなしで開始</button>
+      <p class="hint">開始後: <kbd>S</kbd> 設定 / <kbd>Space</kbd> 次へ / <kbd>F</kbd> 全画面 / <kbd>H</kbd> ヘルプ</p>
+      <p id="start-error" class="error"></p>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <div id="help" class="hidden">
+    <h2>キー操作</h2>
+    <table>
+      <tr><td><kbd>Space</kbd></td><td>次へ（対象は「設定」タブで変更可）</td></tr>
+      <tr><td><kbd>→</kbd> / <kbd>←</kbd></td><td>文字を次へ / 前へ</td></tr>
+      <tr><td><kbd>↓</kbd> / <kbd>↑</kbd></td><td>映像を次へ / 前へ</td></tr>
+      <tr><td><kbd>T</kbd></td><td>文字の表示 / 非表示</td></tr>
+      <tr><td><kbd>L</kbd></td><td>ロゴの表示 / 非表示</td></tr>
+      <tr><td><kbd>F</kbd></td><td>全画面の切り替え</td></tr>
+      <tr><td><kbd>S</kbd></td><td>設定パネルの表示 / 非表示</td></tr>
+      <tr><td><kbd>H</kbd></td><td>このヘルプ</td></tr>
+    </table>
+    <p>外部ディスプレイで使うには、このウィンドウを外部ディスプレイへドラッグしてから <kbd>F</kbd> を押すか、「設定」タブの「全画面で表示」を使ってください。</p>
+    <p>キー操作はこのウィンドウを選択（クリック）している間だけ有効です。</p>
+  </div>
+
+  <aside id="panel" class="hidden">
+    <header>
+      <nav id="tabs">
+        <button data-tab="texts" class="active">文字</button>
+        <button data-tab="visuals">映像</button>
+        <button data-tab="style">文字スタイル</button>
+        <button data-tab="logo">ロゴ</button>
+        <button data-tab="presets">プリセット</button>
+        <button data-tab="settings">設定</button>
+      </nav>
+      <button id="panel-close" title="閉じる (S)">✕</button>
+    </header>
+
+    <section data-tab-body="texts" class="tab-body active">
+      <div class="row nav-row">
+        <button id="text-prev">◀ 前</button>
+        <span id="text-pos" class="pos"></span>
+        <button id="text-next">次 ▶</button>
+      </div>
+      <label class="check"><input type="checkbox" data-bind="showText"> 文字を表示する</label>
+      <p class="note">番号をクリックするとその文字へ切り替わります。入力欄で Enter を押すと改行、Esc で入力を終了します。空欄にすると文字なしになります。</p>
+      <ol id="text-list" class="item-list"></ol>
+      <div class="row">
+        <button id="text-add">＋ 追加</button>
+        <button id="text-add-clock">＋ 時計</button>
+        <button id="text-add-countdown">＋ カウントダウン</button>
+      </div>
+      <div class="row">
+        <button id="text-import-replace">テキストを読み込み（置き換え）</button>
+        <button id="text-import-append">テキストを読み込み（末尾に追加）</button>
+        <button id="text-export">テキストに書き出し</button>
+      </div>
+      <p class="note">テキストファイルは 1 行に 1 項目です（UTF-8）。項目の中の改行は <code>\n</code> と書きます（書き出し時も自動でこの形になります）。</p>
+      <label class="field">文字の切り替え演出
+        <select data-bind="transition.text">
+          <option value="fade">フェード</option>
+          <option value="blur">ぼかし</option>
+          <option value="zoom">ズーム</option>
+          <option value="rise">浮かび上がる</option>
+        </select>
+      </label>
+      <label class="field">切り替えにかける時間 <span class="val" data-val="fade.text"></span>秒
+        <input type="range" min="0" max="6" step="0.1" data-bind="fade.text">
+      </label>
+      <label class="check"><input type="checkbox" data-bind="autoText.enabled"> 文字を自動で切り替える</label>
+      <label class="field">自動切り替えの間隔 <span class="val" data-val="autoText.seconds"></span>秒
+        <input type="range" min="3" max="120" step="1" data-bind="autoText.seconds">
+      </label>
+
+      <h3>時計・カウントダウン</h3>
+      <p class="note">文字の中に <code>{clock}</code>（時刻）、<code>{date}</code>（日付）、<code>{countdown}</code>（残り時間）と書くと、その部分が自動で更新されます。例: <code>開演まで {countdown}</code></p>
+      <label class="check"><input type="checkbox" data-bind="clock.seconds"> 時計に秒を表示する</label>
+      <div class="field">カウントダウンする時間
+        <div class="row duration">
+          <label><input type="number" min="0" max="99" step="1" data-bind="countdown.hours"> 時間</label>
+          <label><input type="number" min="0" max="59" step="1" data-bind="countdown.minutes"> 分</label>
+          <label><input type="number" min="0" max="59" step="1" data-bind="countdown.seconds"> 秒</label>
+        </div>
+      </div>
+      <p class="note">カウントダウンを含む文字が表示された時に数え始めます（表示されるたびに最初から）。</p>
+      <div class="row">
+        <button id="countdown-restart">カウントダウンを最初からやり直す</button>
+      </div>
+      <label class="field">カウントダウン終了後に表示する文字
+        <input type="text" data-bind="countdown.endText">
+      </label>
+    </section>
+
+    <section data-tab-body="visuals" class="tab-body">
+      <div class="row nav-row">
+        <button id="visual-prev">◀ 前</button>
+        <span id="visual-pos" class="pos"></span>
+        <button id="visual-next">次 ▶</button>
+      </div>
+      <p class="note">番号をクリックするとその映像へ切り替わります。背景画像は映像とセットで切り替わります。</p>
+      <ol id="visual-list" class="item-list"></ol>
+      <div class="row">
+        <button id="visual-add">＋ 追加</button>
+      </div>
+
+      <h3>背景画像の表示</h3>
+      <p class="note">背景画像を設定した映像すべてに共通の設定です。</p>
+      <label class="field">画像の合わせ方
+        <select data-bind="background.fit">
+          <option value="cover">画面いっぱいに広げる（はみ出た部分は切れる）</option>
+          <option value="contain">画像全体を表示する（余白は黒）</option>
+        </select>
+      </label>
+      <label class="field">映像の重ね方
+        <select data-bind="background.blend">
+          <option value="screen">光として重ねる（スクリーン）</option>
+          <option value="lighten">明るい方を表示する（比較・明）</option>
+          <option value="overlay">画像になじませる（オーバーレイ）</option>
+        </select>
+      </label>
+      <label class="field">映像の濃さ <span class="val" data-val="background.visualOpacity"></span>
+        <input type="range" min="0" max="1" step="0.01" data-bind="background.visualOpacity">
+      </label>
+      <label class="field">画像の暗さ <span class="val" data-val="background.dim"></span>
+        <input type="range" min="0" max="0.95" step="0.01" data-bind="background.dim">
+      </label>
+      <label class="field">画像のぼかし <span class="val" data-val="background.blur"></span>
+        <input type="range" min="0" max="3" step="0.05" data-bind="background.blur">
+      </label>
+      <label class="check"><input type="checkbox" data-bind="background.motion"> 画像をゆっくり動かす（長時間の投影向け）</label>
+      <label class="check"><input type="checkbox" data-bind="background.react"> 画像を音に合わせてわずかにズーム</label>
+      <p class="note">各項目の「調整」を開くと、その映像だけの速さ・反応の強さ・明るさを変えられます。</p>
+      <label class="field">映像の切り替え演出
+        <select data-bind="transition.visual">
+          <option value="fade">フェード</option>
+          <option value="zoom">ズーム</option>
+          <option value="blur">ぼかし</option>
+          <option value="slide">スライド</option>
+        </select>
+      </label>
+      <label class="field">切り替えにかける時間 <span class="val" data-val="fade.visual"></span>秒
+        <input type="range" min="0" max="10" step="0.1" data-bind="fade.visual">
+      </label>
+      <label class="check"><input type="checkbox" data-bind="finish"> フィルム調の仕上げ（画面の四隅をわずかに暗くし、細かな粒子感を加える）</label>
+      <label class="check"><input type="checkbox" data-bind="autoVisual.enabled"> 映像を自動で切り替える</label>
+      <label class="field">自動切り替えの間隔 <span class="val" data-val="autoVisual.minutes"></span>分
+        <input type="range" min="0.5" max="30" step="0.5" data-bind="autoVisual.minutes">
+      </label>
+    </section>
+
+    <section data-tab-body="style" class="tab-body">
+      <h3>文字の見た目</h3>
+      <p class="note">ここでの設定はすべての文字に共通で、切り替え後もそのまま引き継がれます。</p>
+      <label class="field">フォント
+        <select data-bind="textStyle.font" id="font-select"></select>
+      </label>
+      <label class="field">太さ
+        <select data-bind="textStyle.weight">
+          <option value="300">細い</option>
+          <option value="400">標準</option>
+          <option value="700">太字</option>
+          <option value="900">極太</option>
+        </select>
+      </label>
+      <label class="field">サイズ <span class="val" data-val="textStyle.size"></span>
+        <input type="range" min="2" max="40" step="0.5" data-bind="textStyle.size">
+      </label>
+      <label class="field">横位置 <span class="val" data-val="textStyle.x"></span>%
+        <input type="range" min="0" max="100" step="1" data-bind="textStyle.x">
+      </label>
+      <label class="field">縦位置 <span class="val" data-val="textStyle.y"></span>%
+        <input type="range" min="0" max="100" step="1" data-bind="textStyle.y">
+      </label>
+      <label class="field">行揃え
+        <select data-bind="textStyle.align">
+          <option value="left">左</option>
+          <option value="center">中央</option>
+          <option value="right">右</option>
+        </select>
+      </label>
+      <label class="field">文字間隔 <span class="val" data-val="textStyle.letterSpacing"></span>
+        <input type="range" min="-0.1" max="0.6" step="0.01" data-bind="textStyle.letterSpacing">
+      </label>
+      <label class="field">行間 <span class="val" data-val="textStyle.lineHeight"></span>
+        <input type="range" min="0.8" max="2.5" step="0.05" data-bind="textStyle.lineHeight">
+      </label>
+      <div class="row colors">
+        <label>文字色 <input type="color" data-bind="textStyle.color"></label>
+        <label>アウトライン色 <input type="color" data-bind="textStyle.outlineColor"></label>
+        <label>影の色 <input type="color" data-bind="textStyle.shadowColor"></label>
+      </div>
+      <label class="field">アウトラインの太さ <span class="val" data-val="textStyle.outlineWidth"></span>
+        <input type="range" min="0" max="0.2" step="0.005" data-bind="textStyle.outlineWidth">
+      </label>
+      <label class="field">影のぼかし <span class="val" data-val="textStyle.shadowBlur"></span>
+        <input type="range" min="0" max="1" step="0.01" data-bind="textStyle.shadowBlur">
+      </label>
+      <label class="field">文字の不透明度 <span class="val" data-val="textStyle.opacity"></span>
+        <input type="range" min="0.1" max="1" step="0.01" data-bind="textStyle.opacity">
+      </label>
+
+      <h3>音への反応</h3>
+      <p class="note">オンにした反応だけが有効になります。複数を同時にオンにできます。</p>
+      <div class="reaction-grid">
+        <button class="toggle" data-toggle="reactions.pulse">脈動<small>音量に合わせて拡大</small></button>
+        <button class="toggle" data-toggle="reactions.glow">発光<small>音量に合わせて光る</small></button>
+        <button class="toggle" data-toggle="reactions.shake">揺れ<small>ビートで揺れる</small></button>
+        <button class="toggle" data-toggle="reactions.color">色変化<small>映像の色に染まる</small></button>
+      </div>
+      <label class="field">反応の強さ <span class="val" data-val="reactions.strength"></span>
+        <input type="range" min="0.1" max="3" step="0.05" data-bind="reactions.strength">
+      </label>
+      <div class="row">
+        <button id="style-reset">スタイルを初期値に戻す</button>
+      </div>
+    </section>
+
+    <section data-tab-body="logo" class="tab-body">
+      <h3>ロゴ</h3>
+      <p class="note">映像や文字を切り替えても、ロゴは常に同じ位置に表示されます。背景が透明な PNG がおすすめです。</p>
+      <div class="row">
+        <img id="logo-thumb" class="thumb logo-thumb hidden" alt="">
+        <span id="logo-none" class="note">ロゴ画像が未設定です</span>
+      </div>
+      <div class="row">
+        <button id="logo-pick">ロゴ画像を選ぶ</button>
+        <button id="logo-clear">ロゴ画像を外す</button>
+      </div>
+      <label class="check"><input type="checkbox" data-bind="logo.enabled"> ロゴを表示する（<kbd>L</kbd> キーでも切り替え）</label>
+      <label class="field">表示位置
+        <select data-bind="logo.position">
+          <option value="top-left">左上</option>
+          <option value="top-center">上中央</option>
+          <option value="top-right">右上</option>
+          <option value="center">中央</option>
+          <option value="bottom-left">左下</option>
+          <option value="bottom-center">下中央</option>
+          <option value="bottom-right">右下</option>
+        </select>
+      </label>
+      <label class="field">サイズ（画面の高さに対する割合） <span class="val" data-val="logo.size"></span>%
+        <input type="range" min="3" max="60" step="0.5" data-bind="logo.size">
+      </label>
+      <label class="field">画面端からの余白 <span class="val" data-val="logo.margin"></span>%
+        <input type="range" min="0" max="15" step="0.5" data-bind="logo.margin">
+      </label>
+      <label class="field">不透明度 <span class="val" data-val="logo.opacity"></span>
+        <input type="range" min="0.05" max="1" step="0.01" data-bind="logo.opacity">
+      </label>
+    </section>
+
+    <section data-tab-body="presets" class="tab-body">
+      <h3>プリセット</h3>
+      <p class="note">今の設定（文字・映像・背景画像・文字スタイル・ロゴ・切り替え演出など）に名前を付けて保存し、イベントごとに呼び出せます。マイクの設定は含まれません。</p>
+      <div class="row">
+        <input type="text" id="preset-name" placeholder="プリセット名（例: 夏祭り）" style="flex:1">
+        <button id="preset-save" class="primary">保存</button>
+      </div>
+      <ol id="preset-list" class="item-list preset-list"></ol>
+      <p id="preset-empty" class="note">保存されたプリセットはまだありません。</p>
+      <p class="note">プリセットは「設定」タブの「設定をファイルに書き出し」にも含まれます。</p>
+    </section>
+
+    <section data-tab-body="settings" class="tab-body">
+      <h3>マイク</h3>
+      <p class="note">状態: <span id="mic-status">未接続</span>（途切れた場合は自動で再接続します）</p>
+      <div class="row">
+        <select id="device-select"></select>
+        <button id="mic-restart">マイクを再接続</button>
+      </div>
+      <div class="meter"><div id="meter-bar"></div></div>
+      <label class="field">感度 <span class="val" data-val="audio.sensitivity"></span>
+        <input type="range" min="0.2" max="4" step="0.05" data-bind="audio.sensitivity">
+      </label>
+      <label class="check"><input type="checkbox" data-bind="audio.autoGain"> 自動ゲイン（周りの音量に合わせて反応を自動調整）</label>
+
+      <h3>操作</h3>
+      <label class="field">スペースキーで切り替えるもの
+        <select data-bind="spaceTarget">
+          <option value="both">文字と映像の両方</option>
+          <option value="text">文字のみ</option>
+          <option value="visual">映像のみ</option>
+        </select>
+      </label>
+
+      <h3>表示</h3>
+      <div class="row">
+        <select id="screen-select"><option value="">このディスプレイ</option></select>
+        <button id="fullscreen-btn" class="primary">全画面で表示</button>
+      </div>
+      <p class="note">ディスプレイ一覧が出ない場合は、ウィンドウを外部ディスプレイへドラッグしてから <kbd>F</kbd> を押してください。</p>
+      <label class="field">描画の解像度
+        <select data-bind="renderScale">
+          <option value="1">高画質 (100%)</option>
+          <option value="0.75">標準 (75%)</option>
+          <option value="0.5">軽量 (50%)</option>
+        </select>
+      </label>
+
+      <h3>設定の保存</h3>
+      <p class="note">設定は自動でこのブラウザに保存されます。別のPCへ移す時はファイルに書き出してください（背景画像とロゴも含まれます）。</p>
+      <div class="row">
+        <button id="settings-export">設定をファイルに書き出し</button>
+        <button id="settings-import">設定ファイルを読み込み</button>
+      </div>
+      <div class="row">
+        <button id="help-btn">キー操作のヘルプ</button>
+      </div>
+    </section>
+  </aside>
+
+  <input type="file" id="file-input" accept=".txt,.json,text/plain,application/json" hidden>
+
+  <script src="js/palettes.js"></script>
+  <script src="js/images.js"></script>
+  <script src="js/gl.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/patterns.js"></script>
+  <script src="js/patterns-geo.js"></script>
+  <script src="js/visualizer.js"></script>
+  <script src="js/text-overlay.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
