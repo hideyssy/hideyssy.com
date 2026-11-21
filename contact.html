@@ -177,20 +177,49 @@
     }
 
     .back-text {
-      max-width: 70%;
+      width: 58%;
       font-family: "Abril Fatface", serif;
       font-size: 0.95rem;
       line-height: 1.5;
       color: var(--kraft);
+      text-align: center;
     }
 
-    .back-text span {
+    .back-text .back-side {
       display: block;
       font-family: "IBM Plex Sans JP", "Noto Sans JP", sans-serif;
       font-size: 0.6rem;
       letter-spacing: 0.14em;
       color: var(--ink-soft);
       margin-bottom: 0.6rem;
+    }
+
+    .back-text .back-title {
+      display: block;
+      font-family: "Abril Fatface", serif;
+      font-size: clamp(1rem, 3vw, 1.35rem);
+      letter-spacing: 0.02em;
+    }
+
+    .back-text .back-copy {
+      display: block;
+      margin-top: 0.65rem;
+      font-family: "IBM Plex Sans JP", "Noto Sans JP", sans-serif;
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--ink-soft);
+    }
+
+    .back-text .back-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.55rem;
+      margin-top: 0.85rem;
+      font-family: "IBM Plex Sans JP", "Noto Sans JP", sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.06em;
+      color: var(--kraft);
     }
 
     .record {
@@ -282,26 +311,42 @@
     .label::after {
       content: "";
       position: absolute;
+      top: 50%;
+      left: 50%;
       width: 8%;
       aspect-ratio: 1/1;
       border-radius: 50%;
       background: var(--paper);
       box-shadow: 0 0 0 3px rgba(24, 20, 16, 0.15);
+      transform: translate(-50%, -50%);
+      z-index: 2;
     }
 
     .label .side {
+      position: absolute;
+      top: 29%;
+      left: 50%;
       font-family: "IBM Plex Sans JP", "Noto Sans JP", sans-serif;
       font-size: 0.6rem;
       letter-spacing: 0.18em;
       color: rgba(24, 20, 16, 0.6);
-      margin-bottom: 0.4rem;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      z-index: 1;
     }
 
     .label .title {
+      position: absolute;
+      bottom: 29%;
+      left: 50%;
       font-family: "Abril Fatface", serif;
       font-size: 1.05rem;
       color: var(--black);
-      margin-bottom: 0.7rem;
+      line-height: 1.2;
+      text-align: center;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      z-index: 1;
     }
 
     .tonearm {
@@ -613,9 +658,9 @@
   </header>
 
   <main>
-    <p class="eyebrow">Side A · Contact</p>
-    <h1>Play a message.</h1>
-    <p class="subtitle">好きな連絡方法に、そっと針を落としてください。</p>
+    <p class="eyebrow">Contact</p>
+    <h1>Let's get in touch.</h1>
+    <p class="subtitle">ご依頼やコラボレーション、音楽活動へのお問い合わせはこちらから。</p>
 
     <div class="player">
       <button class="flip-btn" id="flipBtn" aria-label="レコードをひっくり返す">
@@ -623,21 +668,24 @@
           <span class="record-face front">
             <span class="record">
               <svg class="etching" viewBox="0 0 200 200" aria-hidden="true">
-                <path id="etchPath" d="M 100,100 m -78,0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0" fill="none" />
+                <path id="etchPath" d="M 22,100 A 78,78 0 0,1 178,100" fill="none" />
                 <text font-family="IBM Plex Sans JP, Noto Sans JP, sans-serif" font-size="6.5" letter-spacing="2.5"
-                  fill="rgba(242,233,218,0.35)">
-                  <textPath href="#etchPath" startOffset="0%">H-0001-A ヒデイシィ ・ GET IN TOUCH ・ H-0001-A ヒデイシィ ・ GET IN
-                    TOUCH ・</textPath>
+                  fill="rgba(242,233,218,0.35)" text-anchor="middle">
+                  <textPath href="#etchPath" startOffset="50%">Hidéyssy · CONTACT</textPath>
                 </text>
               </svg>
               <span class="label">
                 <span class="side">SIDE A</span>
-                <span class="title">Hidéyssy</span>
+                <span class="title">Stay Gold</span>
               </span>
             </span>
           </span>
           <span class="record-face back">
-            <span class="back-text"><span>SIDE B</span>記録より、記憶を。</span>
+            <span class="back-text">
+              <span class="back-side">SIDE B</span>
+              <span class="back-title">Wanted</span>
+              <span class="back-copy">カフェや屋外の広場、お祭りなど、演奏できる場所を探しています。ギターとアンプを持ってどこへでも行きますので、お気軽にご連絡ください。</span>
+            </span>
           </span>
         </span>
       </button>
@@ -649,13 +697,13 @@
         </svg>
       </div>
     </div>
-    <p class="hint">盤面をクリックすると、B面が見られます</p>
+    <p class="hint">レコードをクリックすると裏面が見られます</p>
 
     <div class="tracklist">
       <div class="track-row">
         <a class="track track1" href="mailto:hideyssy.info@gmail.com">
           <span class="num">01</span>
-          <span class="name">Email</span>
+          <span class="name">メール</span>
           <span class="val">hideyssy.info@gmail.com</span>
         </a>
         <button class="copy-btn" type="button" data-copy="hideyssy.info@gmail.com" aria-label="メールアドレスをコピー">
